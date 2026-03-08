@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Forum International de Djibouti
+
+Site vitrine et gestion des inscriptions (Next.js 14, Supabase, Resend). Voir **context.md** pour le détail du projet et le prompt d’origine.
 
 ## Getting Started
 
