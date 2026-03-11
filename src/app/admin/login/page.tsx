@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Loader2, Lock } from 'lucide-react'
+import { Loader2, Lock, AlertCircle } from 'lucide-react'
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('')
@@ -20,18 +20,39 @@ export default function AdminLoginPage() {
     setLoading(true)
     setError('')
 
-    const res = await signIn('credentials', {
-      email,
-      password,
-      redirect: false,
-    })
+    try {
+      const res = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+      })
 
-    if (res?.error) {
-      setError('Email ou mot de passe incorrect.')
-    } else {
-      router.push('/admin')
+      console.log('signIn response:', res)
+
+      if (!res) {
+        setError('Pas de réponse du serveur. Vérifiez les logs Render.')
+        return
+      }
+
+      if (res.error) {
+        setError(`Email ou mot de passe incorrect. (${res.error})`)
+        return
+      }
+
+      if (res.ok) {
+        // Forcer un hard redirect plutôt que router.push pour s'assurer
+        // que la session est bien rechargée
+        window.location.href = '/admin'
+        return
+      }
+
+      setError('Erreur inconnue. Vérifiez les variables d\'environnement sur Render.')
+    } catch (err) {
+      console.error('signIn error:', err)
+      setError('Erreur réseau. Réessayez.')
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   return (
@@ -79,9 +100,10 @@ export default function AdminLoginPage() {
           </div>
 
           {error && (
-            <p className="text-red-500 text-sm text-center bg-red-50 py-2 px-3 rounded-lg">
-              {error}
-            </p>
+            <div className="flex items-start gap-2 text-red-600 text-sm bg-red-50 border border-red-200 py-3 px-4 rounded-lg">
+              <AlertCircle size={16} className="mt-0.5 shrink-0" />
+              <span>{error}</span>
+            </div>
           )}
 
           <Button
