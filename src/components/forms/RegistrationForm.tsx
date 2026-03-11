@@ -4,39 +4,79 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
 import { registrationSchema, RegistrationSchemaType } from '@/lib/validations'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { useToast } from '@/hooks/use-toast'
-import { Loader2, CheckCircle2, AlertCircle } from 'lucide-react'
+import { Loader2, ArrowRight, AlertCircle, Check, Users, Newspaper, Store, Mic } from 'lucide-react'
+
+const PARTICIPANT_TYPES = [
+  {
+    value: 'visitor',
+    label: 'Visiteur / Participant',
+    icon: <Users size={20} />,
+    desc: 'Grand public, entrepreneurs, étudiants',
+    color: 'border-blue-400 bg-blue-50 text-blue-700',
+    activeColor: 'border-blue-500 bg-blue-500 text-white',
+  },
+  {
+    value: 'press',
+    label: 'Presse / Média',
+    icon: <Newspaper size={20} />,
+    desc: 'Journalistes, médias accrédités',
+    color: 'border-green-400 bg-green-50 text-green-700',
+    activeColor: 'border-green-500 bg-green-500 text-white',
+  },
+  {
+    value: 'exposant_msme',
+    label: 'Exposant MSME',
+    icon: <Store size={20} />,
+    desc: 'MSMEs sélectionnées avec stand',
+    color: 'border-djibouti-gold bg-amber-50 text-amber-700',
+    activeColor: 'border-djibouti-gold bg-djibouti-gold text-white',
+  },
+  {
+    value: 'paneliste',
+    label: 'Panéliste / Intervenant',
+    icon: <Mic size={20} />,
+    desc: 'Experts, ministres, intervenants',
+    color: 'border-purple-400 bg-purple-50 text-purple-700',
+    activeColor: 'border-purple-500 bg-purple-500 text-white',
+  },
+]
 
 const COUNTRIES = [
   'Djibouti', 'Éthiopie', 'Somalie', 'Érythrée', 'Kenya', 'Ouganda', 'Tanzanie',
   'Soudan', 'Égypte', 'France', 'États-Unis', 'Royaume-Uni', 'Allemagne',
   'Arabie Saoudite', 'Émirats Arabes Unis', 'Qatar', 'Chine', 'Inde', 'Canada',
   'Belgique', 'Suisse', 'Italie', 'Espagne', 'Maroc', 'Tunisie', 'Algérie',
-  'Sénégal', 'Côte d\'Ivoire', 'Ghana', 'Nigeria', 'Autre',
+  'Sénégal', "Côte d'Ivoire", 'Ghana', 'Nigeria', 'Autre',
 ]
 
-const PARTICIPANT_TYPES = [
-  { value: 'visitor', label: 'Visiteur', desc: 'Participant général' },
-  { value: 'speaker', label: 'Intervenant', desc: 'Conférencier ou paneliste' },
-  { value: 'press', label: 'Presse', desc: 'Journaliste ou média' },
-  { value: 'vip', label: 'VIP', desc: 'Invité officiel' },
-  { value: 'student', label: 'Étudiant', desc: 'Étudiant inscrit' },
+const SECTORS = [
+  'Agriculture / Agro-alimentaire', 'Commerce / Distribution', 'Artisanat / Mode',
+  'Tech / Numérique', 'Santé / Bien-être', 'Éducation / Formation',
+  'Tourisme / Hôtellerie', 'Logistique / Transport', 'Énergie', 'Finance / Fintech', 'Autre',
 ]
+
+const REGIONS_DJ = [
+  'Djibouti-Ville', 'Balbala', 'Ali Sabieh', 'Arta', 'Dikhil', 'Obock', 'Tadjourah',
+]
+
+function FieldError({ message }: { message?: string }) {
+  if (!message) return null
+  return (
+    <span className="text-red-500 text-xs mt-1 flex items-center gap-1">
+      <AlertCircle size={12} /> {message}
+    </span>
+  )
+}
 
 export default function RegistrationForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [submittedName, setSubmittedName] = useState('')
+  const [submittedEmail, setSubmittedEmail] = useState('')
+  const [submittedType, setSubmittedType] = useState('')
   const router = useRouter()
   const { toast } = useToast()
 
@@ -45,12 +85,18 @@ export default function RegistrationForm() {
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors },
   } = useForm<RegistrationSchemaType>({
     resolver: zodResolver(registrationSchema),
   })
 
   const participantType = watch('participant_type')
+  const country = watch('country')
+  const sector = watch('sector')
+  const regionOrigin = watch('region_origin')
+
+  const selectedTypeInfo = PARTICIPANT_TYPES.find(t => t.value === participantType)
 
   const onSubmit = async (data: RegistrationSchemaType) => {
     setIsSubmitting(true)
@@ -60,14 +106,12 @@ export default function RegistrationForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       })
-
       const json = await res.json()
-
-      if (!res.ok) {
-        throw new Error(json.error || 'Une erreur est survenue')
-      }
-
-      router.push('/confirmation')
+      if (!res.ok) throw new Error(json.error || 'Une erreur est survenue')
+      setSubmittedName(`${data.first_name} ${data.last_name}`)
+      setSubmittedEmail(data.email)
+      setSubmittedType(selectedTypeInfo?.label ?? '')
+      setIsSuccess(true)
     } catch (err) {
       toast({
         title: 'Erreur',
@@ -79,207 +123,433 @@ export default function RegistrationForm() {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onError = (errs: any) => {
+    const firstMsg = Object.values(errs)[0] as { message?: string }
+    toast({
+      title: 'Champs manquants',
+      description: firstMsg?.message ?? 'Veuillez remplir tous les champs obligatoires.',
+      variant: 'destructive',
+    })
+  }
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-      {/* Informations personnelles */}
-      <div>
-        <h3 className="text-base font-semibold mb-4 flex items-center gap-2" style={{ color: '#0a1932' }}>
-          <span
-            className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white"
-            style={{ background: 'linear-gradient(135deg, #d4af37, #b8960c)' }}
-          >1</span>
-          Informations personnelles
-        </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="first_name" className="text-sm font-medium text-gray-700">
-              Prénom <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="first_name"
-              placeholder="Votre prénom"
-              {...register('first_name')}
-              className={errors.first_name ? 'border-red-400' : ''}
-            />
-            {errors.first_name && (
-              <p className="text-xs text-red-500 flex items-center gap-1">
-                <AlertCircle size={12} /> {errors.first_name.message}
-              </p>
-            )}
+    <AnimatePresence mode="wait">
+      {isSuccess ? (
+        <motion.div
+          key="success"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-white rounded-2xl p-8 md:p-12 text-center shadow-2xl max-w-2xl mx-auto"
+        >
+          <div className="w-16 h-16 bg-djibouti-green/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Check className="text-djibouti-green" size={32} />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="last_name" className="text-sm font-medium text-gray-700">
-              Nom <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="last_name"
-              placeholder="Votre nom de famille"
-              {...register('last_name')}
-              className={errors.last_name ? 'border-red-400' : ''}
-            />
-            {errors.last_name && (
-              <p className="text-xs text-red-500 flex items-center gap-1">
-                <AlertCircle size={12} /> {errors.last_name.message}
-              </p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="email" className="text-sm font-medium text-gray-700">
-              Email <span className="text-red-500">*</span>
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="votre@email.com"
-              {...register('email')}
-              className={errors.email ? 'border-red-400' : ''}
-            />
-            {errors.email && (
-              <p className="text-xs text-red-500 flex items-center gap-1">
-                <AlertCircle size={12} /> {errors.email.message}
-              </p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="phone" className="text-sm font-medium text-gray-700">
-              Téléphone
-            </Label>
-            <Input
-              id="phone"
-              type="tel"
-              placeholder="+253 77 00 00 00"
-              {...register('phone')}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Informations professionnelles */}
-      <div>
-        <h3 className="text-base font-semibold mb-4 flex items-center gap-2" style={{ color: '#0a1932' }}>
-          <span
-            className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white"
-            style={{ background: 'linear-gradient(135deg, #d4af37, #b8960c)' }}
-          >2</span>
-          Informations professionnelles
-        </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="organization" className="text-sm font-medium text-gray-700">
-              Organisation / Entreprise
-            </Label>
-            <Input
-              id="organization"
-              placeholder="Votre organisation"
-              {...register('organization')}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="job_title" className="text-sm font-medium text-gray-700">
-              Fonction / Titre
-            </Label>
-            <Input
-              id="job_title"
-              placeholder="Votre titre ou fonction"
-              {...register('job_title')}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">
-              Type de participant <span className="text-red-500">*</span>
-            </Label>
-            <Select
-              value={participantType}
-              onValueChange={(v) => setValue('participant_type', v as RegistrationSchemaType['participant_type'])}
+          <h3 className="font-heading font-bold text-2xl text-djibouti-navy mb-2">
+            Demande reçue !
+          </h3>
+          <p className="text-gray-500 mb-2">
+            Merci <strong>{submittedName}</strong> pour votre demande d&apos;inscription en tant que <strong>{submittedType}</strong>.
+          </p>
+          <p className="text-gray-400 text-sm mb-8">
+            Un email de confirmation a été envoyé à <strong>{submittedEmail}</strong>. Votre dossier sera examiné et vous recevrez une réponse sous 48h.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <button
+              onClick={() => router.push('/confirmation')}
+              className="btn-primary px-6 py-3"
             >
-              <SelectTrigger className={errors.participant_type ? 'border-red-400' : ''}>
-                <SelectValue placeholder="Sélectionner votre catégorie" />
-              </SelectTrigger>
-              <SelectContent>
-                {PARTICIPANT_TYPES.map((type) => (
-                  <SelectItem key={type.value} value={type.value}>
+              Voir ma confirmation
+              <ArrowRight size={16} />
+            </button>
+            <button
+              onClick={() => { setIsSuccess(false); reset() }}
+              className="text-djibouti-green font-medium hover:underline px-6 py-3"
+            >
+              Nouvelle inscription
+            </button>
+          </div>
+        </motion.div>
+      ) : (
+        <motion.div
+          key="form"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white rounded-2xl p-8 md:p-12 shadow-2xl max-w-3xl mx-auto"
+        >
+          <form onSubmit={handleSubmit(onSubmit, onError)} className="space-y-6">
+
+            {/* ÉTAPE 1 : Choix du rôle */}
+            <div>
+              <label className="block text-sm font-semibold text-djibouti-navy mb-3">
+                Je m&apos;inscris en tant que <span className="text-red-500">*</span>
+              </label>
+              <div className="grid sm:grid-cols-2 gap-3">
+                {PARTICIPANT_TYPES.map((type) => {
+                  const isActive = participantType === type.value
+                  return (
+                    <button
+                      key={type.value}
+                      type="button"
+                      onClick={() => setValue('participant_type', type.value as RegistrationSchemaType['participant_type'])}
+                      className={`flex items-start gap-3 p-4 rounded-xl border-2 text-left transition-all duration-200 ${
+                        isActive ? type.activeColor : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                      }`}
+                    >
+                      <span className={`mt-0.5 ${isActive ? 'text-white' : ''}`}>{type.icon}</span>
+                      <div>
+                        <p className="font-semibold text-sm">{type.label}</p>
+                        <p className={`text-xs mt-0.5 ${isActive ? 'text-white/80' : 'text-gray-400'}`}>{type.desc}</p>
+                      </div>
+                    </button>
+                  )
+                })}
+              </div>
+              <FieldError message={errors.participant_type?.message} />
+            </div>
+
+            {/* CHAMPS COMMUNS */}
+            <AnimatePresence>
+              {participantType && (
+                <motion.div
+                  key="common-fields"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="space-y-5"
+                >
+                  {/* Séparateur */}
+                  <div className="flex items-center gap-3 my-2">
+                    <div className="flex-1 h-px bg-gray-100" />
+                    <span className="text-xs text-gray-400 font-medium">Informations personnelles</span>
+                    <div className="flex-1 h-px bg-gray-100" />
+                  </div>
+
+                  {/* Prénom / Nom */}
+                  <div className="grid sm:grid-cols-2 gap-4">
                     <div>
-                      <span className="font-medium">{type.label}</span>
-                      <span className="text-gray-400 text-xs ml-2">— {type.desc}</span>
+                      <label className="block text-sm font-medium text-djibouti-navy mb-2">
+                        Prénom <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Votre prénom"
+                        {...register('first_name')}
+                        className={`form-input ${errors.first_name ? 'border-red-500' : ''}`}
+                      />
+                      <FieldError message={errors.first_name?.message} />
                     </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {errors.participant_type && (
-              <p className="text-xs text-red-500 flex items-center gap-1">
-                <AlertCircle size={12} /> {errors.participant_type.message}
-              </p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-gray-700">
-              Pays <span className="text-red-500">*</span>
-            </Label>
-            <Select onValueChange={(v) => setValue('country', v)}>
-              <SelectTrigger className={errors.country ? 'border-red-400' : ''}>
-                <SelectValue placeholder="Votre pays" />
-              </SelectTrigger>
-              <SelectContent>
-                {COUNTRIES.map((country) => (
-                  <SelectItem key={country} value={country}>
-                    {country}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {errors.country && (
-              <p className="text-xs text-red-500 flex items-center gap-1">
-                <AlertCircle size={12} /> {errors.country.message}
-              </p>
-            )}
-          </div>
-        </div>
-      </div>
+                    <div>
+                      <label className="block text-sm font-medium text-djibouti-navy mb-2">
+                        Nom <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Votre nom"
+                        {...register('last_name')}
+                        className={`form-input ${errors.last_name ? 'border-red-500' : ''}`}
+                      />
+                      <FieldError message={errors.last_name?.message} />
+                    </div>
+                  </div>
 
-      {/* Message */}
-      <div>
-        <h3 className="text-base font-semibold mb-4 flex items-center gap-2" style={{ color: '#0a1932' }}>
-          <span
-            className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white"
-            style={{ background: 'linear-gradient(135deg, #d4af37, #b8960c)' }}
-          >3</span>
-          Besoins spéciaux (optionnel)
-        </h3>
-        <Textarea
-          placeholder="Régime alimentaire, accessibilité, demandes particulières..."
-          {...register('message')}
-          rows={4}
-          className="resize-none"
-        />
-      </div>
+                  {/* Email */}
+                  <div>
+                    <label className="block text-sm font-medium text-djibouti-navy mb-2">
+                      Email <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      placeholder="votre@email.com"
+                      {...register('email')}
+                      className={`form-input ${errors.email ? 'border-red-500' : ''}`}
+                    />
+                    <FieldError message={errors.email?.message} />
+                  </div>
 
-      {/* Consentement */}
-      <div
-        className="rounded-xl p-4 text-xs text-gray-500 leading-relaxed"
-        style={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}
-      >
-        <CheckCircle2 size={14} className="inline mr-1 text-green-500" />
-        En soumettant ce formulaire, vous acceptez que vos données soient utilisées pour l'organisation 
-        du Forum International de Djibouti 2026 et que vous receviez des communications relatives à l'événement.
-      </div>
+                  {/* Téléphone */}
+                  <div>
+                    <label className="block text-sm font-medium text-djibouti-navy mb-2">
+                      Téléphone <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="tel"
+                      placeholder="+253 XX XX XX XX"
+                      {...register('phone')}
+                      className={`form-input ${errors.phone ? 'border-red-500' : ''}`}
+                    />
+                    <FieldError message={errors.phone?.message} />
+                  </div>
 
-      {/* Submit */}
-      <Button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full py-4 text-base font-bold rounded-xl transition-all hover:opacity-90 hover:scale-[1.01] shadow-lg"
-        style={{ background: 'linear-gradient(135deg, #d4af37, #b8960c)', color: '#060f1f' }}
-      >
-        {isSubmitting ? (
-          <>
-            <Loader2 size={18} className="animate-spin mr-2" />
-            Envoi en cours...
-          </>
-        ) : (
-          'Confirmer mon inscription'
-        )}
-      </Button>
-    </form>
+                  {/* Organisation / Poste */}
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-djibouti-navy mb-2">
+                        Organisation <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Entreprise / Institution"
+                        {...register('organization')}
+                        className={`form-input ${errors.organization ? 'border-red-500' : ''}`}
+                      />
+                      <FieldError message={errors.organization?.message} />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-djibouti-navy mb-2">
+                        Fonction <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="Votre poste"
+                        {...register('job_title')}
+                        className={`form-input ${errors.job_title ? 'border-red-500' : ''}`}
+                      />
+                      <FieldError message={errors.job_title?.message} />
+                    </div>
+                  </div>
+
+                  {/* Pays */}
+                  <div>
+                    <label className="block text-sm font-medium text-djibouti-navy mb-2">
+                      Pays <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      value={country ?? ''}
+                      onChange={(e) => setValue('country', e.target.value)}
+                      className={`form-input ${errors.country ? 'border-red-500' : country ? 'valid' : ''}`}
+                    >
+                      <option value="">Sélectionnez votre pays</option>
+                      {COUNTRIES.map((c) => (
+                        <option key={c} value={c}>{c}</option>
+                      ))}
+                    </select>
+                    <FieldError message={errors.country?.message} />
+                  </div>
+
+                  {/* ── CHAMPS EXPOSANT MSME ── */}
+                  {participantType === 'exposant_msme' && (
+                    <motion.div
+                      key="exposant-fields"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="space-y-4 pt-2"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="flex-1 h-px bg-amber-100" />
+                        <span className="text-xs text-amber-600 font-semibold">🏪 Informations Exposant MSME</span>
+                        <div className="flex-1 h-px bg-amber-100" />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-djibouti-navy mb-2">
+                          Nom de l&apos;entreprise / activité <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="Ex: Atelier Fatima Couture"
+                          {...register('company_name')}
+                          className="form-input"
+                        />
+                      </div>
+
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-djibouti-navy mb-2">
+                            Secteur d&apos;activité <span className="text-red-500">*</span>
+                          </label>
+                          <select
+                            value={sector ?? ''}
+                            onChange={(e) => setValue('sector', e.target.value)}
+                            className={`form-input ${sector ? 'valid' : ''}`}
+                          >
+                            <option value="">Sélectionnez un secteur</option>
+                            {SECTORS.map((s) => (
+                              <option key={s} value={s}>{s}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-djibouti-navy mb-2">
+                            Région d&apos;origine <span className="text-red-500">*</span>
+                          </label>
+                          <select
+                            value={regionOrigin ?? ''}
+                            onChange={(e) => setValue('region_origin', e.target.value)}
+                            className={`form-input ${regionOrigin ? 'valid' : ''}`}
+                          >
+                            <option value="">Sélectionnez une région</option>
+                            {REGIONS_DJ.map((r) => (
+                              <option key={r} value={r}>{r}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-djibouti-navy mb-2">
+                          Besoins pour le stand
+                        </label>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                          {['Table', 'Électricité', 'Chaise', 'Étagère', 'Connexion WiFi', 'Autre'].map((need) => (
+                            <label key={need} className="flex items-center gap-2 text-sm cursor-pointer">
+                              <input
+                                type="checkbox"
+                                value={need}
+                                {...register('stand_needs')}
+                                className="rounded border-gray-300 text-djibouti-gold"
+                              />
+                              {need}
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* ── CHAMPS PANÉLISTE ── */}
+                  {participantType === 'paneliste' && (
+                    <motion.div
+                      key="paneliste-fields"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="space-y-4 pt-2"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="flex-1 h-px bg-purple-100" />
+                        <span className="text-xs text-purple-600 font-semibold">🎤 Informations Panéliste</span>
+                        <div className="flex-1 h-px bg-purple-100" />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-djibouti-navy mb-2">
+                          Institution représentée <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="Ex: Banque Mondiale, Ministère..."
+                          {...register('institution')}
+                          className="form-input"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-djibouti-navy mb-2">
+                          Sujet / Thématique <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="Ex: Financement des startups africaines"
+                          {...register('topic')}
+                          className="form-input"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-djibouti-navy mb-2">
+                          Bio courte <span className="text-red-500">*</span>
+                        </label>
+                        <textarea
+                          rows={3}
+                          placeholder="Présentez-vous en quelques lignes (sera utilisé dans le programme)"
+                          {...register('bio')}
+                          className="form-input resize-none"
+                        />
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* ── CHAMPS PRESSE ── */}
+                  {participantType === 'press' && (
+                    <motion.div
+                      key="press-fields"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="space-y-4 pt-2"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="flex-1 h-px bg-green-100" />
+                        <span className="text-xs text-green-600 font-semibold">📰 Informations Presse</span>
+                        <div className="flex-1 h-px bg-green-100" />
+                      </div>
+
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-djibouti-navy mb-2">
+                            Nom du média <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="Ex: La Nation, RTD..."
+                            {...register('media_name')}
+                            className="form-input"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-djibouti-navy mb-2">
+                            Type de média <span className="text-red-500">*</span>
+                          </label>
+                          <select
+                            onChange={(e) => setValue('media_type', e.target.value)}
+                            className="form-input"
+                          >
+                            <option value="">Sélectionnez</option>
+                            <option value="presse_ecrite">Presse écrite</option>
+                            <option value="tv">Télévision</option>
+                            <option value="radio">Radio</option>
+                            <option value="web">Web / Blog</option>
+                            <option value="agence">Agence de presse</option>
+                            <option value="autre">Autre</option>
+                          </select>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* Message */}
+                  <div>
+                    <label className="block text-sm font-medium text-djibouti-navy mb-2">
+                      Message / Motivation <span className="text-gray-400 font-normal">(optionnel)</span>
+                    </label>
+                    <textarea
+                      rows={3}
+                      placeholder="Pourquoi souhaitez-vous participer ?"
+                      {...register('message')}
+                      className="form-input resize-none"
+                    />
+                  </div>
+
+                  {/* Consentement */}
+                  <div className="rounded-xl p-4 text-xs text-gray-500 leading-relaxed bg-slate-50 border border-gray-100">
+                    <Check size={14} className="inline mr-1 text-djibouti-green" />
+                    En soumettant ce formulaire, vous acceptez que vos données soient utilisées pour l&apos;organisation
+                    du Forum International des Startups de Djibouti 2026.
+                  </div>
+
+                  {/* Submit */}
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full btn-primary justify-center text-lg py-4 disabled:opacity-70"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="animate-spin" size={20} />
+                        Envoi en cours...
+                      </>
+                    ) : (
+                      <>
+                        Soumettre ma demande
+                        <ArrowRight size={20} />
+                      </>
+                    )}
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </form>
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }

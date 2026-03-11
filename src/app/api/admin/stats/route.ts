@@ -32,5 +32,9 @@ export async function GET() {
     }, {} as Record<string, number>),
   }
 
-  return NextResponse.json(stats)
+  return NextResponse.json(stats, {
+    headers: {
+      'Cache-Control': 'no-store, no-cache, must-revalidate',
+    },
+  })
 }

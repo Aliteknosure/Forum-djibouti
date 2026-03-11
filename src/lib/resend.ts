@@ -8,6 +8,99 @@ export const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'noreply@forum-djibou
 export const FORUM_NAME = "Forum National de l'Entrepreneuriat"
 export const FORUM_DATE = '23 mars 2026'
 export const FORUM_LOCATION = 'Djibouti-Ville, République de Djibouti'
+export const FORUM_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://fisdj2026.com'
+
+// ──────────────────────────────────────────────────────────────
+// Textes LinkedIn par type de participant
+// ──────────────────────────────────────────────────────────────
+const LINKEDIN_POSTS: Record<string, string> = {
+  visitor: `🚀 Je serai au Forum International des Startups de Djibouti 2026 !
+
+📅 Le 23 Mars 2026 à Djibouti-Ville
+🌍 Un événement historique pour l'entrepreneuriat en Afrique de l'Est
+
+Au programme : 120 MSMEs exposantes, des panels d'experts, des opportunités de networking et bien plus encore !
+
+Rejoignez-nous pour célébrer l'innovation et la transformation digitale de Djibouti. 💡
+
+#FISDJ2026 #StartupDjibouti #SmartNation #Entrepreneuriat #Innovation #Djibouti`,
+
+  press: `📰 Je couvre le Forum International des Startups de Djibouti 2026 !
+
+📅 Le 23 Mars 2026 à Djibouti-Ville
+🎙️ Un événement majeur pour l'économie djiboutienne
+
+Retrouvez mes reportages sur cet événement incontournable dédié à l'innovation et aux MSMEs.
+
+#FISDJ2026 #StartupDjibouti #Presse #Médias #Journalisme #Djibouti`,
+
+  exposant_msme: `🏪 Mon entreprise est officiellement sélectionnée pour exposer au Forum International des Startups de Djibouti 2026 !
+
+📅 Le 23 Mars 2026 à Djibouti-Ville
+🌍 Parmi les 120 MSMEs sélectionnées pour transformer l'économie djiboutienne
+
+Venez découvrir notre stand et échanger sur nos solutions et innovations !
+
+#FISDJ2026 #MSME #StartupDjibouti #Entrepreneuriat #MadeInDjibouti #Innovation`,
+
+  paneliste: `🎤 Je suis confirmé(e) comme panéliste au Forum International des Startups de Djibouti 2026 !
+
+📅 Le 23 Mars 2026 à Djibouti-Ville
+💡 Au programme : Innovation, Financement, Transformation digitale & Développement des MSMEs
+
+Rendez-vous pour des échanges enrichissants sur l'avenir de l'entrepreneuriat en Afrique de l'Est !
+
+#FISDJ2026 #StartupDjibouti #Innovation #Leadership #Conférence #Djibouti`,
+}
+
+function buildLinkedInShareUrl(id: string, participantType: string, firstName: string, lastName: string): string {
+  const sharePageUrl = `${FORUM_URL}/share/${id}`
+  const post = LINKEDIN_POSTS[participantType] ?? LINKEDIN_POSTS.visitor
+  const fullText = `${post}\n\n👤 ${firstName} ${lastName}`
+  return `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(sharePageUrl)}&summary=${encodeURIComponent(fullText)}`
+}
+
+function buildLinkedInBlock(registration: { id: string; participant_type: string; first_name: string; last_name: string }): string {
+  const url = buildLinkedInShareUrl(registration.id, registration.participant_type, registration.first_name, registration.last_name)
+  const postPreview = (LINKEDIN_POSTS[registration.participant_type] ?? LINKEDIN_POSTS.visitor)
+    .split('\n').slice(0, 3).join('<br>')
+
+  return `
+    <!-- ═══ LINKEDIN SHARE ═══ -->
+    <tr><td style="padding:0 40px 32px;">
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#EBF3FB;border:1px solid #B0CDE8;border-radius:10px;overflow:hidden;">
+        <tr>
+          <!-- Bande bleue gauche -->
+          <td style="width:4px;background:#0A66C2;">&nbsp;</td>
+          <td style="padding:20px 24px;">
+            <table cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td style="vertical-align:middle;padding-right:12px;width:44px;">
+                  <div style="width:44px;height:44px;background:#0A66C2;border-radius:8px;text-align:center;line-height:44px;font-size:22px;">in</div>
+                </td>
+                <td>
+                  <p style="margin:0;color:#0A66C2;font-size:14px;font-weight:700;">Partagez votre participation !</p>
+                  <p style="margin:4px 0 0;color:#334155;font-size:12px;">Annoncez votre présence au FISDJ 2026 sur LinkedIn et inspirez votre réseau.</p>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" style="padding-top:14px;">
+                  <!-- Aperçu du post -->
+                  <div style="background:#ffffff;border:1px solid #dce6f0;border-radius:6px;padding:12px 14px;font-size:12px;color:#475569;line-height:1.6;margin-bottom:14px;">
+                    ${postPreview}<br><span style="color:#94a3b8;">...</span>
+                  </div>
+                  <a href="${url}" target="_blank"
+                    style="background:#0A66C2;color:#ffffff;text-decoration:none;padding:10px 22px;border-radius:6px;font-weight:700;font-size:13px;display:inline-block;">
+                    ✦ Partager sur LinkedIn
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td></tr>`
+}
 
 // ──────────────────────────────────────────────────────────────
 // Builder HTML de confirmation (utilisable sans objet Registration complet)
@@ -228,6 +321,8 @@ export async function sendBadgeEmail(registration: Registration, pdfBuffer: Buff
             Voir ma page de check-in
           </a>
         </td></tr>
+
+        ${buildLinkedInBlock(registration)}
 
         <!-- ═══ FOOTER ═══ -->
         <tr><td style="background:#0a1932;padding:24px 40px;text-align:center;">

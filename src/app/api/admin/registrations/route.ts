@@ -36,5 +36,8 @@ export async function GET(req: NextRequest) {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  return NextResponse.json({ data: (data || []) as Registration[], count, page, limit })
+  return NextResponse.json(
+    { data: (data || []) as Registration[], count, page, limit },
+    { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } }
+  )
 }

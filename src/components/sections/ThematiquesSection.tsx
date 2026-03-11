@@ -1,156 +1,125 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
+import { Store, Landmark, FileCheck, ShoppingCart, Users, Handshake } from 'lucide-react'
 
-const thematiques = [
+const THEMES = [
   {
-    icon: '📣',
-    tag: 'Teasing & Annonces',
-    title: 'Lancement du calendrier EDQ',
-    desc: 'Présentation officielle du calendrier des Caravanes et des Bootcamps régionaux — les premières étapes concrètes du programme sur le terrain.',
-    color: '#3b82f6',
-    gradient: 'from-blue-500/10 to-blue-600/5',
+    icon: Store,
+    title: 'Entrepreneuriat de Quartier',
+    description: "Mettre en lumière le potentiel économique des quartiers populaires de Balbala et des cinq régions de l'intérieur comme viviers d'entrepreneurs.",
+    color: '#1A3C6E',
   },
   {
-    icon: '🏪',
-    tag: 'Stands MSMEs',
-    title: 'Early-Adopters en vitrine',
-    desc: "Exposition des premiers projets sélectionnés pour montrer le potentiel des quartiers — de Balbala aux 5 régions de l'intérieur.",
-    color: '#d4af37',
-    gradient: 'from-amber-400/10 to-yellow-500/5',
+    icon: Landmark,
+    title: 'Inclusion Financière',
+    description: 'Lever le plafond de verre financier : comment connecter les micro-entrepreneurs aux institutions bancaires et aux mécanismes de microfinance (CPEC).',
+    color: '#009A44',
   },
   {
-    icon: '🎙️',
-    tag: 'Panels de Haut Niveau',
-    title: 'Inclusion financière',
-    desc: "Discussion sur l'inclusion financière des jeunes et des femmes avec la Banque mondiale et les institutions partenaires.",
-    color: '#10b981',
-    gradient: 'from-emerald-500/10 to-green-600/5',
+    icon: FileCheck,
+    title: 'Formalisation & Guichet Unique',
+    description: 'Simplifier les démarches administratives (immatriculation, CNSS, fiscalité) grâce à la Caravane G2B Mobile présente sur place lors du Forum.',
+    color: '#F5A623',
   },
   {
-    icon: '✍️',
-    tag: 'Légitimation',
-    title: 'Signature de conventions',
-    desc: 'Signature de conventions officielles avec les partenaires pour garantir le soutien aux MSMEs durant les 7 mois de programme qui suivent.',
-    color: '#ec4899',
-    gradient: 'from-pink-500/10 to-rose-600/5',
+    icon: ShoppingCart,
+    title: 'E-Commerce & Marchés Numériques',
+    description: "Briser l'isolement commercial : intégrer les MSMEs des régions aux plateformes d'e-commerce locales pour ouvrir les marchés nationaux.",
+    color: '#1A3C6E',
+  },
+  {
+    icon: Users,
+    title: 'Femmes & Jeunes Entrepreneurs',
+    description: "Transformer des profils vulnérables en acteurs économiques : 50% de femmes et 30% de jeunes non-diplômés au cœur de la cible du programme EDQ.",
+    color: '#009A44',
+  },
+  {
+    icon: Handshake,
+    title: 'Partenariats Public-Privé',
+    description: "La synergie entre le MDENI, le CLE, les associations relais et les partenaires financiers comme modèle d'impact durable.",
+    color: '#F5A623',
   },
 ]
 
 export default function ThematiquesSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
-    const items = el.querySelectorAll<HTMLElement>('[data-animate]')
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const target = entry.target as HTMLElement
-            target.style.transitionDelay = `${target.dataset.delay ?? '0'}ms`
-            target.classList.add('animate-in')
-            observer.unobserve(target)
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
-    items.forEach((item) => observer.observe(item))
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <section ref={sectionRef} id="thematiques" className="py-24 overflow-hidden" style={{ background: '#060f1f' }}>
-      <style>{`
-        [data-animate]{opacity:0;transform:translateY(28px);transition:opacity .65s ease-out,transform .65s ease-out}
-        [data-animate].animate-in{opacity:1;transform:translateY(0)}
-      `}</style>
+    <section id="thematiques" className="py-12 md:py-12 bg-slate-50 relative">
+      {/* Background decorative elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-white/80 to-transparent" />
+        <div className="absolute -left-24 top-40 w-96 h-96 bg-djibouti-navy/5 rounded-full blur-3xl" />
+        <div className="absolute right-10 bottom-20 w-80 h-80 bg-djibouti-green/5 rounded-full blur-3xl" />
+      </div>
 
-      <div className="container mx-auto px-4 sm:px-6">
-
-        {/* ── Header ── */}
-        <div className="text-center mb-6 max-w-3xl mx-auto" data-animate data-delay="0">
-          <span
-            className="inline-block text-xs font-semibold tracking-widest uppercase px-3 py-1 rounded-full mb-4"
-            style={{ background: 'rgba(212,175,55,0.1)', color: '#d4af37', border: '1px solid rgba(212,175,55,0.25)' }}
-          >
-            Thématiques
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-bold mb-5 text-white leading-tight">
-            Un Forum pour créer un{' '}
-            <span style={{ color: '#d4af37' }}>"choc de visibilité"</span>
-          </h2>
-        </div>
-
-        {/* ── Citation encadrée ── */}
-        <div className="max-w-3xl mx-auto mb-16" data-animate data-delay="80">
-          <div
-            className="rounded-2xl px-8 py-6 text-center"
-            style={{ background: 'rgba(212,175,55,0.05)', border: '1px solid rgba(212,175,55,0.15)' }}
-          >
-            <p className="text-white/70 leading-relaxed text-base">
-              Le Forum n&apos;est pas une simple conférence, c&apos;est{' '}
-              <strong className="text-white">l&apos;acte de naissance de l&apos;EDQ</strong>.
-              Sous le{' '}
-              <strong className="text-white">haut patronage du Président de la République</strong>,
-              il vise à rendre le potentiel entrepreneurial des quartiers visible aux yeux de la nation.
-            </p>
+      <div className="max-w-6xl mx-auto px-4 md:px-6 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16 md:mb-24"
+        >
+          <div className="inline-flex items-center gap-3 mb-4">
+            <span className="w-8 h-px bg-djibouti-gold" />
+            <span className="text-djibouti-gold text-xs md:text-sm font-semibold uppercase tracking-[0.2em]">
+              Thématiques
+            </span>
+            <span className="w-8 h-px bg-djibouti-gold" />
           </div>
-        </div>
+          <h2 className="text-3xl md:text-5xl font-heading font-bold text-djibouti-navy mb-6">
+            Les Axes Stratégiques du Forum
+          </h2>
+          <p className="text-gray-500 text-lg md:text-xl max-w-2xl mx-auto font-light">
+            Des panels de haut niveau ancrés dans les réalités de terrain
+          </p>
+        </motion.div>
 
-        {/* ── Cartes thématiques ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {thematiques.map((t, i) => (
-            <div
-              key={t.tag}
-              data-animate
-              data-delay={120 + i * 80}
-              className={`group relative rounded-2xl p-6 overflow-hidden cursor-default select-none transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl`}
-              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}
-            >
-              {/* Fond coloré hover */}
-              <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"
-                style={{ background: `radial-gradient(ellipse at top left, ${t.color}22, transparent 70%)` }}
-              />
-
-              {/* Icône */}
-              <div
-                className="relative z-10 w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-5 transition-transform duration-300 group-hover:scale-110"
-                style={{ background: `${t.color}18`, border: `1px solid ${t.color}30` }}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+          {THEMES.map((theme, index) => {
+            const Icon = theme.icon
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group bg-white rounded-2xl p-8 lg:p-10 border border-gray-100 hover:border-djibouti-green/20 hover:shadow-xl hover:shadow-djibouti-navy/5 transition-all duration-500 ease-out relative overflow-hidden"
               >
-                {t.icon}
-              </div>
+                {/* Decorative hover gradient background */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out"
+                  style={{ background: `radial-gradient(circle at top right, ${theme.color}08, transparent 70%)` }}
+                />
 
-              {/* Tag */}
-              <span
-                className="relative z-10 inline-block text-[10px] font-bold tracking-widest uppercase px-2 py-0.5 rounded-full mb-3"
-                style={{ background: `${t.color}20`, color: t.color }}
-              >
-                {t.tag}
-              </span>
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="flex items-center gap-5 mb-6">
+                    <div
+                      className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-500 ease-out"
+                      style={{ backgroundColor: `${theme.color}15` }}
+                    >
+                      <Icon
+                        size={28}
+                        style={{ color: theme.color }}
+                        className="group-hover:rotate-6 transition-transform duration-500"
+                      />
+                    </div>
+                    <h3 className="font-heading font-bold text-xl md:text-2xl text-djibouti-navy leading-tight group-hover:text-djibouti-green transition-colors duration-300">
+                      {theme.title}
+                    </h3>
+                  </div>
 
-              {/* Titre */}
-              <h3 className="relative z-10 font-bold text-white text-sm mb-3 leading-snug">
-                {t.title}
-              </h3>
+                  <p className="text-gray-600 text-base leading-relaxed mb-4 flex-grow">
+                    {theme.description}
+                  </p>
 
-              {/* Description */}
-              <p className="relative z-10 text-white/50 text-xs leading-relaxed group-hover:text-white/70 transition-colors duration-300">
-                {t.desc}
-              </p>
-
-              {/* Barre couleur bas */}
-              <div
-                className="absolute bottom-0 left-6 right-6 h-0.5 rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"
-                style={{ backgroundColor: t.color }}
-              />
-            </div>
-          ))}
+                  {/* Decorative bottom bar */}
+                  <div className="w-12 h-1 bg-gray-200 rounded-full group-hover:w-full group-hover:bg-gradient-to-r group-hover:from-djibouti-green group-hover:to-djibouti-gold transition-all duration-700 ease-out mt-auto" />
+                </div>
+              </motion.div>
+            )
+          })}
         </div>
-
       </div>
     </section>
   )

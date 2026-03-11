@@ -10,6 +10,10 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
+  			'djibouti-navy': '#1A3C6E',
+  			'djibouti-green': '#009A44',
+  			'djibouti-gold': '#F5A623',
+  			'djibouti-dark': '#0D1B2A',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

@@ -47,6 +47,20 @@ export async function POST(req: NextRequest) {
         participant_type: data.participant_type,
         country: data.country,
         message: data.message || null,
+        // Champs Exposant MSME
+        company_name: data.company_name || null,
+        sector: data.sector || null,
+        region_origin: data.region_origin || null,
+        stand_needs: data.stand_needs && data.stand_needs.length > 0
+          ? data.stand_needs.join(', ')
+          : null,
+        // Champs Panéliste
+        institution: data.institution || null,
+        topic: data.topic || null,
+        bio: data.bio || null,
+        // Champs Presse
+        media_name: data.media_name || null,
+        media_type: data.media_type || null,
         status: 'pending',
         badge_sent: false,
         checked_in: false,

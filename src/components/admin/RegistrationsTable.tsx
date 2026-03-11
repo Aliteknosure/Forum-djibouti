@@ -20,7 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Search, Download, ExternalLink, Loader2, CheckCircle, RefreshCw } from 'lucide-react'
+import { Search, Download, ExternalLink, Loader2, CheckCircle, RefreshCw, Trash2 } from 'lucide-react'
 import { Registration, PARTICIPANT_TYPE_LABELS, STATUS_LABELS } from '@/types/registration'
 import { useToast } from '@/hooks/use-toast'
 
@@ -37,10 +37,9 @@ const statusColors: Record<string, string> = {
 
 const typeColors: Record<string, string> = {
   visitor: 'bg-blue-100 text-blue-700',
-  speaker: 'bg-purple-100 text-purple-700',
   press: 'bg-emerald-100 text-emerald-700',
-  vip: 'bg-yellow-100 text-yellow-700',
-  student: 'bg-cyan-100 text-cyan-700',
+  exposant_msme: 'bg-amber-100 text-amber-700',
+  paneliste: 'bg-purple-100 text-purple-700',
 }
 
 export default function RegistrationsTable({ initialData, totalCount }: Props) {
@@ -50,6 +49,8 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
   const [typeFilter, setTypeFilter] = useState('all')
   const [loading, setLoading] = useState(false)
   const [actionLoading, setActionLoading] = useState<string | null>(null)
+  const [deleteLoading, setDeleteLoading] = useState<string | null>(null)
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
   const [exporting, setExporting] = useState(false)
   const { toast } = useToast()
   const router = useRouter()
@@ -111,6 +112,7 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
       if (!res.ok) throw new Error(json.error)
       toast({ title: '✓ Approuvé', description: 'Badge envoyé par email.' })
       fetchData(search, statusFilter, typeFilter)
+      window.dispatchEvent(new CustomEvent('registration-changed'))
       router.refresh()
     } catch (err) {
       toast({
@@ -120,6 +122,28 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
       })
     } finally {
       setActionLoading(null)
+    }
+  }
+
+  const deleteRegistration = async (id: string) => {
+    setDeleteLoading(id)
+    try {
+      const res = await fetch(`/api/admin/registrations/${id}`, { method: 'DELETE' })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error)
+      toast({ title: '🗑️ Supprimé', description: 'Inscription supprimée avec succès.' })
+      setData((prev) => prev.filter((r) => r.id !== id))
+      window.dispatchEvent(new CustomEvent('registration-changed'))
+      router.refresh()
+    } catch (err) {
+      toast({
+        title: 'Erreur',
+        description: err instanceof Error ? err.message : 'Erreur inconnue',
+        variant: 'destructive',
+      })
+    } finally {
+      setDeleteLoading(null)
+      setConfirmDeleteId(null)
     }
   }
 
@@ -155,21 +179,20 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
           <SelectContent>
             <SelectItem value="all">Tous les statuts</SelectItem>
             <SelectItem value="pending">En attente</SelectItem>
-            <SelectItem value="approved">Approuvés</SelectItem>
-            <SelectItem value="rejected">Rejetés</SelectItem>
+            <SelectItem value="approved">Validés</SelectItem>
+            <SelectItem value="rejected">Refusés</SelectItem>
           </SelectContent>
         </Select>
         <Select value={typeFilter} onValueChange={handleTypeFilter}>
-          <SelectTrigger className="w-36">
+          <SelectTrigger className="w-40">
             <SelectValue placeholder="Type" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Tous les types</SelectItem>
-            <SelectItem value="visitor">Visiteur</SelectItem>
-            <SelectItem value="speaker">Intervenant</SelectItem>
-            <SelectItem value="press">Presse</SelectItem>
-            <SelectItem value="vip">VIP</SelectItem>
-            <SelectItem value="student">Étudiant</SelectItem>
+            <SelectItem value="visitor">👥 Visiteur</SelectItem>
+            <SelectItem value="press">📰 Presse</SelectItem>
+            <SelectItem value="exposant_msme">🏪 Exposant MSME</SelectItem>
+            <SelectItem value="paneliste">🎤 Panéliste</SelectItem>
           </SelectContent>
         </Select>
         <Button
@@ -287,6 +310,16 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
                         Gérer
                         <ExternalLink size={11} />
                       </Link>
+                      <button
+                        onClick={() => setConfirmDeleteId(reg.id)}
+                        disabled={deleteLoading === reg.id}
+                        title="Supprimer cette inscription"
+                        className="inline-flex items-center justify-center w-7 h-7 rounded-lg text-red-400 hover:bg-red-50 hover:text-red-600 transition-all disabled:opacity-50"
+                      >
+                        {deleteLoading === reg.id
+                          ? <Loader2 size={13} className="animate-spin" />
+                          : <Trash2 size={13} />}
+                      </button>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -295,6 +328,56 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
           </TableBody>
         </Table>
       </div>
+
+      {/* Modale de confirmation suppression */}
+      {confirmDeleteId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Overlay */}
+          <div
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => setConfirmDeleteId(null)}
+          />
+          {/* Dialog */}
+          <div className="relative bg-white rounded-2xl shadow-2xl p-6 max-w-sm w-full mx-4 z-10">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+                <Trash2 size={18} className="text-red-600" />
+              </div>
+              <div>
+                <h3 className="font-bold text-gray-900">Supprimer l&apos;inscription</h3>
+                <p className="text-xs text-gray-500">Cette action est irréversible.</p>
+              </div>
+            </div>
+            <p className="text-sm text-gray-600 mb-6">
+              Êtes-vous sûr de vouloir supprimer l&apos;inscription de{' '}
+              <span className="font-semibold text-gray-900">
+                {data.find((r) => r.id === confirmDeleteId)?.first_name}{' '}
+                {data.find((r) => r.id === confirmDeleteId)?.last_name}
+              </span>{' '}
+              ? Toutes ses données seront perdues définitivement.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setConfirmDeleteId(null)}
+                className="px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors"
+              >
+                Annuler
+              </button>
+              <button
+                onClick={() => deleteRegistration(confirmDeleteId)}
+                disabled={deleteLoading === confirmDeleteId}
+                className="px-4 py-2 rounded-lg text-sm font-semibold text-white flex items-center gap-2 transition-all disabled:opacity-60"
+                style={{ background: 'linear-gradient(135deg, #ef4444, #dc2626)' }}
+              >
+                {deleteLoading === confirmDeleteId
+                  ? <Loader2 size={14} className="animate-spin" />
+                  : <Trash2 size={14} />}
+                Supprimer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

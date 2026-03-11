@@ -1,203 +1,236 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
+import { Rocket, Building2, MapPin, Users, Trophy } from 'lucide-react'
 
-const piliers = [
+// AnimatedCounter — identique à la maquette
+function AnimatedCounter({ end, suffix = '', duration = 2000 }: { end: number; suffix?: string; duration?: number }) {
+  const [count, setCount] = useState(0)
+  const [started, setStarted] = useState(false)
+  const ref = useRef<HTMLSpanElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started) setStarted(true)
+      },
+      { threshold: 0.5 }
+    )
+    if (ref.current) observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [started])
+
+  useEffect(() => {
+    if (!started) return
+    let startTime: number
+    const animate = (currentTime: number) => {
+      if (!startTime) startTime = currentTime
+      const progress = Math.min((currentTime - startTime) / duration, 1)
+      setCount(Math.floor(progress * end))
+      if (progress < 1) requestAnimationFrame(animate)
+    }
+    requestAnimationFrame(animate)
+  }, [started, end, duration])
+
+  return <span ref={ref}>{count}{suffix}</span>
+}
+
+const objectives = [
   {
-    icon: '🤝',
-    title: 'Caravane G2B',
-    desc: 'Guichet unique de formalisation — immatriculation, fiscalité et démarches administratives en un seul endroit, sur place.',
-    color: '#3b82f6',
+    icon: Rocket,
+    title: 'Lancement Opérationnel',
+    description: "Le Forum marque le démarrage des feuilles de route pour 120 MSMEs déjà identifiées. Chaque entrepreneur repart avec son plan de coaching individuel.",
   },
   {
-    icon: '💳',
-    title: 'Inclusion financière',
-    desc: 'Mise en relation directe avec des institutions financières partenaires pour faciliter l\'accès au crédit et aux garanties.',
-    color: '#10b981',
+    icon: Building2,
+    title: 'Signature de Conventions',
+    description: "Des accords officiels seront signés entre le CLE et les institutions financières (Banques et CPEC) pour garantir un accès prioritaire au crédit pour les MSMEs accompagnées.",
   },
   {
-    icon: '📈',
-    title: 'Networking & Marchés',
-    desc: 'Connexion entre MSMEs, grands comptes et administrations pour créer des opportunités commerciales durables.',
-    color: '#d4af37',
-  },
-  {
-    icon: '🏆',
-    title: 'Remise des prix EDQ',
-    desc: 'Cérémonie célébrant les MSMEs sélectionnées du programme avec remise de prix et reconnaissance officielle.',
-    color: '#ec4899',
+    icon: MapPin,
+    title: 'Caravane G2B Mobile',
+    description: "Un guichet unique temporaire réunissant l'ODPIC, la CNSS et la Direction des Impôts permettra aux entrepreneurs de formaliser leur activité directement sur place.",
   },
 ]
 
+const stats = [
+  { value: 200, suffix: '+', label: 'MSMEs à transformer', icon: Users },
+  { value: 120, suffix: '', label: 'Entrepreneurs', icon: Rocket },
+  { value: 50, suffix: '%', label: 'Femmes bénéficiaires', icon: Trophy },
+  { value: 5, suffix: '', label: 'Régions couvertes', icon: MapPin },
+]
+
 export default function AboutSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
-    const items = el.querySelectorAll<HTMLElement>('[data-animate]')
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const target = entry.target as HTMLElement
-            target.style.transitionDelay = `${target.dataset.delay ?? '0'}ms`
-            target.classList.add('animate-in')
-            observer.unobserve(target)
-          }
-        })
-      },
-      { threshold: 0.12 }
-    )
-    items.forEach((item) => observer.observe(item))
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <section ref={sectionRef} id="about" className="py-24 bg-white overflow-hidden">
-      <style>{`
-        [data-animate]{opacity:0;transform:translateY(28px);transition:opacity .65s ease-out,transform .65s ease-out}
-        [data-animate].animate-in{opacity:1;transform:translateY(0)}
-      `}</style>
+    <section id="apropos" className="py-24 md:py-32 bg-white relative overflow-hidden">
+      {/* Background decorations */}
+      <div className="absolute top-0 right-0 -mr-20 -mt-20 w-72 h-72 rounded-full bg-djibouti-green/5 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-djibouti-navy/5 blur-3xl pointer-events-none" />
 
-      <div className="container mx-auto px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
 
-        {/* ── Header centré ── */}
-        <div className="text-center mb-16 max-w-3xl mx-auto" data-animate data-delay="0">
-          <span
-            className="inline-block text-xs font-semibold tracking-widest uppercase px-3 py-1 rounded-full mb-4"
-            style={{ background: 'rgba(212,175,55,0.1)', color: '#b8960c', border: '1px solid rgba(212,175,55,0.3)' }}
+        {/* Grid texte + image */}
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center mb-20">
+
+          {/* Texte */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
           >
-            À propos du Forum
-          </span>
-          <div className="flex flex-col items-center gap-1 mb-5">
-            <p className="text-base text-gray-500 font-semibold text-center">
-              Sous le haut patronage de{' '}
-              <strong className="text-gray-800 text-lg">S.E.M. Ismaël Omar Guelleh</strong>
-            </p>
-            <p className="text-sm text-gray-400 text-center">Président de la République de Djibouti</p>
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-bold mb-5 leading-tight" style={{ color: '#0a1932' }}>
-            Plus qu&apos;un Forum,{' '}
-            <span style={{ color: '#b8960c' }}>un Acte Fondateur</span>
-          </h2>
-          <p className="text-gray-500 leading-relaxed text-lg">
-            Le Forum National de l&apos;Entrepreneuriat du 23 mars n&apos;est pas une simple conférence.
-            C&apos;est l&apos;<strong className="text-gray-700">acte de naissance officiel</strong> du programme{' '}
-            <strong className="text-gray-700">Entrepreneuriat de Quartier – Build by CLE (EDQ)</strong>, une
-            initiative portée par le <strong className="text-gray-700">MDENI</strong> et le{' '}
-            <strong className="text-gray-700">Centre de Leadership et d&apos;Entrepreneuriat (CLE)</strong>.
-          </p>
-        </div>
-
-        {/* ── Deux colonnes ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
-
-          {/* Colonne gauche — texte */}
-          <div data-animate data-delay="100">
-            <p className="text-gray-600 leading-relaxed text-lg mb-6">
-              À Djibouti, les quartiers populaires de{' '}
-              <strong className="text-gray-800">Balbala</strong> et les{' '}
-              <strong className="text-gray-800">cinq régions de l&apos;intérieur</strong> concentrent
-              un potentiel entrepreneurial immense, encore sous-exploité.
-            </p>
-            <p className="text-gray-600 leading-relaxed text-lg" style={{ borderLeft: '3px solid #d4af37', paddingLeft: '1.25rem' }}>
-              Le Forum est le moment où ce potentiel devient{' '}
-              <strong className="text-gray-800">visible aux yeux de la nation</strong>.
-            </p>
-
-            {/* Chiffres clés inline */}
-            <div className="grid grid-cols-3 gap-4 mt-10">
-              {[
-                { n: '120', l: 'MSMEs sélectionnées', icon: '🎯' },
-                { n: '5',   l: 'Régions couvertes',   icon: '📍' },
-                { n: '50%', l: 'Femmes entrepreneures', icon: '👩‍💼' },
-              ].map((s) => (
-                <div
-                  key={s.l}
-                  className="text-center rounded-2xl px-3 py-5"
-                  style={{ background: '#f8fafc', border: '1px solid #e2e8f0' }}
-                >
-                  <div className="text-2xl mb-2">{s.icon}</div>
-                  <p className="text-2xl font-bold mb-1" style={{ color: '#0a1932' }}>{s.n}</p>
-                  <p className="text-xs text-gray-500 leading-tight">{s.l}</p>
-                </div>
-              ))}
+            <div className="inline-flex items-center gap-3 mb-6">
+              <span className="w-10 h-px bg-djibouti-green" />
+              <span className="text-djibouti-green text-sm font-semibold uppercase tracking-[0.2em]">
+                À PROPOS DU FORUM
+              </span>
             </div>
-          </div>
 
-          {/* Colonne droite — encadré sombre */}
-          <div data-animate data-delay="180">
-            <div
-              className="rounded-2xl p-8"
-              style={{ background: 'linear-gradient(135deg, #0a1932, #1e3a5f)', border: '1px solid rgba(212,175,55,0.15)' }}
-            >
-              <p className="text-white/50 text-xs font-semibold tracking-widest uppercase mb-6">Le Forum en chiffres</p>
-              <div className="grid grid-cols-2 gap-4 mb-8">
-                {[
-                  { n: '1 journée', l: '23 mars 2026' },
-                  { n: '120', l: 'MSMEs participantes' },
-                  { n: '5 panels', l: 'Thématiques clés' },
-                  { n: '10+', l: 'Institutions présentes' },
-                ].map((s) => (
-                  <div
-                    key={s.l}
-                    className="rounded-xl p-4"
-                    style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(212,175,55,0.15)' }}
-                  >
-                    <p className="font-bold text-xl mb-1" style={{ color: '#d4af37' }}>{s.n}</p>
-                    <p className="text-white/50 text-xs">{s.l}</p>
+            <h2 className="text-3xl md:text-5xl font-heading font-bold text-djibouti-navy mb-8 leading-tight">
+              Plus qu&apos;un Forum,{' '}<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-djibouti-navy to-djibouti-green">
+                un Acte Fondateur
+              </span>
+            </h2>
+
+            <div className="space-y-6 text-gray-600 text-lg leading-relaxed border-l-4 border-djibouti-green/20 pl-6">
+              <p>
+                Le Forum National de l&apos;Entrepreneuriat du 23 mars n&apos;est pas une simple conférence. C&apos;est l&apos;acte de naissance officiel du programme{' '}
+                <strong className="text-djibouti-navy font-semibold">Entrepreneuriat de Quartier – Build by CLE (EDQ)</strong>, une initiative portée par le{' '}
+                <strong className="text-djibouti-gold font-semibold">MDENI</strong> et le Centre de Leadership et d&apos;Entrepreneuriat (CLE).
+              </p>
+              <p>
+                À Djibouti, les quartiers populaires de Balbala et les cinq régions de l&apos;intérieur concentrent un potentiel entrepreneurial immense, encore sous-exploité. Le Forum est le moment où ce potentiel devient visible aux yeux de la nation.
+              </p>
+            </div>
+
+            <div className="mt-10 flex items-center gap-6">
+              <div className="flex -space-x-4">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="w-12 h-12 rounded-full border-2 border-white bg-djibouti-navy/10 overflow-hidden flex items-center justify-center">
+                    <Users size={18} className="text-djibouti-navy/40" />
                   </div>
                 ))}
               </div>
-
-              <div
-                className="rounded-xl p-4"
-                style={{ background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.2)' }}
-              >
-                <p className="text-white/80 text-sm leading-relaxed">
-                  <span style={{ color: '#d4af37' }}>📍</span>{' '}
-                  <strong className="text-white">Djibouti-Ville</strong> — 23 mars 2026
-                  <br />
-                  <span className="text-white/50 text-xs">Adresse exacte communiquée par email avec le badge d&apos;accès</span>
-                </p>
+              <div className="text-sm">
+                <p className="text-djibouti-navy font-bold">+500 participants</p>
+                <p className="text-gray-500">attendus cette année</p>
               </div>
             </div>
-          </div>
+          </motion.div>
+
+          {/* Image */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="relative"
+          >
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl z-10 aspect-square group bg-gradient-to-br from-djibouti-navy to-djibouti-dark">
+              {/* Image placeholder avec overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-djibouti-navy/80 via-transparent to-transparent opacity-90" />
+
+              {/* Floating Badge — visible au hover */}
+              <div className="absolute bottom-6 left-6 right-6 glass-dark rounded-xl p-5 border border-white/10 backdrop-blur-md transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 ease-out">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-djibouti-gold/20 flex items-center justify-center shrink-0">
+                    <Trophy className="text-djibouti-gold" size={24} />
+                  </div>
+                  <div>
+                    <h4 className="text-white font-heading font-bold">Un projet ambitieux</h4>
+                    <p className="text-white/70 text-sm">Financé par l&apos;UE et soutenu par la Banque Mondiale</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contenu visuel central */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-8">
+                <div className="w-20 h-20 rounded-2xl bg-djibouti-gold/20 flex items-center justify-center">
+                  <Trophy className="text-djibouti-gold" size={40} />
+                </div>
+                <p className="text-white/80 text-center font-heading font-semibold text-lg">
+                  Forum National de l&apos;Entrepreneuriat
+                </p>
+                <p className="text-djibouti-gold text-sm font-medium">23 Mars 2026 · Djibouti-Ville</p>
+              </div>
+            </div>
+
+            {/* Éléments décoratifs derrière l'image */}
+            <div className="absolute -top-6 -right-6 w-32 h-32 border-[8px] border-djibouti-green/20 rounded-2xl -z-10" />
+            <div className="absolute -bottom-6 -left-6 w-full h-full border-2 border-dashed border-djibouti-navy/10 rounded-2xl -z-10" />
+          </motion.div>
         </div>
 
-        {/* ── Les 4 piliers du Forum ── */}
-        <div data-animate data-delay="0">
-          <div className="flex items-center justify-center gap-4 mb-10">
-            <div className="h-px flex-1 max-w-24 opacity-30" style={{ backgroundColor: '#d4af37' }} />
-            <span className="text-xs font-bold tracking-widest uppercase" style={{ color: '#b8960c' }}>
-              Les piliers du Forum
-            </span>
-            <div className="h-px flex-1 max-w-24 opacity-30" style={{ backgroundColor: '#d4af37' }} />
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {piliers.map((p, i) => (
-              <div
-                key={p.title}
-                data-animate
-                data-delay={80 + i * 80}
-                className="group rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-                style={{ background: '#f8fafc', border: '1px solid #e2e8f0' }}
+        {/* Objectifs — 3 cartes */}
+        <div className="grid md:grid-cols-3 gap-6 mb-16">
+          {objectives.map((objective, index) => {
+            const Icon = objective.icon
+            return (
+              <motion.div
+                key={objective.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group p-8 rounded-2xl bg-white border border-gray-100 hover:border-djibouti-green/30 hover:shadow-xl hover:shadow-djibouti-navy/5 transition-all duration-300 relative overflow-hidden"
               >
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-4 transition-transform duration-300 group-hover:scale-110"
-                  style={{ background: `${p.color}18` }}
-                >
-                  {p.icon}
+                {/* Icône décorative en arrière-plan */}
+                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity duration-300 transform translate-x-4 -translate-y-4">
+                  <Icon size={120} />
                 </div>
-                <h4 className="font-bold text-sm mb-2" style={{ color: '#0a1932' }}>{p.title}</h4>
-                <p className="text-xs text-gray-500 leading-relaxed">{p.desc}</p>
-                <div
-                  className="mt-4 h-0.5 rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"
-                  style={{ backgroundColor: p.color }}
-                />
-              </div>
-            ))}
+
+                <div className="w-14 h-14 rounded-xl bg-djibouti-navy/5 group-hover:bg-djibouti-navy transition-colors duration-300 flex items-center justify-center mb-6">
+                  <Icon className="text-djibouti-navy group-hover:text-white transition-colors duration-300" size={28} />
+                </div>
+
+                <h3 className="text-xl font-heading font-bold text-djibouti-navy mb-4">
+                  {objective.title}
+                </h3>
+                <p className="text-gray-500 leading-relaxed relative z-10">
+                  {objective.description}
+                </p>
+              </motion.div>
+            )
+          })}
+        </div>
+
+        {/* Stats bar */}
+        <div className="bg-djibouti-navy rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-2xl">
+          {/* Motif pointillé */}
+          <div
+            className="absolute inset-0 opacity-10"
+            style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px' }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-djibouti-navy via-transparent to-djibouti-green/20 mix-blend-multiply" />
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 relative z-10">
+            {stats.map((stat, index) => {
+              const Icon = stat.icon
+              return (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="text-center"
+                >
+                  <div className="flex justify-center mb-4">
+                    <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
+                      <Icon className="text-djibouti-green" size={24} />
+                    </div>
+                  </div>
+                  <div className="text-4xl md:text-5xl font-heading font-bold text-white mb-2 tracking-tight">
+                    <AnimatedCounter end={stat.value} suffix={stat.suffix} />
+                  </div>
+                  <p className="text-djibouti-gold text-sm md:text-base font-medium uppercase tracking-wider">
+                    {stat.label}
+                  </p>
+                </motion.div>
+              )
+            })}
           </div>
         </div>
 

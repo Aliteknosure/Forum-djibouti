@@ -3,9 +3,11 @@ export const dynamic = 'force-dynamic'
 import { supabaseAdmin } from '@/lib/supabase'
 import StatsCards from '@/components/admin/StatsCards'
 import DashboardRefresh from '@/components/admin/DashboardRefresh'
+import RepartitionChart from '@/components/admin/RepartitionChart'
+import RecentRegistrations from '@/components/admin/RecentRegistrations'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { Registration, PARTICIPANT_TYPE_LABELS } from '@/types/registration'
+import { Registration } from '@/types/registration'
 
 interface StatRow {
   status: string
@@ -48,24 +50,6 @@ async function getRecentRegistrations() {
   return (data || []) as Pick<Registration, 'id' | 'first_name' | 'last_name' | 'email' | 'participant_type' | 'status' | 'created_at' | 'country'>[]
 }
 
-const statusBadge = (status: string) => {
-  const styles: Record<string, string> = {
-    pending: 'bg-yellow-100 text-yellow-800',
-    approved: 'bg-green-100 text-green-800',
-    rejected: 'bg-red-100 text-red-800',
-  }
-  const labels: Record<string, string> = {
-    pending: 'En attente',
-    approved: 'Approuvé',
-    rejected: 'Rejeté',
-  }
-  return (
-    <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${styles[status] || ''}`}>
-      {labels[status] || status}
-    </span>
-  )
-}
-
 export default async function AdminDashboard() {
   const [stats, recent] = await Promise.all([getStats(), getRecentRegistrations()])
 
@@ -81,75 +65,18 @@ export default async function AdminDashboard() {
         </div>
       </div>
 
+      {/* StatsCards — client, polling 20s autonome */}
       {stats && <StatsCards stats={stats} />}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-        <div className="bg-white rounded-xl shadow-sm p-6" style={{ border: '1px solid #e2e8f0' }}>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="font-semibold" style={{ color: '#0a1932' }}>Dernières inscriptions</h2>
-            <Link
-              href="/admin/registrations"
-              className="text-xs flex items-center gap-1 hover:opacity-70 transition-opacity"
-              style={{ color: '#b8960c' }}
-            >
-              Voir tout <ArrowRight size={12} />
-            </Link>
-          </div>
-          <div className="space-y-3">
-            {recent.map((reg) => (
-              <Link
-                key={reg.id}
-                href={`/admin/registrations/${reg.id}`}
-                className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                <div>
-                  <p className="font-medium text-sm" style={{ color: '#0a1932' }}>
-                    {reg.first_name} {reg.last_name}
-                  </p>
-                  <p className="text-xs text-gray-400">{reg.email} · {reg.country}</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-gray-400 hidden sm:block">
-                    {PARTICIPANT_TYPE_LABELS[reg.participant_type as keyof typeof PARTICIPANT_TYPE_LABELS]}
-                  </span>
-                  {statusBadge(reg.status)}
-                </div>
-              </Link>
-            ))}
-            {recent.length === 0 && (
-              <p className="text-gray-400 text-sm text-center py-4">Aucune inscription pour le moment</p>
-            )}
-          </div>
-        </div>
+        {/* RecentRegistrations — client, polling 20s autonome */}
+        <RecentRegistrations initialData={recent} />
 
+        {/* RepartitionChart — client, polling 20s autonome */}
         {stats && (
           <div className="bg-white rounded-xl shadow-sm p-6" style={{ border: '1px solid #e2e8f0' }}>
             <h2 className="font-semibold mb-4" style={{ color: '#0a1932' }}>Répartition par type</h2>
-            <div className="space-y-3">
-              {Object.entries(stats.by_type).map(([type, count]) => {
-                const label = PARTICIPANT_TYPE_LABELS[type as keyof typeof PARTICIPANT_TYPE_LABELS] || type
-                const pct = stats.total > 0 ? Math.round((count / stats.total) * 100) : 0
-                return (
-                  <div key={type}>
-                    <div className="flex justify-between text-sm mb-1">
-                      <span className="text-gray-600">{label}</span>
-                      <span className="font-medium" style={{ color: '#0a1932' }}>
-                        {count} ({pct}%)
-                      </span>
-                    </div>
-                    <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                      <div
-                        className="h-full rounded-full transition-all duration-500"
-                        style={{ width: `${pct}%`, background: 'linear-gradient(90deg, #d4af37, #b8960c)' }}
-                      />
-                    </div>
-                  </div>
-                )
-              })}
-              {Object.keys(stats.by_type).length === 0 && (
-                <p className="text-gray-400 text-sm text-center py-4">Aucune donnée</p>
-              )}
-            </div>
+            <RepartitionChart stats={stats} />
           </div>
         )}
       </div>
