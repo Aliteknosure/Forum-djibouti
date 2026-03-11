@@ -89,12 +89,25 @@ export default function RegistrationForm() {
     formState: { errors },
   } = useForm<RegistrationSchemaType>({
     resolver: zodResolver(registrationSchema),
+    defaultValues: {
+      stand_needs: [],
+    },
   })
 
   const participantType = watch('participant_type')
   const country = watch('country')
   const sector = watch('sector')
   const regionOrigin = watch('region_origin')
+  const standNeeds = watch('stand_needs') ?? []
+
+  const toggleStandNeed = (need: string) => {
+    const current = (watch('stand_needs') ?? []) as string[]
+    if (current.includes(need)) {
+      setValue('stand_needs', current.filter((n) => n !== need))
+    } else {
+      setValue('stand_needs', [...current, need])
+    }
+  }
 
   const selectedTypeInfo = PARTICIPANT_TYPES.find(t => t.value === participantType)
 
@@ -396,7 +409,8 @@ export default function RegistrationForm() {
                               <input
                                 type="checkbox"
                                 value={need}
-                                {...register('stand_needs')}
+                                checked={(standNeeds as string[]).includes(need)}
+                                onChange={() => toggleStandNeed(need)}
                                 className="rounded border-gray-300 text-djibouti-gold"
                               />
                               {need}

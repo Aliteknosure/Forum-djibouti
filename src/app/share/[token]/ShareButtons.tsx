@@ -49,7 +49,9 @@ export default function ShareButtons({ shareUrl, name, typeLabel, participantTyp
   const [copied, setCopied] = useState(false)
 
   const linkedinText = `${LINKEDIN_POSTS[participantType] ?? LINKEDIN_POSTS.visitor}\n\n👤 ${name}`
-  const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}&summary=${encodeURIComponent(linkedinText)}`
+
+  // linkedin.com/feed/update → pré-remplit le texte ET attache l'URL comme aperçu
+  const linkedinUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(linkedinText + '\n\n' + shareUrl)}`
 
   const twitterText = `🚀 Je participe au Forum International des Startups de Djibouti 2026 en tant que ${typeLabel} !\n📅 23 Mars 2026 • Djibouti-Ville\n#FISDJ2026 #StartupDjibouti`
   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterText)}&url=${encodeURIComponent(shareUrl)}`

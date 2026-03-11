@@ -53,49 +53,75 @@ Rendez-vous pour des échanges enrichissants sur l'avenir de l'entrepreneuriat e
 #FISDJ2026 #StartupDjibouti #Innovation #Leadership #Conférence #Djibouti`,
 }
 
-function buildLinkedInShareUrl(id: string, participantType: string, firstName: string, lastName: string): string {
-  const sharePageUrl = `${FORUM_URL}/share/${id}`
-  const post = LINKEDIN_POSTS[participantType] ?? LINKEDIN_POSTS.visitor
-  const fullText = `${post}\n\n👤 ${firstName} ${lastName}`
-  return `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(sharePageUrl)}&summary=${encodeURIComponent(fullText)}`
-}
-
-function buildLinkedInBlock(registration: { id: string; participant_type: string; first_name: string; last_name: string }): string {
-  const url = buildLinkedInShareUrl(registration.id, registration.participant_type, registration.first_name, registration.last_name)
+function buildShareBlock(registration: { id: string; participant_type: string; first_name: string; last_name: string }): string {
+  const sharePageUrl = `${FORUM_URL}/share/${registration.id}`
   const postPreview = (LINKEDIN_POSTS[registration.participant_type] ?? LINKEDIN_POSTS.visitor)
     .split('\n').slice(0, 3).join('<br>')
 
+  const linkedinPost = LINKEDIN_POSTS[registration.participant_type] ?? LINKEDIN_POSTS.visitor
+  const linkedinFullText = `${linkedinPost}\n\n👤 ${registration.first_name} ${registration.last_name}\n\n${sharePageUrl}`
+  // linkedin.com/feed/?shareActive=true&text= → pré-remplit le texte ET attache l'URL comme aperçu OG
+  const linkedinUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(linkedinFullText)}`
+
+  const twitterText = `🚀 Je participe au Forum International des Startups de Djibouti 2026 !\n📅 23 Mars 2026 • Djibouti-Ville\n#FISDJ2026 #StartupDjibouti`
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterText)}&url=${encodeURIComponent(sharePageUrl)}`
+  const whatsappText = `Je participe au Forum International des Startups de Djibouti 2026 ! 🎉\n${sharePageUrl}`
+  const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(whatsappText)}`
+
   return `
-    <!-- ═══ LINKEDIN SHARE ═══ -->
+    <!-- ═══ SHARE BLOCK ═══ -->
     <tr><td style="padding:0 40px 32px;">
-      <table width="100%" cellpadding="0" cellspacing="0" style="background:#EBF3FB;border:1px solid #B0CDE8;border-radius:10px;overflow:hidden;">
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f4ff;border:1px solid #c7d4f0;border-radius:12px;overflow:hidden;">
         <tr>
-          <!-- Bande bleue gauche -->
-          <td style="width:4px;background:#0A66C2;">&nbsp;</td>
-          <td style="padding:20px 24px;">
-            <table cellpadding="0" cellspacing="0" width="100%">
+          <td style="width:4px;background:linear-gradient(180deg,#0A66C2,#8B5CF6);">&nbsp;</td>
+          <td style="padding:22px 24px;">
+
+            <!-- Titre -->
+            <p style="margin:0 0 4px;color:#0a1932;font-size:15px;font-weight:700;">🎉 Partagez votre participation !</p>
+            <p style="margin:0 0 16px;color:#475569;font-size:12px;">Annoncez votre présence au FISDJ 2026 et inspirez votre réseau.</p>
+
+            <!-- Aperçu du post -->
+            <div style="background:#ffffff;border:1px solid #dce6f0;border-radius:8px;padding:14px 16px;font-size:12px;color:#475569;line-height:1.7;margin-bottom:18px;">
+              ${postPreview}<br><span style="color:#94a3b8;">...</span>
+            </div>
+
+            <!-- Bouton principal — page de partage -->
+            <table cellpadding="0" cellspacing="0" style="margin-bottom:14px;">
               <tr>
-                <td style="vertical-align:middle;padding-right:12px;width:44px;">
-                  <div style="width:44px;height:44px;background:#0A66C2;border-radius:8px;text-align:center;line-height:44px;font-size:22px;">in</div>
-                </td>
-                <td>
-                  <p style="margin:0;color:#0A66C2;font-size:14px;font-weight:700;">Partagez votre participation !</p>
-                  <p style="margin:4px 0 0;color:#334155;font-size:12px;">Annoncez votre présence au FISDJ 2026 sur LinkedIn et inspirez votre réseau.</p>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2" style="padding-top:14px;">
-                  <!-- Aperçu du post -->
-                  <div style="background:#ffffff;border:1px solid #dce6f0;border-radius:6px;padding:12px 14px;font-size:12px;color:#475569;line-height:1.6;margin-bottom:14px;">
-                    ${postPreview}<br><span style="color:#94a3b8;">...</span>
-                  </div>
-                  <a href="${url}" target="_blank"
-                    style="background:#0A66C2;color:#ffffff;text-decoration:none;padding:10px 22px;border-radius:6px;font-weight:700;font-size:13px;display:inline-block;">
-                    ✦ Partager sur LinkedIn
+                <td style="background:#0a1932;border-radius:8px;">
+                  <a href="${sharePageUrl}" target="_blank"
+                    style="display:inline-block;padding:12px 28px;color:#d4af37;text-decoration:none;font-weight:700;font-size:14px;letter-spacing:0.3px;">
+                    ✦ Voir ma page de participation
                   </a>
                 </td>
               </tr>
             </table>
+
+            <!-- Partage direct -->
+            <p style="margin:0 0 10px;color:#94a3b8;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;">Ou partager directement sur</p>
+            <table cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="padding-right:8px;">
+                  <a href="${linkedinUrl}" target="_blank"
+                    style="display:inline-block;background:#0A66C2;color:#fff;text-decoration:none;padding:8px 16px;border-radius:6px;font-size:12px;font-weight:600;">
+                    in LinkedIn
+                  </a>
+                </td>
+                <td style="padding-right:8px;">
+                  <a href="${twitterUrl}" target="_blank"
+                    style="display:inline-block;background:#000000;color:#fff;text-decoration:none;padding:8px 16px;border-radius:6px;font-size:12px;font-weight:600;">
+                    𝕏 Twitter
+                  </a>
+                </td>
+                <td>
+                  <a href="${whatsappUrl}" target="_blank"
+                    style="display:inline-block;background:#25D366;color:#fff;text-decoration:none;padding:8px 16px;border-radius:6px;font-size:12px;font-weight:600;">
+                    WhatsApp
+                  </a>
+                </td>
+              </tr>
+            </table>
+
           </td>
         </tr>
       </table>
@@ -322,7 +348,7 @@ export async function sendBadgeEmail(registration: Registration, pdfBuffer: Buff
           </a>
         </td></tr>
 
-        ${buildLinkedInBlock(registration)}
+        ${buildShareBlock(registration)}
 
         <!-- ═══ FOOTER ═══ -->
         <tr><td style="background:#0a1932;padding:24px 40px;text-align:center;">
