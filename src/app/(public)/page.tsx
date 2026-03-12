@@ -1,4 +1,5 @@
 import HeroSection from '@/components/sections/HeroSection'
+import MinisterSection from '@/components/sections/MinisterSection'
 import AboutSection from '@/components/sections/AboutSection'
 import ThematiquesSection from '@/components/sections/ThematiquesSection'
 import ProgramSection from '@/components/sections/ProgramSection'
@@ -16,6 +17,7 @@ export default function HomePage() {
   return (
     <main>
       <HeroSection />
+      <MinisterSection />
       <AboutSection />
       <SponsorsSection />
       <ThematiquesSection />
