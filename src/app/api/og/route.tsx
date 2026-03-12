@@ -2,6 +2,7 @@ import { ImageResponse } from 'next/og'
 import { NextRequest } from 'next/server'
 
 export const runtime = 'edge'
+export const revalidate = 0
 
 const TYPE_CONFIG: Record<string, { label: string; color: string; icon: string; tagline: string }> = {
   visitor:          { label: 'Participant',         color: '#3B82F6', icon: '👥', tagline: "Je serai au Forum !" },
