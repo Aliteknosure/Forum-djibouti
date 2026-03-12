@@ -76,10 +76,13 @@ export default function StatsCards({ stats: initialStats }: { stats: Stats }) {
   ]
 
   const byRole = [
-    { label: '👥 Visiteurs', value: stats.by_type?.visitor ?? 0, color: '#3b82f6' },
-    { label: '📰 Presse', value: stats.by_type?.press ?? 0, color: '#10b981' },
-    { label: '🏪 Exposants MSME', value: stats.by_type?.exposant_msme ?? 0, color: '#f59e0b' },
-    { label: '🎤 Panélistes', value: stats.by_type?.paneliste ?? 0, color: '#8b5cf6' },
+    { label: '🎤 Intervenants', value: stats.by_type?.speaker ?? 0, color: '#8b5cf6' },
+    { label: '� Investisseurs', value: stats.by_type?.investor ?? 0, color: '#10b981' },
+    { label: '🚀 Startups / MSMEs', value: stats.by_type?.startup_msme ?? 0, color: '#f59e0b' },
+    { label: '� Exposants', value: stats.by_type?.exhibitor ?? 0, color: '#3b82f6' },
+    { label: '🌐 Ecosystem Leaders', value: stats.by_type?.ecosystem_leader ?? 0, color: '#ef4444' },
+    { label: '🤝 Partenaires', value: stats.by_type?.partner ?? 0, color: '#06b6d4' },
+    { label: '👥 Visiteurs', value: stats.by_type?.visitor ?? 0, color: '#6b7280' },
   ]
 
   return (
@@ -105,7 +108,7 @@ export default function StatsCards({ stats: initialStats }: { stats: Stats }) {
       </div>
 
       {/* Stats par rôle */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
         {byRole.map((role) => (
           <div
             key={role.label}

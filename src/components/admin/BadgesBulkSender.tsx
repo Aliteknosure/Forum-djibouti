@@ -17,11 +17,13 @@ interface PartialReg {
 }
 
 const typeColors: Record<string, string> = {
-  visitor: 'bg-blue-100 text-blue-700',
   speaker: 'bg-purple-100 text-purple-700',
-  press: 'bg-emerald-100 text-emerald-700',
-  vip: 'bg-yellow-100 text-yellow-700',
-  student: 'bg-cyan-100 text-cyan-700',
+  investor: 'bg-emerald-100 text-emerald-700',
+  startup_msme: 'bg-amber-100 text-amber-700',
+  exhibitor: 'bg-blue-100 text-blue-700',
+  ecosystem_leader: 'bg-red-100 text-red-700',
+  partner: 'bg-cyan-100 text-cyan-700',
+  visitor: 'bg-gray-100 text-gray-700',
 }
 
 export default function BadgesBulkSender({

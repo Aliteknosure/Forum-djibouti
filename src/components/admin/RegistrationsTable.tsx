@@ -36,10 +36,13 @@ const statusColors: Record<string, string> = {
 }
 
 const typeColors: Record<string, string> = {
-  visitor: 'bg-blue-100 text-blue-700',
-  press: 'bg-emerald-100 text-emerald-700',
-  exposant_msme: 'bg-amber-100 text-amber-700',
-  paneliste: 'bg-purple-100 text-purple-700',
+  speaker: 'bg-purple-100 text-purple-700',
+  investor: 'bg-emerald-100 text-emerald-700',
+  startup_msme: 'bg-amber-100 text-amber-700',
+  exhibitor: 'bg-blue-100 text-blue-700',
+  ecosystem_leader: 'bg-red-100 text-red-700',
+  partner: 'bg-cyan-100 text-cyan-700',
+  visitor: 'bg-gray-100 text-gray-700',
 }
 
 export default function RegistrationsTable({ initialData, totalCount }: Props) {
@@ -189,10 +192,13 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Tous les types</SelectItem>
+            <SelectItem value="speaker">🎤 Intervenant</SelectItem>
+            <SelectItem value="investor">� Investisseur</SelectItem>
+            <SelectItem value="startup_msme">� Startup / MSME</SelectItem>
+            <SelectItem value="exhibitor">🏪 Exposant</SelectItem>
+            <SelectItem value="ecosystem_leader">� Ecosystem Leader</SelectItem>
+            <SelectItem value="partner">🤝 Partenaire</SelectItem>
             <SelectItem value="visitor">👥 Visiteur</SelectItem>
-            <SelectItem value="press">📰 Presse</SelectItem>
-            <SelectItem value="exposant_msme">🏪 Exposant MSME</SelectItem>
-            <SelectItem value="paneliste">🎤 Panéliste</SelectItem>
           </SelectContent>
         </Select>
         <Button

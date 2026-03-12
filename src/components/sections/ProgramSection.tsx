@@ -1,76 +1,177 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { Coffee, Volume2, Mic, Users, Presentation, PenTool, Clock, ArrowRight } from 'lucide-react'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Coffee, Volume2, Mic, Users, Presentation, Clock, ArrowRight, Calendar, Download } from 'lucide-react'
 
-type ProgramType = 'networking' | 'ceremony' | 'keynote' | 'panel' | 'presentation' | 'announcement'
+type ProgramType = 'networking' | 'ceremony' | 'keynote' | 'panel' | 'presentation' | 'workshop' | 'visit' | 'announcement'
 
-const PROGRAM: { time: string; title: string; description: string; type: ProgramType }[] = [
+interface ProgramItem {
+  time: string
+  title: string
+  description: string | string[]
+  type: ProgramType
+  speakers?: string[]
+}
+
+interface Day {
+  day: string
+  date: string
+  label: string
+  color: string
+  items: ProgramItem[]
+}
+
+const DAYS: Day[] = [
   {
-    time: '08:30',
-    title: 'Accueil & Enregistrement',
-    description: 'Installation des participants et des stands MSMEs "Early-Adopters".',
-    type: 'networking',
+    day: 'Jour 1',
+    date: 'Dim. 29 Mars',
+    label: 'Ouverture & Inspiration',
+    color: 'djibouti-gold',
+    items: [
+      { time: '08:00 – 09:30', title: 'Cérémonie d\'Ouverture Officielle de l\'EDQ', description: 'Visite présidentielle du Boost Entrepreneurship City · Accueil des invités et des participants.', type: 'ceremony' },
+      { time: '09:30 – 09:40', title: 'Annonce du programme de la journée', description: 'Animation MC — présentation du déroulé de la journée.', type: 'announcement' },
+      { time: '09:40 – 09:50', title: 'Lecture du Saint Coran', description: 'Tradition d\'ouverture officielle.', type: 'ceremony' },
+      { time: '09:50 – 10:10', title: 'Vidéo d\'ouverture — Témoignages inspirants', description: 'Témoignages de jeunes entrepreneurs et femmes entrepreneures.', type: 'presentation' },
+      { time: '10:10 – 10:20', title: 'Sketch — Troupe Iskoufilan', description: 'Représentation artistique de la troupe Iskoufilan.', type: 'workshop' },
+      { time: '10:20 – 10:40', title: 'Pitch des 3 Voix des Quartiers', description: ['→ Moustapha – Forje', '→ Un entrepreneur de Startup Djibouti', '→ Un bénéficiaire du pool des experts'], type: 'presentation' },
+      { time: '10:40 – 10:50', title: 'Signature de la Charte d\'Engagement', description: 'Banques et CLE — formalisation des engagements partenaires.', type: 'ceremony' },
+      { time: '10:50 – 11:00', title: 'Discours Officiels', description: ['→ Ministère délégué à l\'économie numérique et de l\'innovation', '→ Président de la République'], type: 'keynote' },
+      { time: '12:00 – 13:00', title: 'Pause-Café Réseautage', description: 'Temps d\'échange et de networking entre participants.', type: 'networking' },
+      { time: '13:00 – 14:00', title: 'Déjeuner — Équipe CLE & Invités', description: 'Déjeuner avec vouchers pour l\'équipe CLE et les invités officiels.', type: 'networking' },
+      { time: '14:30 – 16:30', title: 'Conférence : « Tell Me Your Story »', description: 'Vie d\'entrepreneur : rencontrez et inspirez-vous de l\'histoire de 3 entrepreneurs. Réussites, échecs et leçons — l\'échec fait partie de l\'aventure entrepreneuriale et fait grandir.', type: 'keynote', speakers: ['Modérateur : À confirmer', 'Moussa Kassim Modjib / Limo', 'Beyleh-Fleetin'] },
+      { time: '16:30', title: 'Clôture — Fin de la Journée 1', description: 'Fin officielle de la première journée du Forum.', type: 'ceremony' },
+    ],
   },
   {
-    time: '09:00',
-    title: "Cérémonie d'Ouverture Officielle",
-    description: "Allocutions du MDENI, du CLE et des représentants de la Banque Mondiale et de l'Union Européenne.",
-    type: 'ceremony',
+    day: 'Jour 2',
+    date: 'Lun. 30 Mars',
+    label: 'Panels & Ateliers',
+    color: 'djibouti-green',
+    items: [
+      {
+        time: '08:30 – 10:00', title: 'Panel 1 : Startup Act — Cadre légal et soutien aux startups',
+        description: 'Structuration d\'une idée, cadre juridique, financement et passage à l\'échelle : quelles clés pour transformer une startup en impact durable ?',
+        type: 'panel',
+        speakers: ['Keynote : MDENI', 'Modérateur : Raisso', 'Ministère du Numérique', 'CLE', 'Startups'],
+      },
+      {
+        time: '10:20 – 11:50', title: 'Panel 2 : FinTech et Accès au Financement',
+        description: 'FinTech, innovation financière et nouveaux mécanismes de financement : quelles solutions pour élargir l\'accès au capital et accélérer la croissance des entreprises djiboutiennes ?',
+        type: 'panel',
+        speakers: ['Keynote : Warsama', 'Banque Centrale de Djibouti', 'BCIMR', 'Fintech Locale (Beyleh)'],
+      },
+      {
+        time: '11:00 – 12:30', title: 'Pause-Café · Sessions en parallèle',
+        description: 'Temps d\'échange, networking et sessions simultanées.',
+        type: 'networking',
+      },
+      {
+        time: '12:30 – 14:30', title: 'Pause Déjeuner',
+        description: 'Déjeuner des participants.',
+        type: 'networking',
+      },
+      {
+        time: '14:30 – 15:30', title: 'Atelier Interactif : Préparer son Pitch',
+        description: 'Comment bien présenter son projet en quelques minutes et convaincre un jury ? Intro, développement, story telling... Découvrez les astuces qui vous aideront à pitcher comme des pros devant un jury, un investisseur ou un client.',
+        type: 'workshop',
+        speakers: ['Amine HSEVEN'],
+      },
+      {
+        time: '15:40 – 16:00', title: 'Démonstration : Plateforme G2B',
+        description: 'Présentation de la plateforme G2B en direct par visio-conférence.',
+        type: 'presentation',
+      },
+      {
+        time: '16:00 – 17:00', title: 'Démonstration de FlooDOO',
+        description: 'Présentation et démonstration de la solution FlooDOO.',
+        type: 'presentation',
+      },
+      {
+        time: '17:00', title: 'Clôture — Fin de la Journée 2',
+        description: 'Fin officielle de la deuxième journée du Forum.',
+        type: 'ceremony',
+      },
+    ],
   },
   {
-    time: '09:30',
-    title: 'Keynote : Présentation du Programme EDQ',
-    description: 'Lancement officiel du programme "Entrepreneuriat de Quartier – Build by CLE" : vision, objectifs et feuille de route 2025.',
-    type: 'keynote',
+    day: 'Jour 3',
+    date: 'Mar. 31 Mars',
+    label: 'Jour 3',
+    color: 'djibouti-sand',
+    items: [
+      {
+        time: '08:30 – 10:00', title: 'Panel 4 : Transformation Digitale des MSMEs',
+        description: 'Outils numériques pour améliorer productivité, gestion et accès aux marchés.',
+        type: 'panel',
+        speakers: ['Modérateur : Consultant Digital', 'CLE', 'Djibouti Telecom', 'Entrepreneur E-Commerce'],
+      },
+      {
+        time: '10:20 – 11:50', title: 'Panel 5 : E-Commerce et Nouveaux Marchés',
+        description: 'Comment développer votre activité grâce au e-commerce et accroître votre visibilité en ligne ? Des spécialistes et entrepreneurs partagent stratégies et bonnes pratiques pour réussir votre transformation digitale.',
+        type: 'panel',
+        speakers: ['Entrepreneur E-Commerce LIMO', 'Représentant Banque / FinTech DMoney'],
+      },
+      {
+        time: '12:30 – 14:30', title: 'Pause Déjeuner',
+        description: 'Déjeuner des participants.',
+        type: 'networking',
+      },
+      {
+        time: '14:30 – 15:30', title: 'Panel 6 : Cloud et Infrastructures Numériques',
+        description: 'Comment les solutions cloud aident les entreprises à améliorer leur performance, réduire leurs coûts et accélérer leur transformation digitale ? Quels rôles jouent les infrastructures numériques dans le développement des services et de l\'innovation ?',
+        type: 'panel',
+        speakers: ['Direction Cybersécurité', 'Djibouti Telecom'],
+      },
+      {
+        time: '15:40 – 16:40', title: 'Atelier : Protégez vos Créations — Propriété Intellectuelle',
+        description: 'Comment savoir si votre création est nouvelle et comment assurer qu\'elle ne soit pas utilisée par d\'autres sans votre autorisation ? Des spécialistes vous expliquent les différents outils disponibles.',
+        type: 'workshop',
+        speakers: ['Abdourahman — Chef de Service PI · ODPIC'],
+      },
+      {
+        time: '17:00 – 18:30', title: 'Café Finance — Réseautage Investisseurs',
+        description: 'Réseautage avec le monde de la finance et des investisseurs à Djibouti. Participants sélectionnés en avance pour des échanges constructifs.',
+        type: 'networking',
+        speakers: ['CCD', 'Banques'],
+      },
+    ],
   },
   {
-    time: '10:30',
-    title: "Panel 1 : Inclusion Financière des Jeunes et des Femmes",
-    description: "Discussion avec la Banque Mondiale et les institutions financières sur les mécanismes de financement accessibles aux MSMEs.",
-    type: 'panel',
-  },
-  {
-    time: '11:30',
-    title: 'Présentation des 120 MSMEs de la 1ère Cohorte',
-    description: 'Mise en avant des "Early-Adopters" du programme, ambassadeurs du potentiel des quartiers et des régions.',
-    type: 'presentation',
-  },
-  {
-    time: '12:30',
-    title: 'Déjeuner & Networking',
-    description: 'Visite des stands MSMEs et de la Caravane G2B Mobile (guichet unique).',
-    type: 'networking',
-  },
-  {
-    time: '14:00',
-    title: 'Panel 2 : Formalisation & Opportunités G2B',
-    description: "L'ODPIC, la CNSS et la Direction des Impôts présentent les procédures simplifiées pour les entrepreneurs informels.",
-    type: 'panel',
-  },
-  {
-    time: '15:00',
-    title: 'Annonces & Teasing : Caravanes Régionales et Bootcamps',
-    description: "Présentation du calendrier des Caravanes Mobiles dans les 5 régions : Tadjourah, Obock, Dikhil, Ali Sabieh et Arta.",
-    type: 'announcement',
-  },
-  {
-    time: '16:00',
-    title: 'Signature Officielle des Conventions',
-    description: "Signature publique des accords CLE–Banques devant le Chef de l'État et les partenaires pour sécuriser le financement des MSMEs.",
-    type: 'ceremony',
-  },
-  {
-    time: '17:00',
-    title: 'Discours de Clôture & Perspectives',
-    description: 'Le programme EDQ – de mars à décembre 2025 : lancement officiel de la phase "Build".',
-    type: 'keynote',
-  },
-  {
-    time: '18:00',
-    title: 'Cocktail de Networking',
-    description: 'Célébration et clôture de la journée dans un cadre convivial.',
-    type: 'networking',
+    day: 'Jour 4',
+    date: 'Mer. 1er Avril',
+    label: 'Services Numériques & Clôture',
+    color: 'purple-400',
+    items: [
+      {
+        time: '09:00 – 10:30', title: 'Panel 7 : Services de Confiance Numérique',
+        description: 'Signature électronique, horodatage, recommandé électronique — quelles opportunités pour les MSMEs dans l\'économie numérique ?',
+        type: 'panel',
+        speakers: ['Autorité Numérique', 'Juriste', 'Entreprise Tech', 'Modérateur : Expert Droit Numérique'],
+      },
+      {
+        time: '10:30 – 11:30', title: 'Panel 9 : Protection des Données et Cybersécurité',
+        description: 'Fraudes en ligne, usurpation d\'identité, responsabilité des entreprises, protection des données personnelles — ce que tout entrepreneur doit savoir.',
+        type: 'panel',
+        speakers: ['Autorité Protection des Données', 'Expert Cybersécurité', 'Entreprise Digitale', 'Modérateur : Spécialiste Cybersécurité'],
+      },
+      {
+        time: '15:00 – 16:00', title: 'Démonstration : Plateforme Services Publics Numériques',
+        description: 'Présentation des services publics dématérialisés accessibles aux entreprises et aux citoyens.',
+        type: 'presentation',
+      },
+      {
+        time: '15:30 – 16:30', title: 'Masterclass : Cybersécurité et Protection des Données pour MSMEs',
+        description: 'Session pratique et interactive — Salle Ateliers.',
+        type: 'workshop',
+        speakers: ['Direction Cybersécurité'],
+      },
+      {
+        time: '16:30 – 17:30', title: 'Fin de l\'Événement — Cocktail de Clôture & Networking',
+        description: 'Célébration des 4 jours, échanges libres entre participants, investisseurs et entrepreneurs.',
+        type: 'networking',
+      },
+    ],
   },
 ]
 
@@ -81,152 +182,249 @@ function getIconForType(type: ProgramType) {
     case 'keynote': return Mic
     case 'panel': return Users
     case 'presentation': return Presentation
-    case 'announcement': return PenTool
+    case 'workshop': return Clock
+    case 'visit': return Calendar
+    case 'announcement': return ArrowRight
     default: return Clock
   }
 }
 
-function getColorForType(type: ProgramType) {
-  switch (type) {
-    case 'networking': return 'text-djibouti-gold border-djibouti-gold/30 bg-djibouti-gold/10'
-    case 'ceremony': return 'text-djibouti-green border-djibouti-green/30 bg-djibouti-green/10'
-    case 'keynote': return 'text-white border-white/30 bg-white/10'
-    case 'panel': return 'text-djibouti-green border-djibouti-green/30 bg-djibouti-green/10'
-    case 'presentation': return 'text-djibouti-gold border-djibouti-gold/30 bg-djibouti-gold/10'
-    case 'announcement': return 'text-white border-white/30 bg-white/10'
-    default: return 'text-djibouti-gold border-djibouti-gold/30 bg-djibouti-gold/10'
-  }
+const TYPE_COLORS: Record<ProgramType, { dot: string; icon: string; label: string }> = {
+  networking: { dot: 'bg-djibouti-gold', icon: 'text-djibouti-gold', label: 'Networking' },
+  ceremony:   { dot: 'bg-djibouti-green', icon: 'text-djibouti-green', label: 'Cérémonie' },
+  keynote:    { dot: 'bg-white', icon: 'text-white', label: 'Keynote' },
+  panel:      { dot: 'bg-djibouti-green', icon: 'text-djibouti-green', label: 'Panel' },
+  presentation:{ dot: 'bg-djibouti-gold', icon: 'text-djibouti-gold', label: 'Présentation' },
+  workshop:   { dot: 'bg-blue-400', icon: 'text-blue-400', label: 'Atelier' },
+  visit:      { dot: 'bg-purple-400', icon: 'text-purple-400', label: 'Visite' },
+  announcement:{ dot: 'bg-orange-400', icon: 'text-orange-400', label: 'Annonce' },
+}
+
+const DAY_ACTIVE_STYLES: Record<number, string> = {
+  0: 'border-djibouti-gold text-djibouti-gold bg-djibouti-gold/10',
+  1: 'border-djibouti-green text-djibouti-green bg-djibouti-green/10',
+  2: 'border-blue-400 text-blue-400 bg-blue-400/10',
+  3: 'border-purple-400 text-purple-400 bg-purple-400/10',
+}
+
+const DAY_DOT_STYLES: Record<number, string> = {
+  0: 'bg-djibouti-gold',
+  1: 'bg-djibouti-green',
+  2: 'bg-blue-400',
+  3: 'bg-purple-400',
 }
 
 export default function ProgramSection() {
+  const [activeDay, setActiveDay] = useState(0)
+
   return (
-    <section id="programme" className="py-24 md:py-12 bg-djibouti-navy relative overflow-hidden">
-      {/* Background styling */}
+    <section id="programme" className="py-24 md:py-32 bg-djibouti-navy relative overflow-hidden">
       <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-overlay"
         style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/cubes.png')" }} />
       <div className="absolute top-40 left-0 w-[500px] h-[500px] bg-djibouti-green/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-40 right-0 w-[500px] h-[500px] bg-djibouti-gold/10 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="max-w-5xl mx-auto px-4 md:px-6 relative z-10">
+      <div className="max-w-6xl mx-auto px-4 md:px-6 relative z-10">
+
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-20"
+          className="text-center mb-14"
         >
           <div className="inline-flex items-center gap-3 mb-4">
             <span className="w-8 h-px bg-djibouti-green" />
             <span className="text-djibouti-green text-xs md:text-sm font-semibold uppercase tracking-[0.2em]">
-              Programme du 23 Mars
+              Programme Officiel
             </span>
             <span className="w-8 h-px bg-djibouti-green" />
           </div>
-          <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mb-6">
-            Une journée conçue pour lancer{' '}
-            <br className="hidden md:block" />
+          <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mb-4">
+            4 jours pour{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-djibouti-green to-djibouti-gold">
-              un mouvement national
+              lancer un mouvement
             </span>
           </h2>
+          <p className="text-white/50 text-base max-w-xl mx-auto mb-6">
+            29 Mars – 1er Avril 2026 · Djibouti-Ville
+          </p>
+          {/* Télécharger programme */}
+          <a
+            href="/images/Programme-Officiel.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-djibouti-gold/40 text-djibouti-gold text-sm font-semibold hover:bg-djibouti-gold/10 transition-colors"
+          >
+            <Download size={15} />
+            Télécharger le programme complet (PDF)
+          </a>
         </motion.div>
 
-        {/* Timeline */}
-        <div className="relative">
-          {/* Vertical line */}
-          <div className="absolute left-6 md:left-1/2 top-4 bottom-4 w-px bg-gradient-to-b from-djibouti-green/50 via-djibouti-gold/50 to-djibouti-green/10" />
-
-          <div className="space-y-8 md:space-y-12">
-            {PROGRAM.map((item, index) => {
-              const ItemIcon = getIconForType(item.type)
-              const colorClasses = getColorForType(item.type)
-              const isEven = index % 2 === 0
-              const [textColor, borderColor, bgColor] = colorClasses.split(' ')
-
-              return (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="relative flex flex-col md:flex-row items-start md:items-center w-full"
-                >
-                  {/* Timeline dot */}
-                  <div className="absolute left-6 md:left-1/2 transform -translate-x-1/2 flex items-center justify-center z-20 mt-6 md:mt-0">
-                    <div className={`w-12 h-12 rounded-full border-4 border-djibouti-navy flex items-center justify-center shadow-xl ${bgColor} backdrop-blur-md`}>
-                      <ItemIcon size={18} className={textColor} />
-                    </div>
-                  </div>
-
-                  {/* Desktop layout */}
-                  <div className={`hidden md:flex w-full ${isEven ? 'flex-row' : 'flex-row-reverse'}`}>
-                    {/* Time side */}
-                    <div className={`w-1/2 flex flex-col justify-center ${isEven ? 'items-end pr-16' : 'items-start pl-16'}`}>
-                      <div className={`inline-flex items-center gap-3 px-6 py-2.5 rounded-full border ${colorClasses} shadow-lg backdrop-blur-sm`}>
-                        <Clock size={18} className={textColor} />
-                        <span className={`font-heading font-bold text-xl md:text-2xl ${textColor}`}>{item.time}</span>
-                      </div>
-                    </div>
-
-                    {/* Content side */}
-                    <div className={`w-1/2 ${isEven ? 'pl-16' : 'pr-16'}`}>
-                      <div className="glass-dark rounded-2xl p-7 hover:bg-white/5 transition-colors duration-300 border border-white/10 hover:border-white/20 group relative overflow-hidden">
-                        {/* Hover accent line */}
-                        <div className={`absolute top-0 ${isEven ? 'left-0' : 'right-0'} w-1 h-full bg-gradient-to-b from-djibouti-green to-djibouti-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-                        <h3 className="font-heading font-bold text-xl text-white mb-3 leading-snug group-hover:text-djibouti-green transition-colors duration-300">
-                          {item.title}
-                        </h3>
-                        <p className="text-white/60 text-base leading-relaxed">
-                          {item.description}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Mobile layout */}
-                  <div className="flex md:hidden w-full pl-16 pr-2 py-2">
-                    <div className="glass-dark rounded-2xl p-5 border border-white/10 w-full relative overflow-hidden group">
-                      <div className={`absolute top-0 left-0 w-1 h-full opacity-50 ${
-                        colorClasses.includes('djibouti-green')
-                          ? 'bg-gradient-to-b from-djibouti-green to-djibouti-green/20'
-                          : colorClasses.includes('djibouti-gold')
-                          ? 'bg-gradient-to-b from-djibouti-gold to-djibouti-gold/20'
-                          : 'bg-gradient-to-b from-white to-white/20'
-                      }`} />
-                      <div className={`inline-flex items-center gap-2 mb-3 px-3 py-1 rounded-full border ${colorClasses} text-xs`}>
-                        <Clock size={12} className={textColor} />
-                        <span className={`font-heading font-bold ${textColor}`}>{item.time}</span>
-                      </div>
-                      <h3 className="font-heading font-bold text-base text-white mb-2 leading-snug">
-                        {item.title}
-                      </h3>
-                      <p className="text-white/60 text-sm leading-relaxed">
-                        {item.description}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              )
-            })}
-          </div>
+        {/* Onglets jours */}
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
+          {DAYS.map((day, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveDay(i)}
+              className={`flex flex-col sm:flex-row items-center gap-2 px-5 py-3 rounded-2xl border-2 transition-all duration-300 font-semibold text-sm ${
+                activeDay === i
+                  ? DAY_ACTIVE_STYLES[i]
+                  : 'border-white/10 text-white/50 hover:border-white/20 hover:text-white/70'
+              }`}
+            >
+              <span className="text-base">{day.day}</span>
+              <span className="hidden sm:block text-xs opacity-70 font-normal">·</span>
+              <span className="text-xs font-normal opacity-80">{day.date}</span>
+              <span
+                className={`hidden md:block text-xs font-semibold px-2 py-0.5 rounded-full ${
+                  activeDay === i ? 'bg-current/20 opacity-80' : 'opacity-0'
+                }`}
+              >
+                {day.label}
+              </span>
+            </button>
+          ))}
         </div>
 
-        {/* CTA bottom */}
+        {/* Label du jour actif */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeDay}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.35 }}
+          >
+            {/* Titre du jour */}
+            <div className="text-center mb-10">
+              <div className={`inline-flex items-center gap-2 text-sm font-semibold px-4 py-1.5 rounded-full border ${DAY_ACTIVE_STYLES[activeDay]}`}>
+                <Calendar size={14} />
+                {DAYS[activeDay].date} · {DAYS[activeDay].label}
+              </div>
+            </div>
+
+            {/* Timeline */}
+            <div className="relative">
+              {/* Ligne verticale */}
+              <div className={`absolute left-5 md:left-6 top-0 bottom-0 w-px ${DAY_DOT_STYLES[activeDay]} opacity-20`} />
+
+              <div className="space-y-4">
+                {DAYS[activeDay].items.map((item, index) => {
+                  const ItemIcon = getIconForType(item.type)
+                  const colors = TYPE_COLORS[item.type]
+
+                  return (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -16 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.4, delay: index * 0.06 }}
+                      className="relative flex items-start gap-5 pl-14 md:pl-16"
+                    >
+                      {/* Dot timeline */}
+                      <div className={`absolute left-[14px] md:left-[18px] top-4 w-3 h-3 rounded-full border-2 border-djibouti-navy ${DAY_DOT_STYLES[activeDay]}`} />
+
+                      {/* Card */}
+                      <div className="flex-1 group rounded-2xl p-5 md:p-6 border border-white/8 bg-white/3 hover:bg-white/6 hover:border-white/15 transition-all duration-300">
+                        <div className="flex flex-wrap items-start justify-between gap-3 mb-2">
+                          {/* Heure */}
+                          <div className="flex items-center gap-2">
+                            <Clock size={13} className="text-white/30" />
+                            <span className={`font-heading font-bold text-base ${colors.icon}`}>
+                              {item.time}
+                            </span>
+                          </div>
+                          {/* Badge type */}
+                          <div className={`flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border border-current/20 bg-current/10 ${colors.icon}`}>
+                            <ItemIcon size={11} />
+                            {colors.label}
+                          </div>
+                        </div>
+
+                        <h3 className="font-heading font-bold text-white text-base md:text-lg leading-snug mb-1.5 group-hover:text-djibouti-gold transition-colors duration-300">
+                          {item.title}
+                        </h3>
+                        <div className="text-white/50 text-sm leading-relaxed space-y-1">
+                          {Array.isArray(item.description)
+                            ? item.description.map((line, i) => (
+                                <p key={i}>{line}</p>
+                              ))
+                            : <p>{item.description}</p>
+                          }
+                        </div>
+                        {item.speakers && item.speakers.length > 0 && (
+                          <div className="mt-3 pt-3 border-t border-white/8 flex flex-wrap gap-2">
+                            {item.speakers.map((s, i) => (
+                              <span
+                                key={i}
+                                className="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full"
+                                style={{ background: 'rgba(212,175,55,0.1)', border: '1px solid rgba(212,175,55,0.25)', color: '#d4af37' }}
+                              >
+                                <span>🎤</span>
+                                {s}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  )
+                })}
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-20 text-center"
+          className="mt-16 text-center"
         >
           <a
             href="#inscription"
             className="inline-flex items-center gap-2 btn-primary px-8 py-4 text-lg group"
           >
-            Réserver ma place pour l&apos;événement
+            Réserver ma place
             <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
           </a>
         </motion.div>
+
+        {/* Stats cards */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1 }}
+          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4"
+        >
+          {[
+            { number: '4', label: 'Jours' },
+            { number: '9', label: 'Panels & Conférences' },
+            { number: '4', label: 'Ateliers Interactifs' },
+            { number: '3', label: 'Démonstrations' },
+            { number: '20+', label: 'Intervenants' },
+          ].map((stat, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 + i * 0.08 }}
+              className={`flex flex-col items-center justify-center gap-1 rounded-2xl border border-white/10 bg-white/4 hover:bg-white/8 hover:border-djibouti-gold/30 transition-all duration-300 py-6 px-4 text-center ${i === 4 ? 'col-span-2 md:col-span-4 md:max-w-[240px] md:mx-auto' : ''}`}
+            >
+              <span className="text-3xl md:text-4xl font-heading font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-djibouti-gold to-djibouti-green">
+                {stat.number}
+              </span>
+              <span className="text-white/60 text-xs md:text-sm font-medium uppercase tracking-wider">
+                {stat.label}
+              </span>
+            </motion.div>
+          ))}
+        </motion.div>
+
       </div>
     </section>
   )

@@ -186,12 +186,12 @@ export default function RegistrationDetail({ registration: initial }: { registra
         </div>
       )}
 
-      {/* Champs Exposant MSME */}
-      {reg.participant_type === 'exposant_msme' && (
+      {/* Champs Exposant */}
+      {reg.participant_type === 'exhibitor' && (
         <div className="bg-white rounded-xl p-5 mb-6" style={{ border: '1px solid #fde68a' }}>
           <div className="flex items-center gap-2 mb-4">
             <Store size={15} style={{ color: '#f59e0b' }} />
-            <p className="text-sm font-semibold" style={{ color: '#0a1932' }}>Informations Exposant MSME</p>
+            <p className="text-sm font-semibold" style={{ color: '#0a1932' }}>Informations Exposant</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {reg.company_name && (
@@ -226,12 +226,12 @@ export default function RegistrationDetail({ registration: initial }: { registra
         </div>
       )}
 
-      {/* Champs Panéliste */}
-      {reg.participant_type === 'paneliste' && (
+      {/* Champs Speaker */}
+      {reg.participant_type === 'speaker' && (
         <div className="bg-white rounded-xl p-5 mb-6" style={{ border: '1px solid #e9d5ff' }}>
           <div className="flex items-center gap-2 mb-4">
             <Mic2 size={15} style={{ color: '#8b5cf6' }} />
-            <p className="text-sm font-semibold" style={{ color: '#0a1932' }}>Informations Panéliste</p>
+            <p className="text-sm font-semibold" style={{ color: '#0a1932' }}>Informations Intervenant</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {reg.institution && (
@@ -256,24 +256,24 @@ export default function RegistrationDetail({ registration: initial }: { registra
         </div>
       )}
 
-      {/* Champs Presse */}
-      {reg.participant_type === 'press' && (
+      {/* Champs Investisseur */}
+      {reg.participant_type === 'investor' && (
         <div className="bg-white rounded-xl p-5 mb-6" style={{ border: '1px solid #a7f3d0' }}>
           <div className="flex items-center gap-2 mb-4">
             <Newspaper size={15} style={{ color: '#10b981' }} />
-            <p className="text-sm font-semibold" style={{ color: '#0a1932' }}>Informations Presse</p>
+            <p className="text-sm font-semibold" style={{ color: '#0a1932' }}>Informations Investisseur</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {reg.media_name && (
+            {reg.institution && (
               <div className="bg-emerald-50 rounded-lg p-3">
-                <p className="text-xs text-gray-400">Nom du média</p>
-                <p className="text-sm font-medium text-gray-800 mt-0.5">{reg.media_name}</p>
+                <p className="text-xs text-gray-400">Fonds / Institution</p>
+                <p className="text-sm font-medium text-gray-800 mt-0.5">{reg.institution}</p>
               </div>
             )}
-            {reg.media_type && (
+            {reg.topic && (
               <div className="bg-emerald-50 rounded-lg p-3">
-                <p className="text-xs text-gray-400">Type de média</p>
-                <p className="text-sm font-medium text-gray-800 mt-0.5">{reg.media_type}</p>
+                <p className="text-xs text-gray-400">Secteurs d&apos;intérêt</p>
+                <p className="text-sm font-medium text-gray-800 mt-0.5">{reg.topic}</p>
               </div>
             )}
           </div>

@@ -7,40 +7,64 @@ import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { registrationSchema, RegistrationSchemaType } from '@/lib/validations'
 import { useToast } from '@/hooks/use-toast'
-import { Loader2, ArrowRight, AlertCircle, Check, Users, Newspaper, Store, Mic } from 'lucide-react'
+import { Loader2, ArrowRight, AlertCircle, Check, Mic, TrendingUp, Rocket, Store, Globe, Handshake, Users } from 'lucide-react'
 
 const PARTICIPANT_TYPES = [
   {
-    value: 'visitor',
-    label: 'Visiteur / Participant',
-    icon: <Users size={20} />,
-    desc: 'Grand public, entrepreneurs, étudiants',
-    color: 'border-blue-400 bg-blue-50 text-blue-700',
-    activeColor: 'border-blue-500 bg-blue-500 text-white',
+    value: 'speaker',
+    label: 'Intervenant / Speaker',
+    icon: <Mic size={20} />,
+    desc: 'Conférenciers, panélistes, experts',
+    color: 'border-purple-400 bg-purple-50 text-purple-700',
+    activeColor: 'border-purple-500 bg-purple-500 text-white',
   },
   {
-    value: 'press',
-    label: 'Presse / Média',
-    icon: <Newspaper size={20} />,
-    desc: 'Journalistes, médias accrédités',
+    value: 'investor',
+    label: 'Investisseur',
+    icon: <TrendingUp size={20} />,
+    desc: 'Investisseurs, fonds, banques',
     color: 'border-green-400 bg-green-50 text-green-700',
     activeColor: 'border-green-500 bg-green-500 text-white',
   },
   {
-    value: 'exposant_msme',
-    label: 'Exposant MSME',
-    icon: <Store size={20} />,
-    desc: 'MSMEs sélectionnées avec stand',
+    value: 'startup_msme',
+    label: 'Startup / MSME',
+    icon: <Rocket size={20} />,
+    desc: 'Startups, PME, entrepreneurs',
     color: 'border-djibouti-gold bg-amber-50 text-amber-700',
     activeColor: 'border-djibouti-gold bg-djibouti-gold text-white',
   },
   {
-    value: 'paneliste',
-    label: 'Panéliste / Intervenant',
-    icon: <Mic size={20} />,
-    desc: 'Experts, ministres, intervenants',
-    color: 'border-purple-400 bg-purple-50 text-purple-700',
-    activeColor: 'border-purple-500 bg-purple-500 text-white',
+    value: 'exhibitor',
+    label: 'Exposant',
+    icon: <Store size={20} />,
+    desc: 'Exposants avec stand au forum',
+    color: 'border-blue-400 bg-blue-50 text-blue-700',
+    activeColor: 'border-blue-500 bg-blue-500 text-white',
+  },
+  {
+    value: 'ecosystem_leader',
+    label: 'Ecosystem Leader',
+    icon: <Globe size={20} />,
+    desc: 'Leaders, décideurs, institutions',
+    color: 'border-red-400 bg-red-50 text-red-700',
+    activeColor: 'border-red-500 bg-red-500 text-white',
+  },
+  {
+    value: 'partner',
+    label: 'Partenaire',
+    icon: <Handshake size={20} />,
+    desc: 'Partenaires institutionnels, sponsors',
+    color: 'border-cyan-400 bg-cyan-50 text-cyan-700',
+    activeColor: 'border-cyan-500 bg-cyan-500 text-white',
+  },
+  {
+    value: 'visitor',
+    label: 'Visiteur',
+    icon: <Users size={20} />,
+    desc: 'Grand public, étudiants, curieux',
+    color: 'border-gray-400 bg-gray-50 text-gray-700',
+    activeColor: 'border-gray-500 bg-gray-500 text-white',
   },
 ]
 
@@ -294,7 +318,8 @@ export default function RegistrationForm() {
                     <FieldError message={errors.phone?.message} />
                   </div>
 
-                  {/* Organisation / Poste */}
+                  {/* Organisation / Poste — masqué pour les visiteurs */}
+                  {participantType !== 'visitor' && (
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-djibouti-navy mb-2">
@@ -321,6 +346,7 @@ export default function RegistrationForm() {
                       <FieldError message={errors.job_title?.message} />
                     </div>
                   </div>
+                  )}
 
                   {/* Pays */}
                   <div>
@@ -340,8 +366,8 @@ export default function RegistrationForm() {
                     <FieldError message={errors.country?.message} />
                   </div>
 
-                  {/* ── CHAMPS EXPOSANT MSME ── */}
-                  {participantType === 'exposant_msme' && (
+                  {/* ── CHAMPS EXPOSANT ── */}
+                  {participantType === 'exhibitor' && (
                     <motion.div
                       key="exposant-fields"
                       initial={{ opacity: 0, y: 10 }}
@@ -421,17 +447,17 @@ export default function RegistrationForm() {
                     </motion.div>
                   )}
 
-                  {/* ── CHAMPS PANÉLISTE ── */}
-                  {participantType === 'paneliste' && (
+                  {/* ── CHAMPS SPEAKER ── */}
+                  {participantType === 'speaker' && (
                     <motion.div
-                      key="paneliste-fields"
+                      key="speaker-fields"
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       className="space-y-4 pt-2"
                     >
                       <div className="flex items-center gap-3">
                         <div className="flex-1 h-px bg-purple-100" />
-                        <span className="text-xs text-purple-600 font-semibold">🎤 Informations Panéliste</span>
+                        <span className="text-xs text-purple-600 font-semibold">🎤 Informations Intervenant</span>
                         <div className="flex-1 h-px bg-purple-100" />
                       </div>
 
@@ -473,48 +499,42 @@ export default function RegistrationForm() {
                     </motion.div>
                   )}
 
-                  {/* ── CHAMPS PRESSE ── */}
-                  {participantType === 'press' && (
+                  {/* ── CHAMPS INVESTISSEUR ── */}
+                  {participantType === 'investor' && (
                     <motion.div
-                      key="press-fields"
+                      key="investor-fields"
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       className="space-y-4 pt-2"
                     >
                       <div className="flex items-center gap-3">
                         <div className="flex-1 h-px bg-green-100" />
-                        <span className="text-xs text-green-600 font-semibold">📰 Informations Presse</span>
+                        <span className="text-xs text-green-600 font-semibold">� Informations Investisseur</span>
                         <div className="flex-1 h-px bg-green-100" />
                       </div>
 
                       <div className="grid sm:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-medium text-djibouti-navy mb-2">
-                            Nom du média <span className="text-red-500">*</span>
+                            Nom du fonds / institution <span className="text-red-500">*</span>
                           </label>
                           <input
                             type="text"
-                            placeholder="Ex: La Nation, RTD..."
-                            {...register('media_name')}
+                            placeholder="Ex: Fonds d'investissement XYZ"
+                            {...register('institution')}
                             className="form-input"
                           />
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-djibouti-navy mb-2">
-                            Type de média <span className="text-red-500">*</span>
+                            Secteurs d&apos;intérêt <span className="text-red-500">*</span>
                           </label>
-                          <select
-                            onChange={(e) => setValue('media_type', e.target.value)}
+                          <input
+                            type="text"
+                            placeholder="Ex: Tech, Agro, Énergie..."
+                            {...register('topic')}
                             className="form-input"
-                          >
-                            <option value="">Sélectionnez</option>
-                            <option value="presse_ecrite">Presse écrite</option>
-                            <option value="tv">Télévision</option>
-                            <option value="radio">Radio</option>
-                            <option value="web">Web / Blog</option>
-                            <option value="agence">Agence de presse</option>
-                            <option value="autre">Autre</option>
-                          </select>
+                          />
                         </div>
                       </div>
                     </motion.div>

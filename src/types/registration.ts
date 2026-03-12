@@ -1,4 +1,4 @@
-export type ParticipantType = 'visitor' | 'press' | 'exposant_msme' | 'paneliste'
+export type ParticipantType = 'speaker' | 'investor' | 'startup_msme' | 'exhibitor' | 'ecosystem_leader' | 'partner' | 'visitor'
 export type RegistrationStatus = 'pending' | 'approved' | 'rejected'
 
 export interface Registration {
@@ -57,24 +57,33 @@ export interface RegistrationFormData {
 }
 
 export const PARTICIPANT_TYPE_LABELS: Record<ParticipantType, string> = {
+  speaker: 'Intervenant / Speaker',
+  investor: 'Investisseur',
+  startup_msme: 'Startup / MSME',
+  exhibitor: 'Exposant',
+  ecosystem_leader: 'Ecosystem Leader',
+  partner: 'Partenaire',
   visitor: 'Visiteur',
-  press: 'Presse',
-  exposant_msme: 'Exposant MSME',
-  paneliste: 'Panéliste',
 }
 
 export const PARTICIPANT_TYPE_COLORS: Record<ParticipantType, string> = {
-  visitor: '#3B82F6',
-  press: '#10B981',
-  exposant_msme: '#F59E0B',
-  paneliste: '#8B5CF6',
+  speaker: '#8B5CF6',
+  investor: '#10B981',
+  startup_msme: '#F59E0B',
+  exhibitor: '#3B82F6',
+  ecosystem_leader: '#EF4444',
+  partner: '#06B6D4',
+  visitor: '#6B7280',
 }
 
 export const PARTICIPANT_TYPE_ICONS: Record<ParticipantType, string> = {
+  speaker: '🎤',
+  investor: '�',
+  startup_msme: '�',
+  exhibitor: '🏪',
+  ecosystem_leader: '�',
+  partner: '🤝',
   visitor: '👥',
-  press: '📰',
-  exposant_msme: '🏪',
-  paneliste: '🎤',
 }
 
 export const STATUS_LABELS: Record<RegistrationStatus, string> = {
