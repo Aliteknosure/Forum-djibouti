@@ -3,7 +3,7 @@ import { Calendar, MapPin, Shield } from 'lucide-react'
 
 export const metadata = {
   title: 'Inscription',
-  description: 'Inscrivez-vous au Forum International de Djibouti 2026.',
+  description: 'Inscrivez-vous au Forum BOOST Entrepreneurship 2026.',
 }
 
 export default function RegisterPage() {
@@ -24,7 +24,7 @@ export default function RegisterPage() {
           Réservez votre place
         </h1>
         <p className="text-white/60 max-w-lg mx-auto text-sm sm:text-base">
-          Rejoignez 500+ décideurs, entrepreneurs et innovateurs au Forum International de Djibouti 2026.
+          Rejoignez 500+ décideurs, entrepreneurs et innovateurs au Forum BOOST Entrepreneurship 2026.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mt-6">
           <div className="flex items-center gap-2 text-white/70 text-sm">

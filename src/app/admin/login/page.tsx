@@ -72,7 +72,7 @@ export default function AdminLoginPage() {
             <Lock size={24} color="#060f1f" />
           </div>
           <h1 className="font-bold text-xl" style={{ color: '#0a1932' }}>Espace Admin</h1>
-          <p className="text-gray-500 text-sm mt-1">Forum International de Djibouti</p>
+          <p className="text-gray-500 text-sm mt-1">Forum BOOST Entrepreneurship</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">

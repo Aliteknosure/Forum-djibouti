@@ -19,14 +19,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .single()
 
   if (!data) {
-    return { title: 'FISDJ 2026' }
+    return { title: 'Forum BOOST 2026' }
   }
 
   const typeLabel = PARTICIPANT_TYPE_LABELS[data.participant_type as keyof typeof PARTICIPANT_TYPE_LABELS] || data.participant_type
   const name = `${data.first_name} ${data.last_name}`
   const ogImageUrl = `${APP_URL}/api/og?name=${encodeURIComponent(name)}&type=${data.participant_type}${data.organization ? `&org=${encodeURIComponent(data.organization)}` : ''}`
-  const title = `${name} — ${typeLabel} au FISDJ 2026`
-  const description = `${name} participe au Forum International des Startups de Djibouti 2026 en tant que ${typeLabel}. Le 29 Mars – 1er Avril 2026 à Djibouti-Ville. #FISDJ2026`
+  const title = `${name} — ${typeLabel} au Forum BOOST 2026`
+  const description = `${name} participe au Forum BOOST Entrepreneurship 2026 en tant que ${typeLabel}. Du 29 Mars au 1er Avril 2026 à Djibouti-Ville. #BoostEntrepreneurship`
 
   return {
     title,
@@ -100,7 +100,7 @@ export default async function SharePage({ params }: Props) {
               className="text-sm font-semibold px-4 py-1.5 rounded-full"
               style={{ background: 'rgba(245,166,35,0.15)', color: '#F5A623', border: '1px solid rgba(245,166,35,0.3)' }}
             >
-              {typeLabel} · FISDJ 2026
+              {typeLabel} · Forum BOOST 2026
             </span>
           </div>
 
@@ -122,7 +122,7 @@ export default async function SharePage({ params }: Props) {
             <span>·</span>
             <span>📍 Djibouti-Ville</span>
             <span>·</span>
-            <span>#FISDJ2026</span>
+            <span>#BoostEntrepreneurship</span>
           </div>
         </div>
       </div>

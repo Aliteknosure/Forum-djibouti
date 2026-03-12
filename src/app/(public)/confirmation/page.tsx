@@ -70,7 +70,7 @@ export default function ConfirmationPage() {
           </h1>
           <p className="text-white/60 text-base leading-relaxed">
             Merci pour votre inscription au{" "}
-            <span className="text-djibouti-gold font-semibold">Forum International des Startups de Djibouti 2026</span>.
+            <span className="text-djibouti-gold font-semibold">Forum BOOST Entrepreneurship 2026</span>.
             Vous allez recevoir un email de confirmation dans les prochaines minutes.
           </p>
         </motion.div>
@@ -115,7 +115,7 @@ export default function ConfirmationPage() {
         >
           <div className="flex items-center gap-3 mb-3">
             <Calendar size={16} className="text-djibouti-gold" />
-            <span className="font-heading font-semibold text-white text-sm">Forum International de Djibouti</span>
+            <span className="font-heading font-semibold text-white text-sm">Forum BOOST Entrepreneurship</span>
           </div>
           <div className="flex items-center gap-3 text-white/60 text-sm mb-1">
             <Calendar size={14} className="text-white/30" />

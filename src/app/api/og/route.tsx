@@ -58,10 +58,10 @@ export async function GET(req: NextRequest) {
                 fontSize: '13px', fontWeight: 800, letterSpacing: '3px',
                 textTransform: 'uppercase', color: '#F5A623',
               }}>
-                FORUM INTERNATIONAL DES STARTUPS
+                FORUM BOOST ENTREPRENEURSHIP
               </div>
               <div style={{ fontSize: '26px', fontWeight: 900, color: '#ffffff', marginTop: '4px' }}>
-                DE DJIBOUTI 2026
+                DJIBOUTI 2026
               </div>
             </div>
             {/* Badge type */}
@@ -104,7 +104,7 @@ export async function GET(req: NextRequest) {
             </div>
             {/* Hashtags */}
             <div style={{ display: 'flex', gap: '10px' }}>
-              {['#FISDJ2026', '#StartupDjibouti'].map((tag) => (
+              {['#BoostEntrepreneurship', '#StartupDjibouti'].map((tag) => (
                 <div key={tag} style={{
                   background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)',
                   borderRadius: '20px', padding: '6px 14px',

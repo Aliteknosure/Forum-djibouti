@@ -34,8 +34,8 @@ export default function Footer() {
                 className="h-16 w-auto rounded-xl object-contain flex-shrink-0"
               />
               <div>
-                <span className="font-heading font-bold text-2xl text-white">FISDJ 2026</span>
-                <span className="block text-white/60 text-sm">Forum International des Startups de Djibouti</span>
+                <span className="font-heading font-bold text-2xl text-white">BOOST 2026</span>
+                <span className="block text-white/60 text-sm">Forum BOOST Entrepreneurship — Djibouti</span>
               </div>
             </div>
             <p className="text-white/60 leading-relaxed mb-6 max-w-md">
@@ -132,7 +132,7 @@ export default function Footer() {
           <div className="flex gap-4 text-sm">
             <span className="text-djibouti-gold">#SmartNation</span>
             <span className="text-djibouti-green">#StartupDjibouti</span>
-            <span className="text-white/60">#FISDJ2026</span>
+            <span className="text-white/60">#BoostEntrepreneurship</span>
           </div>
         </div>
       </div>
