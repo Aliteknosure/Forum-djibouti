@@ -200,7 +200,7 @@ function BadgeDocument({
 }
 
 export async function generateBadgePDF(registration: Registration): Promise<Buffer> {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://forum-djibouti.onrender.com'
   const qrData = `${appUrl}/checkin?id=${registration.id}`
   const qrDataUrl = await generateQRCodeDataURL(qrData)
 

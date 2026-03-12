@@ -8,7 +8,7 @@ export const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'noreply@forum-djibou
 export const FORUM_NAME = "Forum BOOST Entrepreneurship"
 export const FORUM_DATE = '29 mars – 1 avril 2026'
 export const FORUM_LOCATION = 'Djibouti-Ville, République de Djibouti'
-export const FORUM_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://fisdj2026.com'
+export const FORUM_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://forum-djibouti.onrender.com'
 
 // ──────────────────────────────────────────────────────────────
 // Textes LinkedIn par type de participant
@@ -302,7 +302,7 @@ export async function sendConfirmationEmail(registration: Registration) {
 // ──────────────────────────────────────────────────────────────
 export async function sendBadgeEmail(registration: Registration, pdfBuffer: Buffer, _qrDataUrl?: string) {
   const typeLabel = PARTICIPANT_TYPE_LABELS[registration.participant_type] || registration.participant_type
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://forum-djibouti.onrender.com'
   const checkinUrl = `${appUrl}/checkin?id=${registration.id}`
 
   // Générer le PDF du programme

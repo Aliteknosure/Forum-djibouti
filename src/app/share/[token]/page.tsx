@@ -4,7 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase'
 import { PARTICIPANT_TYPE_LABELS } from '@/types/registration'
 import ShareButtons from './ShareButtons'
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://fisdj2026.com'
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://forum-djibouti.onrender.com'
 
 interface Props {
   params: { token: string }
