@@ -81,9 +81,9 @@ function buildShareBlock(registration: { id: string; participant_type: string; f
     .split('\n').slice(0, 3).join('<br>')
 
   const linkedinPost = LINKEDIN_POSTS[registration.participant_type] ?? LINKEDIN_POSTS.visitor
-  const linkedinFullText = `${linkedinPost}\n\n👤 ${registration.first_name} ${registration.last_name}\n\n${sharePageUrl}`
-  // linkedin.com/feed/?shareActive=true&text= → pré-remplit le texte ET attache l'URL comme aperçu OG
-  const linkedinUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(linkedinFullText)}`
+  const linkedinShortText = `${linkedinPost.split('\n')[0]} — ${registration.first_name} ${registration.last_name} #ForumBOOST`
+  // shareArticle → LinkedIn génère la carte OG avec l'image (comme GITEX)
+  const linkedinUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(sharePageUrl)}&title=${encodeURIComponent(`${registration.first_name} ${registration.last_name} — Forum BOOST Entrepreneurship 2026`)}&summary=${encodeURIComponent(linkedinShortText)}&source=forum-djibouti`
 
   const twitterText = `🚀 Je participe au Forum BOOST Entrepreneurship 2026 !\n📅 29 Mars – 1er Avril 2026 • Djibouti-Ville\n#ForumBOOST #StartupDjibouti`
   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterText)}&url=${encodeURIComponent(sharePageUrl)}`
