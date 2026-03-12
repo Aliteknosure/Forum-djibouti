@@ -54,12 +54,12 @@ export default async function AdminDashboard() {
   const [stats, recent] = await Promise.all([getStats(), getRecentRegistrations()])
 
   return (
-    <div className="p-6 sm:p-8">
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
+    <div className="p-4 sm:p-6 lg:p-8">
+      <div className="mb-6">
+        <div className="flex items-center justify-between gap-2">
           <div>
-            <h1 className="text-2xl font-bold" style={{ color: '#0a1932' }}>Dashboard</h1>
-            <p className="text-gray-500 text-sm mt-1">Forum BOOST Entrepreneurship 2026</p>
+            <h1 className="text-xl sm:text-2xl font-bold" style={{ color: '#0a1932' }}>Dashboard</h1>
+            <p className="text-gray-500 text-xs sm:text-sm mt-0.5">Forum BOOST Entrepreneurship 2026</p>
           </div>
           <DashboardRefresh />
         </div>
@@ -68,20 +68,20 @@ export default async function AdminDashboard() {
       {/* StatsCards — client, polling 20s autonome */}
       {stats && <StatsCards stats={stats} />}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mt-4 sm:mt-6">
         {/* RecentRegistrations — client, polling 20s autonome */}
         <RecentRegistrations initialData={recent} />
 
         {/* RepartitionChart — client, polling 20s autonome */}
         {stats && (
-          <div className="bg-white rounded-xl shadow-sm p-6" style={{ border: '1px solid #e2e8f0' }}>
-            <h2 className="font-semibold mb-4" style={{ color: '#0a1932' }}>Répartition par type</h2>
+          <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6" style={{ border: '1px solid #e2e8f0' }}>
+            <h2 className="font-semibold mb-4 text-sm sm:text-base" style={{ color: '#0a1932' }}>Répartition par type</h2>
             <RepartitionChart stats={stats} />
           </div>
         )}
       </div>
 
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         {[
           {
             href: '/admin/registrations?status=pending',
@@ -105,7 +105,7 @@ export default async function AdminDashboard() {
           <Link
             key={action.href}
             href={action.href}
-            className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5 flex items-center justify-between"
+            className="bg-white rounded-xl p-4 sm:p-5 shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5 flex items-center justify-between"
             style={{ border: '1px solid #e2e8f0' }}
           >
             <div>

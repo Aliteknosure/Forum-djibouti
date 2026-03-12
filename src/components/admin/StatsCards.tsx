@@ -88,11 +88,11 @@ export default function StatsCards({ stats: initialStats }: { stats: Stats }) {
   return (
     <div className="space-y-4">
       {/* Stats globales */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {cards.map((card) => (
           <div
             key={card.label}
-            className="rounded-xl p-4 bg-white shadow-sm transition-all duration-300"
+            className="rounded-xl p-3 sm:p-4 bg-white shadow-sm transition-all duration-300"
             style={{ border: '1px solid #e2e8f0' }}
           >
             <div
@@ -108,15 +108,15 @@ export default function StatsCards({ stats: initialStats }: { stats: Stats }) {
       </div>
 
       {/* Stats par rôle */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 sm:gap-3">
         {byRole.map((role) => (
           <div
             key={role.label}
-            className="rounded-xl px-4 py-3 bg-white shadow-sm flex items-center justify-between"
+            className="rounded-xl px-3 py-2.5 sm:px-4 sm:py-3 bg-white shadow-sm flex items-center justify-between gap-2"
             style={{ border: '1px solid #e2e8f0' }}
           >
-            <span className="text-sm text-gray-600">{role.label}</span>
-            <span className="text-lg font-bold" style={{ color: role.color }}>{role.value}</span>
+            <span className="text-xs sm:text-sm text-gray-600 truncate">{role.label}</span>
+            <span className="text-base sm:text-lg font-bold shrink-0" style={{ color: role.color }}>{role.value}</span>
           </div>
         ))}
       </div>
