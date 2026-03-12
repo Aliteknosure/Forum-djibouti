@@ -67,7 +67,7 @@ export default function MinisterSection() {
               {/* Halo doré */}
               <div className="absolute -inset-[3px] rounded-2xl bg-gradient-to-br from-djibouti-gold via-yellow-300 to-djibouti-gold opacity-50 blur-[4px]" />
               {/* Cadre */}
-              <div className="relative w-52 h-[260px] md:w-60 md:h-[300px] rounded-2xl overflow-hidden border border-djibouti-gold/30">
+              <div className="relative w-64 h-[340px] md:w-80 md:h-[420px] rounded-2xl overflow-hidden border border-djibouti-gold/30">
                 <Image
                   src="/images/ministre.JPG"
                   alt="SEM Mariam Hamadou Ali — Ministre Délégué chargée de l'Économie Numérique et de l'Innovation"
