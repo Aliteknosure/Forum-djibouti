@@ -132,18 +132,18 @@ export default function ShareButtons({ shareUrl, name, typeLabel, participantTyp
   ]
 
   return (
-    <div className="space-y-4">
-      <p className="text-white/60 text-sm">Partagez votre participation</p>
+    <div className="space-y-3">
+      <p className="text-white/60 text-xs sm:text-sm">Partagez votre participation</p>
 
-      {/* Boutons principaux */}
-      <div className="flex flex-wrap justify-center gap-3">
+      {/* Boutons principaux — colonne sur mobile, ligne sur desktop */}
+      <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-2 sm:gap-3">
         {buttons.map((btn) => (
           <a
             key={btn.label}
             href={btn.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-semibold transition-all hover:scale-105 hover:shadow-lg"
+            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-5 py-3 sm:py-2.5 rounded-xl text-white text-sm font-semibold transition-all active:scale-95 hover:scale-105 hover:shadow-lg"
             style={{ backgroundColor: btn.bg }}
           >
             {btn.icon}
@@ -153,10 +153,10 @@ export default function ShareButtons({ shareUrl, name, typeLabel, participantTyp
       </div>
 
       {/* Ligne — Copier lien + Partager natif */}
-      <div className="flex justify-center gap-3">
+      <div className="flex gap-2">
         <button
           onClick={copyLink}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all hover:scale-105"
+          className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 sm:py-2 rounded-xl text-sm font-medium transition-all active:scale-95 hover:scale-105"
           style={{
             background: 'rgba(255,255,255,0.08)',
             border: '1px solid rgba(255,255,255,0.15)',
@@ -167,10 +167,10 @@ export default function ShareButtons({ shareUrl, name, typeLabel, participantTyp
           {copied ? 'Lien copié !' : 'Copier le lien'}
         </button>
 
-        {/* Bouton partage natif — mobile uniquement */}
+        {/* Bouton partage natif — visible sur mobile */}
         <button
           onClick={nativeShare}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all hover:scale-105 sm:hidden"
+          className="flex-1 sm:hidden inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-medium transition-all active:scale-95"
           style={{
             background: 'rgba(255,255,255,0.08)',
             border: '1px solid rgba(255,255,255,0.15)',

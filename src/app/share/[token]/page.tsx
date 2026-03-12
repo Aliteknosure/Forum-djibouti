@@ -71,11 +71,11 @@ export default async function SharePage({ params }: Props) {
   const shareUrl = `${APP_URL}/share/${params.token}`
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-djibouti-navy to-djibouti-dark flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-djibouti-navy to-djibouti-dark flex items-start sm:items-center justify-center p-3 sm:p-6 py-6 sm:py-10">
       <div className="w-full max-w-2xl">
 
         {/* Preview card — aperçu de l'image OG */}
-        <div className="rounded-2xl overflow-hidden shadow-2xl mb-8">
+        <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl mb-4 sm:mb-8">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={ogImageUrl}
@@ -87,17 +87,17 @@ export default async function SharePage({ params }: Props) {
 
         {/* Infos + boutons de partage */}
         <div
-          className="rounded-2xl p-8 text-center"
+          className="rounded-xl sm:rounded-2xl px-4 py-6 sm:p-8 text-center"
           style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
         >
-          <p className="text-white/60 text-sm uppercase tracking-widest mb-2">Participant officiel</p>
-          <h1 className="text-3xl font-bold text-white mb-1">{name}</h1>
-          {data.job_title && <p className="text-white/70 text-base">{data.job_title}</p>}
-          {data.organization && <p className="text-white/50 text-sm mt-0.5">{data.organization}</p>}
+          <p className="text-white/60 text-xs sm:text-sm uppercase tracking-widest mb-2">Participant officiel</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1 leading-tight">{name}</h1>
+          {data.job_title && <p className="text-white/70 text-sm sm:text-base mt-0.5">{data.job_title}</p>}
+          {data.organization && <p className="text-white/50 text-xs sm:text-sm mt-0.5">{data.organization}</p>}
 
-          <div className="mt-4 mb-6 inline-block">
+          <div className="mt-3 mb-5 inline-block">
             <span
-              className="text-sm font-semibold px-4 py-1.5 rounded-full"
+              className="text-xs sm:text-sm font-semibold px-3 py-1 sm:px-4 sm:py-1.5 rounded-full"
               style={{ background: 'rgba(245,166,35,0.15)', color: '#F5A623', border: '1px solid rgba(245,166,35,0.3)' }}
             >
               {typeLabel} · Forum BOOST 2026
@@ -115,13 +115,13 @@ export default async function SharePage({ params }: Props) {
 
           {/* Event info */}
           <div
-            className="mt-6 pt-6 flex items-center justify-center gap-6 text-sm text-white/40"
+            className="mt-5 pt-5 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-4 text-xs sm:text-sm text-white/40"
             style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}
           >
             <span>📅 29 Mars – 1er Avril 2026</span>
-            <span>·</span>
+            <span className="hidden sm:inline">·</span>
             <span>📍 Djibouti-Ville</span>
-            <span>·</span>
+            <span className="hidden sm:inline">·</span>
             <span>#BoostEntrepreneurship</span>
           </div>
         </div>
