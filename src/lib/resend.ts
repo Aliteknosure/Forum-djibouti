@@ -14,16 +14,14 @@ export const FORUM_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://fisdj2026.c
 // Textes LinkedIn par type de participant
 // ──────────────────────────────────────────────────────────────
 const LINKEDIN_POSTS: Record<string, string> = {
-  visitor: `🚀 Direction Djibouti-Ville pour le Forum BOOST Entrepreneurship 2026 !
+  visitor: `🚀 Je serai au Forum BOOST Entrepreneurship 2026 !
 
-📅 29 Mars – 1er Avril 2026
+📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
 120 MSMEs, des panels de haut niveau, du networking et une énergie entrepreneuriale unique.
-
-Rendez-vous là-bas. 💡
 
 #ForumBOOST #StartupDjibouti #Entrepreneuriat #Innovation #Djibouti`,
 
-  speaker: `🎤 Mon intervention au Forum BOOST Entrepreneurship 2026 est confirmée.
+  speaker: `🎤 Je serai intervenant au Forum BOOST Entrepreneurship 2026.
 
 📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
 Au menu : Innovation, Financement des PMEs, Transformation digitale.
@@ -32,44 +30,42 @@ Hâte d'échanger avec vous. 👇
 
 #ForumBOOST #StartupDjibouti #Innovation #Leadership #Djibouti`,
 
-  investor: `💼 Cap sur Djibouti pour le Forum BOOST Entrepreneurship 2026.
+  investor: `💼 Je serai au Forum BOOST Entrepreneurship 2026 pour rencontrer les startups et MSMEs les plus prometteuses de Djibouti.
 
 📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
-Des startups et MSMEs à fort potentiel, un marché en pleine accélération.
-
-Les opportunités sont là. 🔍
+Un marché en pleine accélération, des opportunités concrètes. 🔍
 
 #ForumBOOST #StartupDjibouti #Investissement #Innovation #Djibouti`,
 
-  startup_msme: `🚀 Mon entreprise sera au Forum BOOST Entrepreneurship 2026 !
+  startup_msme: `🚀 Je serai au Forum BOOST Entrepreneurship 2026 avec mon entreprise !
 
 📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
 Parmi les MSMEs sélectionnées du programme EDQ, prêtes à passer à la vitesse supérieure.
 
 #ForumBOOST #MSME #StartupDjibouti #MadeInDjibouti #Entrepreneuriat`,
 
-  exhibitor: `🏪 Notre stand sera au Forum BOOST Entrepreneurship 2026 !
+  exhibitor: `🏪 Je serai au Forum BOOST Entrepreneurship 2026 avec notre stand !
 
 📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
 Venez découvrir ce qu'on construit, échanger et créer des opportunités ensemble. 💪
 
 #ForumBOOST #MSME #StartupDjibouti #MadeInDjibouti #Innovation`,
 
-  ecosystem_leader: `🌐 Présent au Forum BOOST Entrepreneurship 2026 pour faire avancer l'écosystème.
+  ecosystem_leader: `🌐 Je serai au Forum BOOST Entrepreneurship 2026 pour faire avancer l'écosystème entrepreneurial.
 
 📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
 Accélération des MSMEs, inclusion financière, G2B — des sujets qui comptent.
 
 #ForumBOOST #StartupDjibouti #Écosystème #Innovation #Djibouti`,
 
-  partner: `🤝 Notre organisation soutient le Forum BOOST Entrepreneurship 2026.
+  partner: `🤝 Je serai au Forum BOOST Entrepreneurship 2026 en tant que partenaire du CLE.
 
 📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
-Partenaires du CLE pour accompagner la croissance des entrepreneurs djiboutiens.
+Ensemble pour accompagner la croissance des entrepreneurs djiboutiens.
 
 #ForumBOOST #StartupDjibouti #Partenariat #Innovation #Djibouti`,
 
-  press: `📰 Je couvre le Forum BOOST Entrepreneurship 2026.
+  press: `📰 Je serai au Forum BOOST Entrepreneurship 2026 pour le couvrir en direct.
 
 📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
 120 MSMEs, caravane G2B, panels d'experts — un événement à ne pas manquer.
