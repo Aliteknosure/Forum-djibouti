@@ -5,8 +5,8 @@ import { generateProgramPDF } from './program-generator'
 export const resend = new Resend(process.env.RESEND_API_KEY)
 
 export const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'noreply@forum-djibouti.dj'
-export const FORUM_NAME = "Forum National de l'Entrepreneuriat"
-export const FORUM_DATE = '23 mars 2026'
+export const FORUM_NAME = "Forum BOOST Entrepreneurship"
+export const FORUM_DATE = '29 mars – 1 avril 2026'
 export const FORUM_LOCATION = 'Djibouti-Ville, République de Djibouti'
 export const FORUM_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://fisdj2026.com'
 
@@ -14,43 +14,69 @@ export const FORUM_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://fisdj2026.c
 // Textes LinkedIn par type de participant
 // ──────────────────────────────────────────────────────────────
 const LINKEDIN_POSTS: Record<string, string> = {
-  visitor: `🚀 Je serai au Forum International des Startups de Djibouti 2026 !
+  visitor: `🚀 Je serai au Forum BOOST Entrepreneurship 2026 !
 
-📅 Le 23 Mars 2026 à Djibouti-Ville
+📅 Du 29 Mars au 1er Avril 2026 à Djibouti-Ville
 🌍 Un événement historique pour l'entrepreneuriat en Afrique de l'Est
 
-Au programme : 120 MSMEs exposantes, des panels d'experts, des opportunités de networking et bien plus encore !
+Au programme : startups, MSMEs, panels d'experts, opportunités de networking et bien plus encore !
 
-Rejoignez-nous pour célébrer l'innovation et la transformation digitale de Djibouti. 💡
+Rejoignez-nous pour célébrer l'innovation et la transformation entrepreneuriale de Djibouti. 💡
 
-#FISDJ2026 #StartupDjibouti #SmartNation #Entrepreneuriat #Innovation #Djibouti`,
+#ForumBOOST #StartupDjibouti #Entrepreneuriat #Innovation #Djibouti`,
 
-  press: `📰 Je couvre le Forum International des Startups de Djibouti 2026 !
+  speaker: `🎤 Je suis confirmé(e) comme intervenant(e) au Forum BOOST Entrepreneurship 2026 !
 
-📅 Le 23 Mars 2026 à Djibouti-Ville
-🎙️ Un événement majeur pour l'économie djiboutienne
-
-Retrouvez mes reportages sur cet événement incontournable dédié à l'innovation et aux MSMEs.
-
-#FISDJ2026 #StartupDjibouti #Presse #Médias #Journalisme #Djibouti`,
-
-  exposant_msme: `🏪 Mon entreprise est officiellement sélectionnée pour exposer au Forum International des Startups de Djibouti 2026 !
-
-📅 Le 23 Mars 2026 à Djibouti-Ville
-🌍 Parmi les 120 MSMEs sélectionnées pour transformer l'économie djiboutienne
-
-Venez découvrir notre stand et échanger sur nos solutions et innovations !
-
-#FISDJ2026 #MSME #StartupDjibouti #Entrepreneuriat #MadeInDjibouti #Innovation`,
-
-  paneliste: `🎤 Je suis confirmé(e) comme panéliste au Forum International des Startups de Djibouti 2026 !
-
-📅 Le 23 Mars 2026 à Djibouti-Ville
+📅 Du 29 Mars au 1er Avril 2026 à Djibouti-Ville
 💡 Au programme : Innovation, Financement, Transformation digitale & Développement des MSMEs
 
 Rendez-vous pour des échanges enrichissants sur l'avenir de l'entrepreneuriat en Afrique de l'Est !
 
-#FISDJ2026 #StartupDjibouti #Innovation #Leadership #Conférence #Djibouti`,
+#ForumBOOST #StartupDjibouti #Innovation #Leadership #Conférence #Djibouti`,
+
+  investor: `💼 Je participe au Forum BOOST Entrepreneurship 2026 en tant qu'investisseur !
+
+📅 Du 29 Mars au 1er Avril 2026 à Djibouti-Ville
+🤝 À la rencontre des startups et MSMEs les plus prometteuses de Djibouti
+
+#ForumBOOST #StartupDjibouti #Investissement #Innovation #Djibouti`,
+
+  startup_msme: `🚀 Ma startup/entreprise participe au Forum BOOST Entrepreneurship 2026 !
+
+📅 Du 29 Mars au 1er Avril 2026 à Djibouti-Ville
+🌍 Parmi les entrepreneurs sélectionnés pour transformer l'économie djiboutienne
+
+#ForumBOOST #MSME #StartupDjibouti #Entrepreneuriat #MadeInDjibouti #Innovation`,
+
+  exhibitor: `🏪 Mon entreprise expose au Forum BOOST Entrepreneurship 2026 !
+
+📅 Du 29 Mars au 1er Avril 2026 à Djibouti-Ville
+🌍 Venez découvrir notre stand et échanger sur nos solutions et innovations !
+
+#ForumBOOST #MSME #StartupDjibouti #Entrepreneuriat #MadeInDjibouti #Innovation`,
+
+  ecosystem_leader: `� Je participe au Forum BOOST Entrepreneurship 2026 en tant qu'acteur de l'écosystème !
+
+📅 Du 29 Mars au 1er Avril 2026 à Djibouti-Ville
+💡 Ensemble, nous bâtissons l'avenir de l'entrepreneuriat à Djibouti.
+
+#ForumBOOST #StartupDjibouti #Écosystème #Innovation #Djibouti`,
+
+  partner: `🤝 Notre organisation est partenaire du Forum BOOST Entrepreneurship 2026 !
+
+📅 Du 29 Mars au 1er Avril 2026 à Djibouti-Ville
+🌍 Fiers de soutenir l'entrepreneuriat et l'innovation à Djibouti.
+
+#ForumBOOST #StartupDjibouti #Partenariat #Innovation #Djibouti`,
+
+  press: `📰 Je couvre le Forum BOOST Entrepreneurship 2026 !
+
+📅 Du 29 Mars au 1er Avril 2026 à Djibouti-Ville
+🎙️ Un événement majeur pour l'économie djiboutienne
+
+Retrouvez mes reportages sur cet événement incontournable dédié à l'innovation et aux MSMEs.
+
+#ForumBOOST #StartupDjibouti #Presse #Médias #Journalisme #Djibouti`,
 }
 
 function buildShareBlock(registration: { id: string; participant_type: string; first_name: string; last_name: string }): string {
@@ -63,9 +89,9 @@ function buildShareBlock(registration: { id: string; participant_type: string; f
   // linkedin.com/feed/?shareActive=true&text= → pré-remplit le texte ET attache l'URL comme aperçu OG
   const linkedinUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(linkedinFullText)}`
 
-  const twitterText = `🚀 Je participe au Forum International des Startups de Djibouti 2026 !\n📅 23 Mars 2026 • Djibouti-Ville\n#FISDJ2026 #StartupDjibouti`
+  const twitterText = `🚀 Je participe au Forum BOOST Entrepreneurship 2026 !\n📅 29 Mars – 1er Avril 2026 • Djibouti-Ville\n#ForumBOOST #StartupDjibouti`
   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterText)}&url=${encodeURIComponent(sharePageUrl)}`
-  const whatsappText = `Je participe au Forum International des Startups de Djibouti 2026 ! 🎉\n${sharePageUrl}`
+  const whatsappText = `Je participe au Forum BOOST Entrepreneurship 2026 ! 🎉\n${sharePageUrl}`
   const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(whatsappText)}`
 
   return `
@@ -78,7 +104,7 @@ function buildShareBlock(registration: { id: string; participant_type: string; f
 
             <!-- Titre -->
             <p style="margin:0 0 4px;color:#0a1932;font-size:15px;font-weight:700;">🎉 Partagez votre participation !</p>
-            <p style="margin:0 0 16px;color:#475569;font-size:12px;">Annoncez votre présence au FISDJ 2026 et inspirez votre réseau.</p>
+            <p style="margin:0 0 16px;color:#475569;font-size:12px;">Annoncez votre présence au Forum BOOST Entrepreneurship 2026 et inspirez votre réseau.</p>
 
             <!-- Aperçu du post -->
             <div style="background:#ffffff;border:1px solid #dce6f0;border-radius:8px;padding:14px 16px;font-size:12px;color:#475569;line-height:1.7;margin-bottom:18px;">

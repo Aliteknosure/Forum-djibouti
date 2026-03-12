@@ -2,8 +2,8 @@ import { renderToBuffer, Document, Page, Text, View, StyleSheet, Image } from '@
 import { generateQRCodeDataURL } from './qrcode'
 import { Registration, PARTICIPANT_TYPE_LABELS, PARTICIPANT_TYPE_COLORS } from '@/types/registration'
 
-const FORUM_NAME = "Forum National de l'Entrepreneuriat"
-const FORUM_DATE = '23 mars 2026'
+const FORUM_NAME = "Forum BOOST Entrepreneurship"
+const FORUM_DATE = '29 mars – 1 avril 2026'
 const FORUM_LOCATION = 'Djibouti-Ville, République de Djibouti'
 
 const styles = StyleSheet.create({

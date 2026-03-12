@@ -5,12 +5,12 @@ import { ChevronDown } from 'lucide-react'
 
 const faqs = [
   {
-    q: 'Qui peut s\'inscrire au Forum National de l\'Entrepreneuriat ?',
+    q: 'Qui peut s\'inscrire au Forum BOOST Entrepreneurship ?',
     a: 'Le forum est ouvert aux entrepreneurs, porteurs de projets, représentants d\'institutions financières, agents de développement économique, et toute personne intéressée par l\'entrepreneuriat à Djibouti. Les 120 MSMEs sélectionnées du programme EDQ ont une participation prioritaire.',
   },
   {
     q: 'L\'inscription est-elle gratuite ?',
-    a: 'Oui, l\'inscription au Forum National de l\'Entrepreneuriat est entièrement gratuite. Le forum est financé par l\'Union Européenne et la Banque Mondiale dans le cadre du programme Entrepreneurs de Quartier (EDQ).',
+    a: 'Oui, l\'inscription au Forum BOOST Entrepreneurship est entièrement gratuite. Le forum est financé par l\'Union Européenne et la Banque Mondiale dans le cadre du programme Entrepreneurs de Quartier (EDQ).',
   },
   {
     q: 'Qu\'est-ce que le programme EDQ (Entrepreneurs de Quartier) ?',
@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     q: 'Comment se rendre au forum ?',
-    a: 'Le Forum National de l\'Entrepreneuriat se tient à Djibouti-Ville. L\'adresse exacte et les instructions d\'accès vous seront communiquées dans l\'email de confirmation qui accompagne votre badge. Pour tout renseignement, contactez-nous à contact@cle-djibouti.dj ou au +253 21 35 00 00.',
+    a: 'Le Forum BOOST Entrepreneurship se tient à Djibouti-Ville. L\'adresse exacte et les instructions d\'accès vous seront communiquées dans l\'email de confirmation qui accompagne votre badge. Pour tout renseignement, contactez-nous à contact@cle-djibouti.dj ou au +253 21 35 00 00.',
   },
 ]
 

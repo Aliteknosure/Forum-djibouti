@@ -95,7 +95,7 @@ export async function GET(req: NextRequest) {
             <div style={{ display: 'flex', gap: '32px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <span style={{ fontSize: '20px' }}>📅</span>
-                <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '17px', fontWeight: 600 }}>23 Mars 2026</span>
+                <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '17px', fontWeight: 600 }}>29 Mars – 1er Avril 2026</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <span style={{ fontSize: '20px' }}>📍</span>

@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const name = `${data.first_name} ${data.last_name}`
   const ogImageUrl = `${APP_URL}/api/og?name=${encodeURIComponent(name)}&type=${data.participant_type}${data.organization ? `&org=${encodeURIComponent(data.organization)}` : ''}`
   const title = `${name} — ${typeLabel} au FISDJ 2026`
-  const description = `${name} participe au Forum International des Startups de Djibouti 2026 en tant que ${typeLabel}. Le 23 Mars 2026 à Djibouti-Ville. #FISDJ2026`
+  const description = `${name} participe au Forum International des Startups de Djibouti 2026 en tant que ${typeLabel}. Le 29 Mars – 1er Avril 2026 à Djibouti-Ville. #FISDJ2026`
 
   return {
     title,
@@ -118,7 +118,7 @@ export default async function SharePage({ params }: Props) {
             className="mt-6 pt-6 flex items-center justify-center gap-6 text-sm text-white/40"
             style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}
           >
-            <span>📅 23 Mars 2026</span>
+            <span>📅 29 Mars – 1er Avril 2026</span>
             <span>·</span>
             <span>📍 Djibouti-Ville</span>
             <span>·</span>

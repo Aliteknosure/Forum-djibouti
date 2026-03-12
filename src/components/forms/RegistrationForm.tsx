@@ -557,7 +557,7 @@ export default function RegistrationForm() {
                   <div className="rounded-xl p-4 text-xs text-gray-500 leading-relaxed bg-slate-50 border border-gray-100">
                     <Check size={14} className="inline mr-1 text-djibouti-green" />
                     En soumettant ce formulaire, vous acceptez que vos données soient utilisées pour l&apos;organisation
-                    du Forum International des Startups de Djibouti 2026.
+                    du Forum BOOST Entrepreneurship 2026.
                   </div>
 
                   {/* Submit */}

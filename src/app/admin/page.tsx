@@ -59,7 +59,7 @@ export default async function AdminDashboard() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold" style={{ color: '#0a1932' }}>Dashboard</h1>
-            <p className="text-gray-500 text-sm mt-1">Forum National de l&apos;Entrepreneuriat 2026</p>
+            <p className="text-gray-500 text-sm mt-1">Forum BOOST Entrepreneurship 2026</p>
           </div>
           <DashboardRefresh />
         </div>

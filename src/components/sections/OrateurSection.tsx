@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 
 const orateurs = [
   // ── Jour 1 ──
@@ -10,9 +11,10 @@ const orateurs = [
     institution: 'République de Djibouti',
     role: 'Discours officiel d\'ouverture · Jour 1',
     initiales: 'PR',
-    couleur: '#0a1932',
+    couleur: '#d4af37',
     emoji: '🏛️',
     jour: 'Jour 1',
+    photo: '/images/iog.jpg',
   },
   {
     nom: 'Ministre — Économie Numérique',
@@ -23,6 +25,7 @@ const orateurs = [
     couleur: '#3b82f6',
     emoji: '📡',
     jour: 'Jour 1',
+    photo: '/images/ministre-photo.jpg',
   },
   {
     nom: 'Moussa Kassim Modjib',
@@ -33,6 +36,7 @@ const orateurs = [
     couleur: '#d4af37',
     emoji: '🚀',
     jour: 'Jour 1',
+    photo: '/images/moussa-k.jpeg',
   },
   {
     nom: 'Beyleh-Fleetin',
@@ -43,6 +47,7 @@ const orateurs = [
     couleur: '#10b981',
     emoji: '💳',
     jour: 'Jour 1',
+    photo: '/images/beyleh.jpeg',
   },
   {
     nom: 'Moustapha — Forje',
@@ -53,6 +58,7 @@ const orateurs = [
     couleur: '#f59e0b',
     emoji: '🎤',
     jour: 'Jour 1',
+    photo: null,
   },
   // ── Jour 2 ──
   {
@@ -64,9 +70,10 @@ const orateurs = [
     couleur: '#8b5cf6',
     emoji: '🎙️',
     jour: 'Jour 2',
+    photo: null,
   },
   {
-    nom: 'Warsama',
+    nom: 'Warsama Ismaël',
     titre: 'Keynote Speaker',
     institution: 'Banque Centrale de Djibouti',
     role: 'Panel 2 : FinTech & Financement · Jour 2',
@@ -74,6 +81,7 @@ const orateurs = [
     couleur: '#009FDA',
     emoji: '🏦',
     jour: 'Jour 2',
+    photo: '/images/Warsama-Ismael.webp',
   },
   {
     nom: 'Amine HSEVEN',
@@ -84,6 +92,7 @@ const orateurs = [
     couleur: '#ef4444',
     emoji: '🏆',
     jour: 'Jour 2',
+    photo: '/images/amin-hseven.jpeg',
   },
   // ── Jour 3 ──
   {
@@ -95,6 +104,7 @@ const orateurs = [
     couleur: '#d4af37',
     emoji: '🛒',
     jour: 'Jour 3',
+    photo: null,
   },
   {
     nom: 'Abdourahman',
@@ -105,6 +115,7 @@ const orateurs = [
     couleur: '#10b981',
     emoji: '⚖️',
     jour: 'Jour 3',
+    photo: null,
   },
   {
     nom: 'Direction Cybersécurité',
@@ -115,6 +126,7 @@ const orateurs = [
     couleur: '#3b82f6',
     emoji: '🔒',
     jour: 'Jour 3',
+    photo: null,
   },
   // ── Jour 4 ──
   {
@@ -126,6 +138,7 @@ const orateurs = [
     couleur: '#8b5cf6',
     emoji: '🔐',
     jour: 'Jour 4',
+    photo: null,
   },
   {
     nom: 'Expert Cybersécurité',
@@ -136,6 +149,7 @@ const orateurs = [
     couleur: '#ef4444',
     emoji: '🛡️',
     jour: 'Jour 4',
+    photo: null,
   },
 ]
 
@@ -176,6 +190,8 @@ export default function OrateursSection() {
       <style>{`
         [data-animate]{opacity:0;transform:translateY(28px);transition:opacity .6s ease-out,transform .6s ease-out}
         [data-animate].animate-in{opacity:1;transform:translateY(0)}
+        .orateur-card:hover .orateur-photo-ring { transform: scale(1.05); }
+        .orateur-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.10); }
       `}</style>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
 
@@ -191,11 +207,11 @@ export default function OrateursSection() {
           <h2 className="text-3xl md:text-5xl font-heading font-bold text-djibouti-navy mb-4">
             Ils prennent la parole{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-djibouti-gold to-djibouti-green">
-              au Forum
+              au Forum BOOST Entrepreneurship
             </span>
           </h2>
           <p className="text-gray-500 max-w-xl mx-auto text-base">
-            Dirigeants, experts, entrepreneurs et institutions — les voix qui façonneront les 4 jours du Forum.
+            Dirigeants, experts, entrepreneurs et institutions — les voix qui façonneront les 4 jours du Forum BOOST Entrepreneurship.
           </p>
         </div>
 
@@ -206,9 +222,9 @@ export default function OrateursSection() {
           return (
             <div key={jour} className="mb-14" data-animate data-delay={ji * 80}>
               {/* Titre du jour */}
-              <div className="flex items-center gap-4 mb-6">
+              <div className="flex items-center gap-4 mb-8">
                 <span
-                  className="text-xs font-bold px-3 py-1 rounded-full"
+                  className="text-xs font-bold px-4 py-1.5 rounded-full"
                   style={{ background: `${color}18`, color, border: `1px solid ${color}44` }}
                 >
                   {jour}
@@ -216,31 +232,68 @@ export default function OrateursSection() {
                 <div className="flex-1 h-px" style={{ background: `${color}33` }} />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 {jourOrateurs.map((o, i) => (
                   <div
                     key={i}
                     data-animate
                     data-delay={ji * 80 + i * 60}
-                    className="group rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-                    style={{ border: '1px solid #e2e8f0', background: 'white' }}
+                    className="orateur-card group rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 flex flex-col"
+                    style={{ border: `1px solid ${color}33`, background: 'white', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}
                   >
-                    {/* Avatar */}
-                    <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-xs text-white mb-3"
-                      style={{ background: `linear-gradient(135deg, ${o.couleur}, ${o.couleur}88)` }}
-                    >
-                      {o.initiales}
+                    {/* Grande photo rectangulaire */}
+                    <div className="relative w-full overflow-hidden" style={{ aspectRatio: '3/4', maxHeight: 260 }}>
+                      {o.photo ? (
+                        <Image
+                          src={o.photo}
+                          alt={o.nom}
+                          fill
+                          className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div
+                          className="w-full h-full flex flex-col items-center justify-center gap-2"
+                          style={{ background: `linear-gradient(160deg, ${color}22, ${color}08)` }}
+                        >
+                          <span className="text-5xl">{o.emoji}</span>
+                          <span
+                            className="text-2xl font-bold"
+                            style={{ color }}
+                          >
+                            {o.initiales}
+                          </span>
+                        </div>
+                      )}
+                      {/* Overlay gradient bas pour lisibilité */}
+                      <div
+                        className="absolute inset-0"
+                        style={{ background: 'linear-gradient(to top, rgba(10,25,50,0.55) 0%, transparent 50%)' }}
+                      />
+                      {/* Badge emoji en haut à droite */}
+                      <div
+                        className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-base backdrop-blur-sm"
+                        style={{ background: `${color}cc`, border: `1px solid ${color}` }}
+                      >
+                        {o.emoji}
+                      </div>
+                      {/* Barre colorée en bas de la photo */}
+                      <div
+                        className="absolute bottom-0 left-0 right-0 h-1"
+                        style={{ background: `linear-gradient(90deg, ${color}, ${color}66)` }}
+                      />
                     </div>
-                    <div className="text-lg mb-1">{o.emoji}</div>
-                    <h3 className="font-bold text-sm leading-tight mb-0.5" style={{ color: '#0a1932' }}>{o.nom}</h3>
-                    <p className="text-xs text-gray-400 mb-1">{o.titre}</p>
-                    <p className="text-xs font-medium mb-3 leading-tight" style={{ color: o.couleur }}>{o.institution}</p>
-                    <div
-                      className="rounded-lg px-3 py-2 text-xs leading-snug"
-                      style={{ backgroundColor: `${o.couleur}11`, border: `1px solid ${o.couleur}33`, color: o.couleur }}
-                    >
-                      🎤 {o.role}
+
+                    {/* Infos sous la photo */}
+                    <div className="flex flex-col flex-1 p-4">
+                      <h3 className="font-bold text-sm leading-tight mb-0.5 text-djibouti-navy">{o.nom}</h3>
+                      <p className="text-xs text-gray-400 mb-1">{o.titre}</p>
+                      <p className="text-xs font-semibold mb-3" style={{ color }}>{o.institution}</p>
+                      <div
+                        className="mt-auto rounded-lg px-3 py-2 text-xs leading-snug"
+                        style={{ backgroundColor: `${color}0f`, border: `1px solid ${color}2a`, color }}
+                      >
+                        🎤 {o.role}
+                      </div>
                     </div>
                   </div>
                 ))}

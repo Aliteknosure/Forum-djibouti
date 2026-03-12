@@ -6,7 +6,7 @@ import { Linkedin, Twitter, Share2, Check, Copy } from 'lucide-react'
 const LINKEDIN_POSTS: Record<string, string> = {
   visitor: `🚀 Je serai au Forum International des Startups de Djibouti 2026 !
 
-📅 Le 23 Mars 2026 à Djibouti-Ville
+📅 Le 29 Mars – 1er Avril 2026 à Djibouti-Ville
 🌍 Un événement historique pour l'entrepreneuriat en Afrique de l'Est
 
 Au programme : 120 MSMEs exposantes, panels d'experts et networking de haut niveau !
@@ -15,14 +15,14 @@ Au programme : 120 MSMEs exposantes, panels d'experts et networking de haut nive
 
   press: `📰 Je couvre le Forum International des Startups de Djibouti 2026 !
 
-📅 Le 23 Mars 2026 à Djibouti-Ville
+📅 Le 29 Mars – 1er Avril 2026 à Djibouti-Ville
 🎙️ Un événement majeur pour l'économie djiboutienne
 
 #FISDJ2026 #StartupDjibouti #Presse #Médias #Djibouti`,
 
   exposant_msme: `🏪 Mon entreprise est officiellement sélectionnée pour exposer au Forum International des Startups de Djibouti 2026 !
 
-📅 Le 23 Mars 2026 à Djibouti-Ville
+📅 Le 29 Mars – 1er Avril 2026 à Djibouti-Ville
 🌍 Parmi les 120 MSMEs sélectionnées
 
 Venez découvrir notre stand ! 💪
@@ -31,7 +31,7 @@ Venez découvrir notre stand ! 💪
 
   paneliste: `🎤 Je suis confirmé(e) comme panéliste au Forum International des Startups de Djibouti 2026 !
 
-📅 Le 23 Mars 2026 à Djibouti-Ville
+📅 Le 29 Mars – 1er Avril 2026 à Djibouti-Ville
 💡 Innovation · Financement · Transformation digitale
 
 #FISDJ2026 #StartupDjibouti #Leadership #Conférence`,
@@ -53,10 +53,10 @@ export default function ShareButtons({ shareUrl, name, typeLabel, participantTyp
   // linkedin.com/feed/update → pré-remplit le texte ET attache l'URL comme aperçu
   const linkedinUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(linkedinText + '\n\n' + shareUrl)}`
 
-  const twitterText = `🚀 Je participe au Forum International des Startups de Djibouti 2026 en tant que ${typeLabel} !\n📅 23 Mars 2026 • Djibouti-Ville\n#FISDJ2026 #StartupDjibouti`
+  const twitterText = `🚀 Je participe au Forum International des Startups de Djibouti 2026 en tant que ${typeLabel} !\n📅 29 Mars – 1er Avril 2026 • Djibouti-Ville\n#FISDJ2026 #StartupDjibouti`
   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterText)}&url=${encodeURIComponent(shareUrl)}`
 
-  const whatsappText = `🚀 Je participe au Forum International des Startups de Djibouti 2026 en tant que ${typeLabel} !\n📅 23 Mars 2026 • Djibouti-Ville\n\nVoici ma page de participation : ${shareUrl}\n\n#FISDJ2026`
+  const whatsappText = `🚀 Je participe au Forum International des Startups de Djibouti 2026 en tant que ${typeLabel} !\n📅 29 Mars – 1er Avril 2026 • Djibouti-Ville\n\nVoici ma page de participation : ${shareUrl}\n\n#FISDJ2026`
   const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(whatsappText)}`
 
   const copyLink = async () => {
