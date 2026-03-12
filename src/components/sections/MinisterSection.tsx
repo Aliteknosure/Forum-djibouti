@@ -69,7 +69,7 @@ export default function MinisterSection() {
               {/* Cadre */}
               <div className="relative w-64 h-[340px] md:w-80 md:h-[420px] rounded-2xl overflow-hidden border border-djibouti-gold/30">
                 <Image
-                  src="/images/ministre.jpg"
+                  src="/images/ministre-photo.jpg"
                   alt="SEM Mariam Hamadou Ali — Ministre Délégué chargée de l'Économie Numérique et de l'Innovation"
                   fill
                   className="object-cover object-top"
@@ -178,7 +178,7 @@ export default function MinisterSection() {
               {/* Mini photo ronde */}
               <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-djibouti-gold/40 shrink-0">
                 <Image
-                  src="/images/ministre.jpg"
+                  src="/images/ministre-photo.jpg"
                   alt="SEM Mariam Hamadou Ali"
                   fill
                   className="object-cover object-top"
