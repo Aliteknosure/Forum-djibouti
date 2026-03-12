@@ -78,10 +78,8 @@ export default function ShareButtons({ shareUrl, name, typeLabel, participantTyp
 
   const linkedinText = `${LINKEDIN_POSTS[participantType] ?? LINKEDIN_POSTS.visitor}\n\n👤 ${name}`
 
-  // shareArticle → LinkedIn affiche l'aperçu OG (image + titre) comme GITEX
-  // summary = texte court pré-rempli (LinkedIn ne supporte pas le texte long via shareArticle)
-  const linkedinShortText = `${LINKEDIN_POSTS[participantType]?.split('\n')[0] ?? '🚀 Je serai au Forum BOOST Entrepreneurship 2026 !'} — ${name} #ForumBOOST`
-  const linkedinUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(`${name} — Forum BOOST Entrepreneurship 2026`)}&summary=${encodeURIComponent(linkedinShortText)}&source=forum-djibouti`
+  // linkedin.com/feed → pré-remplit le texte ET attache l'URL comme aperçu
+  const linkedinUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(linkedinText + '\n\n' + shareUrl)}`
 
   const twitterText = `🚀 Au Forum BOOST Entrepreneurship 2026 — ${typeLabel}\n📅 29 Mars – 1er Avril 2026 · Djibouti-Ville\n#ForumBOOST #StartupDjibouti`
   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterText)}&url=${encodeURIComponent(shareUrl)}`

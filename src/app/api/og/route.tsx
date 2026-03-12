@@ -2,20 +2,12 @@ import { ImageResponse } from 'next/og'
 import { NextRequest } from 'next/server'
 
 export const runtime = 'edge'
-export const revalidate = 0
 
-const TYPE_CONFIG: Record<string, { label: string; color: string; icon: string; tagline: string }> = {
-  visitor:          { label: 'Participant',         color: '#3B82F6', icon: '👥', tagline: "Je serai au Forum !" },
-  speaker:          { label: 'Intervenant',         color: '#8B5CF6', icon: '🎤', tagline: "Je prends la parole !" },
-  investor:         { label: 'Investisseur',        color: '#F5A623', icon: '💼', tagline: "Je rencontre les startups !" },
-  startup_msme:     { label: 'Startup / MSME',      color: '#10B981', icon: '�', tagline: "Je pitche mon projet !" },
-  exhibitor:        { label: 'Exposant',            color: '#F97316', icon: '🏪', tagline: "Je tiens un stand !" },
-  ecosystem_leader: { label: 'Leader Écosystème',   color: '#06B6D4', icon: '🌐', tagline: "Je porte l'écosystème !" },
-  partner:          { label: 'Partenaire',          color: '#EC4899', icon: '🤝', tagline: "Je soutiens l'événement !" },
-  press:            { label: 'Presse / Médias',     color: '#84CC16', icon: '📰', tagline: "Je couvre l'événement !" },
-  // legacy
-  exposant_msme:    { label: 'Exposant MSME',       color: '#F5A623', icon: '🏪', tagline: "Je tiens un stand !" },
-  paneliste:        { label: 'Panéliste',           color: '#8B5CF6', icon: '🎤', tagline: "Je prends la parole !" },
+const TYPE_CONFIG: Record<string, { label: string; color: string; icon: string; bg: string }> = {
+  visitor:       { label: 'Participant',      color: '#3B82F6', icon: '👥', bg: '#1e3a5f' },
+  press:         { label: 'Presse',           color: '#10B981', icon: '📰', bg: '#064e3b' },
+  exposant_msme: { label: 'Exposant MSME',    color: '#F5A623', icon: '🏪', bg: '#78350f' },
+  paneliste:     { label: 'Panéliste',        color: '#8B5CF6', icon: '🎤', bg: '#3b0764' },
 }
 
 export async function GET(req: NextRequest) {
@@ -33,165 +25,101 @@ export async function GET(req: NextRequest) {
           width: '1200px',
           height: '630px',
           display: 'flex',
-          background: 'linear-gradient(135deg, #030d1a 0%, #0D1B2A 50%, #0a1932 100%)',
+          flexDirection: 'column',
+          background: 'linear-gradient(135deg, #0a1932 0%, #1A3C6E 60%, #0d2a4a 100%)',
           position: 'relative',
           overflow: 'hidden',
-          fontFamily: 'sans-serif',
         }}
       >
-        {/* Bandes verticales décoratives gauche */}
+        {/* Cercles décoratifs */}
         <div style={{
-          position: 'absolute', left: 0, top: 0, bottom: 0, width: '8px',
-          background: `linear-gradient(180deg, ${cfg.color}, #F5A623, ${cfg.color})`,
+          position: 'absolute', top: '-80px', right: '-80px',
+          width: '360px', height: '360px', borderRadius: '50%',
+          background: `${cfg.color}18`, border: `2px solid ${cfg.color}30`,
+          display: 'flex',
+        }} />
+        <div style={{
+          position: 'absolute', bottom: '-120px', left: '-60px',
+          width: '420px', height: '420px', borderRadius: '50%',
+          background: '#F5A62310', border: '2px solid #F5A62325',
           display: 'flex',
         }} />
 
-        {/* Grand cercle décoratif haut-droite */}
-        <div style={{
-          position: 'absolute', top: '-160px', right: '-160px',
-          width: '520px', height: '520px', borderRadius: '50%',
-          border: `2px solid ${cfg.color}30`,
-          background: `radial-gradient(circle, ${cfg.color}12 0%, transparent 70%)`,
-          display: 'flex',
-        }} />
-        {/* Petit cercle bas-gauche */}
-        <div style={{
-          position: 'absolute', bottom: '-80px', left: '80px',
-          width: '280px', height: '280px', borderRadius: '50%',
-          border: `1px solid ${cfg.color}20`,
-          background: `${cfg.color}08`,
-          display: 'flex',
-        }} />
+        {/* Bande dorée top */}
+        <div style={{ height: '4px', background: 'linear-gradient(90deg, #F5A623, #d4af37, #F5A623)', display: 'flex' }} />
 
-        {/* Colonne gauche — contenu principal */}
-        <div style={{
-          display: 'flex', flexDirection: 'column', flex: 1,
-          padding: '52px 56px 52px 64px', justifyContent: 'space-between',
-        }}>
+        {/* Contenu principal */}
+        <div style={{ display: 'flex', flex: 1, padding: '48px 64px', flexDirection: 'column', justifyContent: 'space-between' }}>
 
-          {/* Header — Nom event + date */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <div style={{
-              fontSize: '13px', fontWeight: 800, letterSpacing: '4px',
-              color: '#F5A623', textTransform: 'uppercase',
-            }}>
-              FORUM BOOST ENTREPRENEURSHIP
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <div style={{ fontSize: '20px', fontWeight: 700, color: 'rgba(255,255,255,0.5)' }}>
+          {/* Header — Logo + event */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{
+                fontSize: '13px', fontWeight: 800, letterSpacing: '3px',
+                textTransform: 'uppercase', color: '#F5A623',
+              }}>
+                FORUM BOOST ENTREPRENEURSHIP
+              </div>
+              <div style={{ fontSize: '26px', fontWeight: 900, color: '#ffffff', marginTop: '4px' }}>
                 DJIBOUTI 2026
               </div>
-              <div style={{
-                height: '1px', flex: 1,
-                background: 'linear-gradient(90deg, rgba(255,255,255,0.2), transparent)',
-                display: 'flex',
-              }} />
-              <div style={{ fontSize: '16px', color: 'rgba(255,255,255,0.4)', fontWeight: 500 }}>
-                29 Mars – 1er Avril
-              </div>
+            </div>
+            {/* Badge type */}
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: '10px',
+              background: `${cfg.color}22`, border: `2px solid ${cfg.color}`,
+              borderRadius: '50px', padding: '10px 22px',
+            }}>
+              <span style={{ fontSize: '22px' }}>{cfg.icon}</span>
+              <span style={{ color: cfg.color, fontWeight: 800, fontSize: '16px' }}>{cfg.label}</span>
             </div>
           </div>
 
-          {/* Centre — Tagline + Nom */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            {/* Tagline */}
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: '14px',
-            }}>
-              <div style={{
-                fontSize: '36px', fontWeight: 900, color: '#ffffff',
-                letterSpacing: '-0.5px', lineHeight: 1,
-              }}>
-                {cfg.tagline}
-              </div>
+          {/* Centre — Nom du participant */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)', letterSpacing: '2px', textTransform: 'uppercase' }}>
+              PARTICIPANT OFFICIEL
             </div>
-
-            {/* Badge rôle */}
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: '10px',
-              background: `${cfg.color}20`, border: `2px solid ${cfg.color}`,
-              borderRadius: '12px', padding: '10px 20px', width: 'fit-content',
-            }}>
-              <span style={{ fontSize: '22px' }}>{cfg.icon}</span>
-              <span style={{ color: cfg.color, fontWeight: 800, fontSize: '18px', letterSpacing: '1px' }}>
-                {cfg.label.toUpperCase()}
-              </span>
-            </div>
-
-            {/* Nom */}
-            <div style={{
-              fontSize: name.length > 20 ? '52px' : '64px',
-              fontWeight: 900, color: '#ffffff', lineHeight: 1.05,
-              letterSpacing: '-1px',
-            }}>
+            <div style={{ fontSize: '68px', fontWeight: 900, color: '#ffffff', lineHeight: 1.1 }}>
               {name}
             </div>
             {org && (
-              <div style={{
-                fontSize: '22px', color: 'rgba(255,255,255,0.55)',
-                fontWeight: 500, marginTop: '-8px',
-              }}>
+              <div style={{ fontSize: '22px', color: 'rgba(255,255,255,0.65)', marginTop: '4px' }}>
                 {org}
               </div>
             )}
           </div>
 
-          {/* Footer */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: '8px',
-              background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
-              borderRadius: '20px', padding: '6px 16px',
-            }}>
-              <span style={{ fontSize: '16px' }}>📍</span>
-              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px', fontWeight: 600 }}>Djibouti-Ville</span>
+          {/* Footer — Infos événement */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', gap: '32px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span style={{ fontSize: '20px' }}>📅</span>
+                <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '17px', fontWeight: 600 }}>29 Mars – 1er Avril 2026</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span style={{ fontSize: '20px' }}>📍</span>
+                <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '17px', fontWeight: 600 }}>Djibouti-Ville</span>
+              </div>
             </div>
-            <div style={{
-              fontSize: '14px', color: cfg.color, fontWeight: 700, letterSpacing: '1px',
-            }}>
-              #BoostEntrepreneurship
-            </div>
-            <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.35)', fontWeight: 600 }}>
-              #StartupDjibouti
+            {/* Hashtags */}
+            <div style={{ display: 'flex', gap: '10px' }}>
+              {['#BoostEntrepreneurship', '#StartupDjibouti'].map((tag) => (
+                <div key={tag} style={{
+                  background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)',
+                  borderRadius: '20px', padding: '6px 14px',
+                  color: 'rgba(255,255,255,0.7)', fontSize: '13px', fontWeight: 600,
+                  display: 'flex',
+                }}>
+                  {tag}
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* Colonne droite — bloc coloré impactant */}
-        <div style={{
-          width: '320px', display: 'flex', flexDirection: 'column',
-          alignItems: 'center', justifyContent: 'center',
-          background: `linear-gradient(160deg, ${cfg.color}22 0%, ${cfg.color}08 100%)`,
-          borderLeft: `1px solid ${cfg.color}30`,
-          padding: '40px 32px',
-          gap: '24px',
-        }}>
-          {/* Grand icône */}
-          <div style={{
-            fontSize: '80px', display: 'flex',
-            alignItems: 'center', justifyContent: 'center',
-            background: `${cfg.color}15`, border: `2px solid ${cfg.color}40`,
-            borderRadius: '50%', width: '140px', height: '140px',
-          }}>
-            {cfg.icon}
-          </div>
-          {/* MEET ME THERE */}
-          <div style={{
-            textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '8px',
-          }}>
-            <div style={{
-              background: cfg.color, borderRadius: '10px',
-              padding: '12px 20px', display: 'flex',
-            }}>
-              <span style={{ color: '#ffffff', fontWeight: 900, fontSize: '16px', letterSpacing: '2px' }}>
-                MEET ME THERE
-              </span>
-            </div>
-            <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px', fontWeight: 500 }}>
-              forum-djibouti.onrender.com
-            </div>
-          </div>
-        </div>
+        {/* Bande dorée bottom */}
+        <div style={{ height: '4px', background: 'linear-gradient(90deg, #F5A623, #d4af37, #F5A623)', display: 'flex' }} />
       </div>
     ),
     {

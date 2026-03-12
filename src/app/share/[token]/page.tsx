@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const typeLabel = PARTICIPANT_TYPE_LABELS[data.participant_type as keyof typeof PARTICIPANT_TYPE_LABELS] || data.participant_type
   const name = `${data.first_name} ${data.last_name}`
-  const ogImageUrl = `${APP_URL}/api/og?v=2&name=${encodeURIComponent(name)}&type=${data.participant_type}${data.organization ? `&org=${encodeURIComponent(data.organization)}` : ''}`
+  const ogImageUrl = `${APP_URL}/api/og?name=${encodeURIComponent(name)}&type=${data.participant_type}${data.organization ? `&org=${encodeURIComponent(data.organization)}` : ''}`
   const title = `${name} — ${typeLabel} au Forum BOOST 2026`
   const description = `${name} participe au Forum BOOST Entrepreneurship 2026 en tant que ${typeLabel}. Du 29 Mars au 1er Avril 2026 à Djibouti-Ville. #BoostEntrepreneurship`
 
@@ -67,9 +67,7 @@ export default async function SharePage({ params }: Props) {
 
   const name = `${data.first_name} ${data.last_name}`
   const typeLabel = PARTICIPANT_TYPE_LABELS[data.participant_type as keyof typeof PARTICIPANT_TYPE_LABELS] || data.participant_type
-  const ogImageUrl = `${APP_URL}/api/og?v=2&name=${encodeURIComponent(name)}&type=${data.participant_type}${data.organization ? `&org=${encodeURIComponent(data.organization)}` : ''}`
-  // URL relative pour l'affichage dans la page (fonctionne en local ET en prod)
-  const ogImageRelativeUrl = `/api/og?v=2&name=${encodeURIComponent(name)}&type=${data.participant_type}${data.organization ? `&org=${encodeURIComponent(data.organization)}` : ''}`
+  const ogImageUrl = `${APP_URL}/api/og?name=${encodeURIComponent(name)}&type=${data.participant_type}${data.organization ? `&org=${encodeURIComponent(data.organization)}` : ''}`
   const shareUrl = `${APP_URL}/share/${params.token}`
 
   return (
@@ -80,7 +78,7 @@ export default async function SharePage({ params }: Props) {
         <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl mb-4 sm:mb-8">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={ogImageRelativeUrl}
+            src={ogImageUrl}
             alt={`Badge de ${name}`}
             className="w-full"
             style={{ display: 'block' }}
