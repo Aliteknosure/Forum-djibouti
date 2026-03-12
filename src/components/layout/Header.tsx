@@ -9,7 +9,7 @@ const MDENI_LOGO = "/logos/logo-cle.jpg"
 const NAV_ITEMS = [
   { label: 'Accueil', href: '#accueil' },
   { label: 'A Propos', href: '#apropos' },
-  { label: 'Mot de la Ministre', href: '#ministre' },
+  { label: 'Mot de la Ministre', href: '#mot-ministre' },
   { label: 'Partenaires', href: '#partenaires' },
   { label: 'Thematiques', href: '#thematiques' },
   { label: 'Programme', href: '#programme' },
