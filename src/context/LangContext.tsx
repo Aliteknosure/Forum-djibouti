@@ -21,8 +21,8 @@ export const translations = {
     },
     // Hero
     hero: {
-      badge:    'Forum National · 23 mars 2026',
-      title:    "Forum National\nde l'Entrepreneuriat",
+      badge:    'Forum BOOST Entrepreneurship · 23 mars 2026',
+      title:    "Forum BOOST\nEntrepreneurship",
       subtitle: "Transformer l'entrepreneuriat de quartier en moteur de croissance nationale. 120 MSMEs leaders réunies pour un jour de connexions, de financement et d'opportunités.",
       cta:      "S'inscrire maintenant",
       ctaSub:   'Voir le programme',
@@ -34,7 +34,7 @@ export const translations = {
     about: {
       tag:      'À propos',
       title:    "Programme EDQ — Entrepreneurs de Quartier",
-      subtitle: "Organisé par le CLE avec le soutien de l'Union Européenne et de la Banque Mondiale, le Forum National de l'Entrepreneuriat réunit les 120 MSMEs les plus performantes du programme EDQ.",
+      subtitle: "Organisé par le CLE avec le soutien de l'Union Européenne et de la Banque Mondiale, le Forum BOOST Entrepreneurship réunit les 120 MSMEs les plus performantes du programme EDQ.",
       card1Title: 'Formalisation G2B',
       card1Desc:  'Guichet unique de formalisation avec le MDENI et les partenaires territoriaux.',
       card2Title: 'Inclusion financière',
@@ -49,13 +49,13 @@ export const translations = {
     // Program
     program: {
       tag:      'Agenda',
-      title:    'Programme du Forum',
+      title:    'Programme du Forum BOOST Entrepreneurship',
       subtitle: '23 mars 2026 — De la cérémonie d\'ouverture à la signature des conventions bancaires.',
     },
     // Speakers
     speakers: {
       tag:      'Institutions & Partenaires',
-      title:    'Les acteurs du Forum National',
+      title:    'Les acteurs du Forum BOOST Entrepreneurship',
       subtitle: 'Institutions nationales, bailleurs de fonds internationaux et partenaires territoriaux réunis pour l\'entrepreneuriat djiboutien.',
     },
     // Sponsors
@@ -68,7 +68,7 @@ export const translations = {
     faq: {
       tag:      'FAQ',
       title:    'Questions fréquentes',
-      subtitle: "Tout ce que vous devez savoir sur le Forum National de l'Entrepreneuriat 2026.",
+      subtitle: "Tout ce que vous devez savoir sur le Forum BOOST Entrepreneurship 2026.",
     },
     // Register
     register: {
@@ -113,8 +113,8 @@ export const translations = {
     },
     // Hero
     hero: {
-      badge:    'National Forum · March 23, 2026',
-      title:    'National Forum\nof Entrepreneurship',
+      badge:    'Forum BOOST Entrepreneurship · March 23, 2026',
+      title:    'Forum BOOST\nEntrepreneurship',
       subtitle: 'Transforming neighborhood entrepreneurship into a national growth engine. 120 leading MSMEs gathered for a day of connections, financing and opportunities.',
       cta:      'Register now',
       ctaSub:   'View the program',
@@ -126,7 +126,7 @@ export const translations = {
     about: {
       tag:      'About',
       title:    'EDQ Program — Neighborhood Entrepreneurs',
-      subtitle: 'Organized by CLE with the support of the European Union and World Bank, the National Entrepreneurship Forum brings together the 120 top-performing MSMEs from the EDQ program.',
+      subtitle: 'Organized by CLE with the support of the European Union and World Bank, the Forum BOOST Entrepreneurship brings together the 120 top-performing MSMEs from the EDQ program.',
       card1Title: 'G2B Formalization',
       card1Desc:  'One-stop formalization desk with MDENI and territorial partners.',
       card2Title: 'Financial Inclusion',
@@ -141,13 +141,13 @@ export const translations = {
     // Program
     program: {
       tag:      'Agenda',
-      title:    'Forum Program',
+      title:    'Forum BOOST Entrepreneurship Program',
       subtitle: 'March 23, 2026 — From the opening ceremony to the signing of banking conventions.',
     },
     // Speakers
     speakers: {
       tag:      'Institutions & Partners',
-      title:    'Key actors of the National Forum',
+      title:    'Key actors of Forum BOOST Entrepreneurship',
       subtitle: 'National institutions, international funders and territorial partners united for Djiboutian entrepreneurship.',
     },
     // Sponsors
@@ -160,7 +160,7 @@ export const translations = {
     faq: {
       tag:      'FAQ',
       title:    'Frequently Asked Questions',
-      subtitle: 'Everything you need to know about the 2026 National Entrepreneurship Forum.',
+      subtitle: 'Everything you need to know about Forum BOOST Entrepreneurship 2026.',
     },
     // Register
     register: {

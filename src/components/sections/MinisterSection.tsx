@@ -45,7 +45,7 @@ export default function MinisterSection() {
           </div>
           <h2 className="text-3xl md:text-5xl font-heading font-bold text-white">
             Mot de la{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-djibouti-gold via-yellow-300 to-djibouti-gold">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-djibouti-gold via-cle-teal to-djibouti-gold">
               Ministre
             </span>
           </h2>
@@ -65,7 +65,7 @@ export default function MinisterSection() {
             {/* Photo avec cadre doré */}
             <div className="relative self-center lg:self-start">
               {/* Halo doré */}
-              <div className="absolute -inset-[3px] rounded-2xl bg-gradient-to-br from-djibouti-gold via-yellow-300 to-djibouti-gold opacity-50 blur-[4px]" />
+              <div className="absolute -inset-[3px] rounded-2xl bg-gradient-to-br from-cle-green via-cle-teal to-cle-green opacity-50 blur-[4px]" />
               {/* Cadre */}
               <div className="relative w-64 h-[340px] md:w-80 md:h-[420px] rounded-2xl overflow-hidden border border-djibouti-gold/30">
                 <Image

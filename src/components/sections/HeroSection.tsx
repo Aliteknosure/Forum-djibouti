@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { Calendar, MapPin, ArrowRight } from 'lucide-react'
 
 const MDENI_LOGO = "/logos/logo-cle.jpg"
-const HERO_IMAGE = "https://cdn.loquis.com/prod/loquis/pictures/13a6594a-a8e1-4ff0-aa46-83caec67c7d4.jpg"
+const HERO_IMAGE = "/logos/logo-bg-cle.jpg"
 const EVENT_DATE = new Date('2026-03-23T09:00:00')
 
 function CountdownTimer() {
@@ -75,8 +75,8 @@ export default function HeroSection() {
 
   return (
     <section id="accueil" className="relative min-h-screen flex items-end overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-djibouti-dark via-djibouti-navy to-djibouti-dark">
-        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: `url(${HERO_IMAGE})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
+      <div className="absolute inset-0 bg-gradient-to-br from-djibouti-dark via-cle-green to-djibouti-dark">
+        <div className="absolute inset-0 opacity-40" style={{ backgroundImage: `url(${HERO_IMAGE})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
         <div className="absolute inset-0 bg-gradient-to-t from-djibouti-dark via-djibouti-dark/40 to-djibouti-dark/60" />
       </div>
       <div className="hero-shapes">
@@ -99,9 +99,9 @@ export default function HeroSection() {
           </motion.div>
           <motion.h1 variants={fadeUp} className="font-heading font-bold mb-5 text-left leading-[1.05]"
             style={{ fontSize: 'clamp(2.2rem, 6vw, 4.5rem)' }}>
-            <span className="gradient-text">Forum National de</span>
+            <span className="gradient-text">Forum BOOST</span>
             <br />
-            <span className="text-white">l&apos;Entrepreneuriat de Djibouti</span>
+            <span className="text-white">Entrepreneurship</span>
           </motion.h1>
           <motion.p variants={fadeUp} className="text-base md:text-lg text-white/60 max-w-xl mb-4 leading-relaxed">
             Programme EDQ – Build by CLE : l&apos;acte de naissance officiel de l&apos;entrepreneuriat de quartier

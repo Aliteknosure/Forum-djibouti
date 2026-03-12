@@ -9,9 +9,9 @@ import FAQSection from '@/components/sections/FAQSection'
 import RegistrationForm from '@/components/forms/RegistrationForm'
 
 export const metadata = {
-  title: "Forum National de l'Entrepreneuriat 2026 — FISDJ",
+  title: "Forum BOOST Entrepreneurship 2026 — Djibouti",
   description:
-    "Forum International des Startups et de l'Innovation Numérique de Djibouti — Organisé par MDENI × CLE. 120 MSMEs leaders, Caravane G2B, inclusion financière. 23 mars 2026, Palais du Peuple, Djibouti-Ville.",
+    "Forum BOOST Entrepreneurship — Organisé par MDENI × CLE. Startups, MSMEs, investisseurs et écosystème entrepreneurial réunis à Djibouti. 23 mars 2026, Palais du Peuple, Djibouti-Ville.",
 }
 
 export default function HomePage() {

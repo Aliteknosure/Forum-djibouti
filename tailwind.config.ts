@@ -10,10 +10,15 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
-  			'djibouti-navy': '#1A3C6E',
-  			'djibouti-green': '#009A44',
-  			'djibouti-gold': '#F5A623',
-  			'djibouti-dark': '#0D1B2A',
+  			// ── Charte CLE ──
+  			'cle-green':    '#0E706B',   // Vert foncé institutionnel
+  			'cle-teal':     '#28BCB7',   // Turquoise / vert clair
+  			'cle-black':    '#000000',
+  			// ── Djibouti (conservés pour compatibilité) ──
+  			'djibouti-navy':  '#0E706B', // → remplacé par cle-green
+  			'djibouti-green': '#0E706B', // → cle-green
+  			'djibouti-gold':  '#28BCB7', // → cle-teal
+  			'djibouti-dark':  '#0a1f1e', // fond sombre calqué sur cle-green
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
