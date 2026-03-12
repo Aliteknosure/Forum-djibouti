@@ -27,18 +27,19 @@ export default function Footer() {
           {/* Logo & Info — lg:col-span-2 */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-4 mb-6">
-              {/* MDENI logo placeholder */}
-              <div className="h-16 w-16 rounded-xl bg-gradient-to-br from-djibouti-gold to-djibouti-green flex items-center justify-center flex-shrink-0">
-                <span className="font-heading font-black text-2xl text-white">M</span>
-              </div>
+              {/* CLE logo */}
+              <img
+                src="/logos/logo-cle.jpg"
+                alt="Logo CLE"
+                className="h-16 w-auto rounded-xl object-contain flex-shrink-0"
+              />
               <div>
                 <span className="font-heading font-bold text-2xl text-white">FISDJ 2026</span>
                 <span className="block text-white/60 text-sm">Forum International des Startups de Djibouti</span>
               </div>
             </div>
             <p className="text-white/60 leading-relaxed mb-6 max-w-md">
-              Organisé par le <span className="text-djibouti-gold">MDENI</span> – Ministère Délégué chargé de
-              l&apos;Économie Numérique et de l&apos;Innovation, République de Djibouti.
+              Organisé par le <span className="text-djibouti-gold">CLE</span> – Centre de Leadership et de l&apos;Entrepreneuriat, République de Djibouti.
             </p>
             <div className="flex gap-4">
               <a

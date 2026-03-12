@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ArrowRight } from 'lucide-react'
 
-const MDENI_LOGO = "https://customer-assets.emergentagent.com/job_bbcb53b6-78c2-49cc-85ec-8d45b3900b3e/artifacts/81tydiw8_image.png"
+const MDENI_LOGO = "/logos/logo-cle.jpg"
 
 const NAV_ITEMS = [
   { label: 'Accueil', href: '#accueil' },

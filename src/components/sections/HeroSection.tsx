@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Calendar, MapPin, ArrowRight } from 'lucide-react'
 
-const MDENI_LOGO = "https://customer-assets.emergentagent.com/job_bbcb53b6-78c2-49cc-85ec-8d45b3900b3e/artifacts/81tydiw8_image.png"
+const MDENI_LOGO = "/logos/logo-cle.jpg"
 const HERO_IMAGE = "https://cdn.loquis.com/prod/loquis/pictures/13a6594a-a8e1-4ff0-aa46-83caec67c7d4.jpg"
 const EVENT_DATE = new Date('2026-03-23T09:00:00')
 
