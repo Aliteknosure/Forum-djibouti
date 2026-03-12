@@ -4,37 +4,69 @@ import { useState } from 'react'
 import { Linkedin, Twitter, Share2, Check, Copy } from 'lucide-react'
 
 const LINKEDIN_POSTS: Record<string, string> = {
-  visitor: `🚀 Je serai au Forum BOOST Entrepreneurship 2026 !
+  visitor: `🚀 Direction Djibouti-Ville pour le Forum BOOST Entrepreneurship 2026 !
 
-📅 Le 29 Mars – 1er Avril 2026 à Djibouti-Ville
-🌍 Un événement historique pour l'entrepreneuriat en Afrique de l'Est
+📅 29 Mars – 1er Avril 2026
+120 MSMEs, des panels de haut niveau, du networking et une énergie entrepreneuriale unique.
 
-Au programme : 120 MSMEs exposantes, panels d'experts et networking de haut niveau !
+Rendez-vous là-bas. 💡
 
-#BoostEntrepreneurship #StartupDjibouti #SmartNation #Entrepreneuriat #Innovation`,
+#ForumBOOST #StartupDjibouti #Entrepreneuriat #Innovation #Djibouti`,
 
-  press: `📰 Je couvre le Forum BOOST Entrepreneurship 2026 !
+  speaker: `🎤 Mon intervention au Forum BOOST Entrepreneurship 2026 est confirmée.
 
-📅 Le 29 Mars – 1er Avril 2026 à Djibouti-Ville
-🎙️ Un événement majeur pour l'économie djiboutienne
+📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
+Au menu : Innovation, Financement des PMEs, Transformation digitale.
 
-#BoostEntrepreneurship #StartupDjibouti #Presse #Médias #Djibouti`,
+Hâte d'échanger avec vous. 👇
 
-  exposant_msme: `🏪 Mon entreprise est officiellement sélectionnée pour exposer au Forum BOOST Entrepreneurship 2026 !
+#ForumBOOST #StartupDjibouti #Innovation #Leadership #Djibouti`,
 
-📅 Le 29 Mars – 1er Avril 2026 à Djibouti-Ville
-🌍 Parmi les 120 MSMEs sélectionnées
+  investor: `� Cap sur Djibouti pour le Forum BOOST Entrepreneurship 2026.
 
-Venez découvrir notre stand ! 💪
+📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
+Des startups et MSMEs à fort potentiel, un marché en pleine accélération.
 
-#BoostEntrepreneurship #MSME #StartupDjibouti #MadeInDjibouti`,
+Les opportunités sont là. 🔍
 
-  paneliste: `🎤 Je suis confirmé(e) comme panéliste au Forum BOOST Entrepreneurship 2026 !
+#ForumBOOST #StartupDjibouti #Investissement #Innovation #Djibouti`,
 
-📅 Le 29 Mars – 1er Avril 2026 à Djibouti-Ville
-💡 Innovation · Financement · Transformation digitale
+  startup_msme: `🚀 Mon entreprise sera au Forum BOOST Entrepreneurship 2026 !
 
-#BoostEntrepreneurship #StartupDjibouti #Leadership #Conférence`,
+📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
+Parmi les MSMEs sélectionnées du programme EDQ, prêtes à passer à la vitesse supérieure.
+
+#ForumBOOST #MSME #StartupDjibouti #MadeInDjibouti #Entrepreneuriat`,
+
+  exhibitor: `🏪 Notre stand sera au Forum BOOST Entrepreneurship 2026 !
+
+📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
+Venez découvrir ce qu'on construit, échanger et créer des opportunités ensemble. 💪
+
+#ForumBOOST #MSME #StartupDjibouti #MadeInDjibouti #Innovation`,
+
+  ecosystem_leader: `🌐 Présent au Forum BOOST Entrepreneurship 2026 pour faire avancer l'écosystème.
+
+📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
+Accélération des MSMEs, inclusion financière, G2B — des sujets qui comptent.
+
+#ForumBOOST #StartupDjibouti #Écosystème #Innovation #Djibouti`,
+
+  partner: `🤝 Notre organisation soutient le Forum BOOST Entrepreneurship 2026.
+
+📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
+Partenaires du CLE pour accompagner la croissance des entrepreneurs djiboutiens.
+
+#ForumBOOST #StartupDjibouti #Partenariat #Innovation #Djibouti`,
+
+  press: `📰 Je couvre le Forum BOOST Entrepreneurship 2026.
+
+📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
+120 MSMEs, caravane G2B, panels d'experts — un événement à ne pas manquer.
+
+Suivez mes reportages. 🎙️
+
+#ForumBOOST #StartupDjibouti #Presse #Médias #Djibouti`,
 }
 
 interface Props {
@@ -53,10 +85,10 @@ export default function ShareButtons({ shareUrl, name, typeLabel, participantTyp
   // linkedin.com/feed/update → pré-remplit le texte ET attache l'URL comme aperçu
   const linkedinUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(linkedinText + '\n\n' + shareUrl)}`
 
-  const twitterText = `🚀 Je participe au Forum BOOST Entrepreneurship 2026 en tant que ${typeLabel} !\n📅 29 Mars – 1er Avril 2026 • Djibouti-Ville\n#BoostEntrepreneurship #StartupDjibouti`
+  const twitterText = `🚀 Au Forum BOOST Entrepreneurship 2026 — ${typeLabel}\n📅 29 Mars – 1er Avril 2026 · Djibouti-Ville\n#ForumBOOST #StartupDjibouti`
   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterText)}&url=${encodeURIComponent(shareUrl)}`
 
-  const whatsappText = `🚀 Je participe au Forum BOOST Entrepreneurship 2026 en tant que ${typeLabel} !\n📅 29 Mars – 1er Avril 2026 • Djibouti-Ville\n\nVoici ma page de participation : ${shareUrl}\n\n#BoostEntrepreneurship`
+  const whatsappText = `🚀 Forum BOOST Entrepreneurship 2026 — ${typeLabel}\n📅 29 Mars – 1er Avril 2026 · Djibouti-Ville\n\nMa page de participation : ${shareUrl}\n\n#ForumBOOST`
   const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(whatsappText)}`
 
   const copyLink = async () => {
@@ -69,7 +101,7 @@ export default function ShareButtons({ shareUrl, name, typeLabel, participantTyp
     if (navigator.share) {
       navigator.share({
         title: `${name} — Forum BOOST Entrepreneurship 2026`,
-        text: `Je participe au Forum BOOST Entrepreneurship 2026 en tant que ${typeLabel} !`,
+        text: `${name} · ${typeLabel} au Forum BOOST 2026 · Djibouti-Ville`,
         url: shareUrl,
       })
     }
