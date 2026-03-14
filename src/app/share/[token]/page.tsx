@@ -13,7 +13,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { data } = await supabaseAdmin
     .from('registrations')
-    .select('first_name, last_name, participant_type, organization, status')
+    .select('first_name, last_name, participant_type, organization, status, photo_url')
     .eq('id', params.token)
     .eq('status', 'approved')
     .single()
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const typeLabel = PARTICIPANT_TYPE_LABELS[data.participant_type as keyof typeof PARTICIPANT_TYPE_LABELS] || data.participant_type
   const name = `${data.first_name} ${data.last_name}`
-  const ogImageUrl = `${APP_URL}/api/og?name=${encodeURIComponent(name)}&type=${data.participant_type}${data.organization ? `&org=${encodeURIComponent(data.organization)}` : ''}`
+  const ogImageUrl = `${APP_URL}/api/og?name=${encodeURIComponent(name)}&type=${data.participant_type}${data.organization ? `&org=${encodeURIComponent(data.organization)}` : ''}${data.photo_url ? `&photo=${encodeURIComponent(data.photo_url)}` : ''}`
   const title = `${name} — ${typeLabel} au Forum BOOST 2026`
   const description = `${name} participe au Forum BOOST Entrepreneurship 2026 en tant que ${typeLabel}. Du 29 Mars au 1er Avril 2026 à Djibouti-Ville. #BoostEntrepreneurship`
 
@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function SharePage({ params }: Props) {
   const { data } = await supabaseAdmin
     .from('registrations')
-    .select('id, first_name, last_name, participant_type, organization, job_title, country')
+    .select('id, first_name, last_name, participant_type, organization, job_title, country, photo_url')
     .eq('id', params.token)
     .eq('status', 'approved')
     .single()
@@ -67,7 +67,7 @@ export default async function SharePage({ params }: Props) {
 
   const name = `${data.first_name} ${data.last_name}`
   const typeLabel = PARTICIPANT_TYPE_LABELS[data.participant_type as keyof typeof PARTICIPANT_TYPE_LABELS] || data.participant_type
-  const ogImageUrl = `${APP_URL}/api/og?name=${encodeURIComponent(name)}&type=${data.participant_type}${data.organization ? `&org=${encodeURIComponent(data.organization)}` : ''}`
+  const ogImageUrl = `${APP_URL}/api/og?name=${encodeURIComponent(name)}&type=${data.participant_type}${data.organization ? `&org=${encodeURIComponent(data.organization)}` : ''}${data.photo_url ? `&photo=${encodeURIComponent(data.photo_url)}` : ''}`
   const shareUrl = `${APP_URL}/share/${params.token}`
 
   return (

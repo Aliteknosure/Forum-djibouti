@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { registrationSchema, RegistrationSchemaType } from '@/lib/validations'
 import { useToast } from '@/hooks/use-toast'
 import { Loader2, ArrowRight, AlertCircle, Check, Mic, TrendingUp, Rocket, Store, Globe, Handshake, Users } from 'lucide-react'
+import PhotoUpload from '@/components/forms/PhotoUpload'
 
 const PARTICIPANT_TYPES = [
   {
@@ -552,6 +553,12 @@ export default function RegistrationForm() {
                       className="form-input resize-none"
                     />
                   </div>
+
+                  {/* Photo de profil */}
+                  <PhotoUpload
+                    onUpload={(url) => setValue('photo_url', url)}
+                    onClear={() => setValue('photo_url', '')}
+                  />
 
                   {/* Consentement */}
                   <div className="rounded-xl p-4 text-xs text-gray-500 leading-relaxed bg-slate-50 border border-gray-100">

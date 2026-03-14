@@ -60,6 +60,28 @@ const styles = StyleSheet.create({
     letterSpacing: 1.5,
     color: '#ffffff',
   },
+  photoCircle: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    marginBottom: 12,
+    border: '2.5px solid #d4af37',
+    objectFit: 'cover',
+  },
+  photoInitials: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    marginBottom: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    border: '2px solid #d4af37',
+  },
+  photoInitialsText: {
+    fontSize: 22,
+    fontFamily: 'Helvetica-Bold',
+    color: '#ffffff',
+  },
   name: {
     fontSize: 26,
     fontFamily: 'Helvetica-Bold',
@@ -160,6 +182,17 @@ function BadgeDocument({
           <View style={[styles.typeBadge, { backgroundColor: typeColor }]}>
             <Text style={styles.typeText}>{typeLabel}</Text>
           </View>
+
+          {/* Photo de profil ou initiales */}
+          {registration.photo_url ? (
+            <Image src={registration.photo_url} style={styles.photoCircle} />
+          ) : (
+            <View style={[styles.photoInitials, { backgroundColor: typeColor }]}>
+              <Text style={styles.photoInitialsText}>
+                {registration.first_name[0]}{registration.last_name[0]}
+              </Text>
+            </View>
+          )}
 
           {/* Nom */}
           <Text style={styles.name}>{fullName}</Text>

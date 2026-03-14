@@ -61,6 +61,8 @@ export async function POST(req: NextRequest) {
         // Champs Presse
         media_name: data.media_name || null,
         media_type: data.media_type || null,
+        // Photo de profil
+        photo_url: data.photo_url || null,
         status: 'pending',
         badge_sent: false,
         checked_in: false,

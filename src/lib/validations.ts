@@ -28,6 +28,9 @@ export const registrationSchema = z.object({
   // Champs Presse
   media_name: z.string().optional().or(z.literal('')),
   media_type: z.string().optional().or(z.literal('')),
+
+  // Photo de profil (URL Supabase Storage)
+  photo_url: z.string().url().optional().or(z.literal('')),
 })
 
 export type RegistrationSchemaType = z.infer<typeof registrationSchema>
