@@ -7,14 +7,14 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: {
-    default: "Forum National de l'Entrepreneuriat 2026",
-    template: "%s | Forum National de l'Entrepreneuriat",
+    default: "Forum BOOST Entrepreneurship 2026",
+    template: "%s | Forum BOOST Entrepreneurship",
   },
-  description: "Le Forum National de l'Entrepreneuriat réunit les 120 MSMEs leaders du programme EDQ, organisé par le CLE avec le soutien de l'Union Européenne et de la Banque Mondiale. 23 mars 2026, Djibouti-Ville.",
+  description: "Le Forum BOOST Entrepreneurship réunit les 120 MSMEs leaders du programme EDQ, organisé par le CLE avec le soutien de l'Union Européenne et de la Banque Mondiale. 29 mars – 1er avril 2026, Djibouti-Ville.",
   keywords: ['forum', 'entrepreneuriat', 'djibouti', 'CLE', 'EDQ', 'MSMEs', 'G2B', 'UE', 'banque mondiale', '2026'],
   openGraph: {
-    title: "Forum National de l'Entrepreneuriat 2026",
-    description: "Organisé par le CLE — 120 MSMEs leaders, Caravane G2B, inclusion financière. 23 mars 2026, Djibouti-Ville.",
+    title: "Forum BOOST Entrepreneurship 2026",
+    description: "Organisé par le CLE — 120 MSMEs leaders, Caravane G2B, inclusion financière. 29 mars – 1er avril 2026, Djibouti-Ville.",
     type: 'website',
     locale: 'fr_DJ',
   },

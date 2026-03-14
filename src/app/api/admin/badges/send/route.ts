@@ -35,7 +35,7 @@ export async function POST(_req: NextRequest) {
     })
   }
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://forum-djibouti.onrender.com'
   let sent = 0
   let failed = 0
   const errors: { id: string; email: string; error: string }[] = []

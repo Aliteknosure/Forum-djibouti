@@ -1,7 +1,7 @@
 import { renderToBuffer, Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer'
 
 const FORUM_NAME = "Forum BOOST Entrepreneurship"
-const FORUM_DATE = '23 mars 2026'
+const FORUM_DATE = '29 mars – 1 avril 2026'
 const FORUM_LOCATION = 'Djibouti-Ville, République de Djibouti'
 
 const PROGRAM = [

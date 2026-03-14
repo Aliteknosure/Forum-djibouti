@@ -6,9 +6,9 @@ export const resend = new Resend(process.env.RESEND_API_KEY)
 
 export const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'noreply@forum-djibouti.dj'
 export const FORUM_NAME = "Forum BOOST Entrepreneurship"
-export const FORUM_DATE = '23 mars 2026'
+export const FORUM_DATE = '29 mars – 1 avril 2026'
 export const FORUM_LOCATION = 'Djibouti-Ville, République de Djibouti'
-export const FORUM_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://fisdj2026.com'
+export const FORUM_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://forum-djibouti.onrender.com'
 
 // ──────────────────────────────────────────────────────────────
 // Textes LinkedIn par type de participant
@@ -16,67 +16,63 @@ export const FORUM_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://fisdj2026.c
 const LINKEDIN_POSTS: Record<string, string> = {
   visitor: `🚀 Je serai au Forum BOOST Entrepreneurship 2026 !
 
-📅 Le 23 Mars 2026 à Djibouti-Ville
-🌍 Un événement historique pour l'entrepreneuriat en Afrique de l'Est
-
-Au programme : startups, MSMEs, panels d'experts, opportunités de networking et bien plus encore !
-
-Rejoignez-nous pour célébrer l'innovation et la transformation entrepreneuriale de Djibouti. 💡
+📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
+120 MSMEs, des panels de haut niveau, du networking et une énergie entrepreneuriale unique.
 
 #ForumBOOST #StartupDjibouti #Entrepreneuriat #Innovation #Djibouti`,
 
-  speaker: `🎤 Je suis confirmé(e) comme intervenant(e) au Forum BOOST Entrepreneurship 2026 !
+  speaker: `🎤 Je serai intervenant au Forum BOOST Entrepreneurship 2026.
 
-📅 Le 23 Mars 2026 à Djibouti-Ville
-💡 Au programme : Innovation, Financement, Transformation digitale & Développement des MSMEs
+📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
+Au menu : Innovation, Financement des PMEs, Transformation digitale.
 
-Rendez-vous pour des échanges enrichissants sur l'avenir de l'entrepreneuriat en Afrique de l'Est !
+Hâte d'échanger avec vous. 👇
 
-#ForumBOOST #StartupDjibouti #Innovation #Leadership #Conférence #Djibouti`,
+#ForumBOOST #StartupDjibouti #Innovation #Leadership #Djibouti`,
 
-  investor: `💼 Je participe au Forum BOOST Entrepreneurship 2026 en tant qu'investisseur !
+  investor: `💼 Je serai au Forum BOOST Entrepreneurship 2026 pour rencontrer les startups et MSMEs les plus prometteuses de Djibouti.
 
-📅 Le 23 Mars 2026 à Djibouti-Ville
-🤝 À la rencontre des startups et MSMEs les plus prometteuses de Djibouti
+📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
+Un marché en pleine accélération, des opportunités concrètes. 🔍
 
 #ForumBOOST #StartupDjibouti #Investissement #Innovation #Djibouti`,
 
-  startup_msme: `🚀 Ma startup/entreprise participe au Forum BOOST Entrepreneurship 2026 !
+  startup_msme: `🚀 Je serai au Forum BOOST Entrepreneurship 2026 avec mon entreprise !
 
-📅 Le 23 Mars 2026 à Djibouti-Ville
-🌍 Parmi les entrepreneurs sélectionnés pour transformer l'économie djiboutienne
+📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
+Parmi les MSMEs sélectionnées du programme EDQ, prêtes à passer à la vitesse supérieure.
 
-#ForumBOOST #MSME #StartupDjibouti #Entrepreneuriat #MadeInDjibouti #Innovation`,
+#ForumBOOST #MSME #StartupDjibouti #MadeInDjibouti #Entrepreneuriat`,
 
-  exhibitor: `🏪 Mon entreprise expose au Forum BOOST Entrepreneurship 2026 !
+  exhibitor: `🏪 Je serai au Forum BOOST Entrepreneurship 2026 avec notre stand !
 
-📅 Le 23 Mars 2026 à Djibouti-Ville
-🌍 Venez découvrir notre stand et échanger sur nos solutions et innovations !
+📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
+Venez découvrir ce qu'on construit, échanger et créer des opportunités ensemble. 💪
 
-#ForumBOOST #MSME #StartupDjibouti #Entrepreneuriat #MadeInDjibouti #Innovation`,
+#ForumBOOST #MSME #StartupDjibouti #MadeInDjibouti #Innovation`,
 
-  ecosystem_leader: `� Je participe au Forum BOOST Entrepreneurship 2026 en tant qu'acteur de l'écosystème !
+  ecosystem_leader: `🌐 Je serai au Forum BOOST Entrepreneurship 2026 pour faire avancer l'écosystème entrepreneurial.
 
-📅 Le 23 Mars 2026 à Djibouti-Ville
-💡 Ensemble, nous bâtissons l'avenir de l'entrepreneuriat à Djibouti.
+📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
+Accélération des MSMEs, inclusion financière, G2B — des sujets qui comptent.
 
 #ForumBOOST #StartupDjibouti #Écosystème #Innovation #Djibouti`,
 
-  partner: `🤝 Notre organisation est partenaire du Forum BOOST Entrepreneurship 2026 !
+  partner: `🤝 Je serai au Forum BOOST Entrepreneurship 2026 en tant que partenaire du CLE.
 
-📅 Le 23 Mars 2026 à Djibouti-Ville
-🌍 Fiers de soutenir l'entrepreneuriat et l'innovation à Djibouti.
+📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
+Ensemble pour accompagner la croissance des entrepreneurs djiboutiens.
 
 #ForumBOOST #StartupDjibouti #Partenariat #Innovation #Djibouti`,
 
-  press: `📰 Je couvre le Forum BOOST Entrepreneurship 2026 !
+  press: `📰 Je serai au Forum BOOST Entrepreneurship 2026 pour le couvrir en direct.
 
-📅 Le 23 Mars 2026 à Djibouti-Ville
-🎙️ Un événement majeur pour l'économie djiboutienne
+📅 29 Mars – 1er Avril 2026 · Djibouti-Ville
+120 MSMEs, caravane G2B, panels d'experts — un événement à ne pas manquer.
 
-Retrouvez mes reportages sur cet événement incontournable dédié à l'innovation et aux MSMEs.
+Suivez mes reportages. 🎙️
 
-#ForumBOOST #StartupDjibouti #Presse #Médias #Journalisme #Djibouti`,
+#ForumBOOST #StartupDjibouti #Presse #Médias #Djibouti`,
 }
 
 function buildShareBlock(registration: { id: string; participant_type: string; first_name: string; last_name: string }): string {
@@ -85,11 +81,11 @@ function buildShareBlock(registration: { id: string; participant_type: string; f
     .split('\n').slice(0, 3).join('<br>')
 
   const linkedinPost = LINKEDIN_POSTS[registration.participant_type] ?? LINKEDIN_POSTS.visitor
-  const linkedinFullText = `${linkedinPost}\n\n👤 ${registration.first_name} ${registration.last_name}\n\n${sharePageUrl}`
-  // linkedin.com/feed/?shareActive=true&text= → pré-remplit le texte ET attache l'URL comme aperçu OG
-  const linkedinUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(linkedinFullText)}`
+  const linkedinShortText = `${linkedinPost.split('\n')[0]} — ${registration.first_name} ${registration.last_name} #ForumBOOST`
+  // shareArticle → LinkedIn génère la carte OG avec l'image (comme GITEX)
+  const linkedinUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(sharePageUrl)}&title=${encodeURIComponent(`${registration.first_name} ${registration.last_name} — Forum BOOST Entrepreneurship 2026`)}&summary=${encodeURIComponent(linkedinShortText)}&source=forum-djibouti`
 
-  const twitterText = `🚀 Je participe au Forum BOOST Entrepreneurship 2026 !\n📅 23 Mars 2026 • Djibouti-Ville\n#ForumBOOST #StartupDjibouti`
+  const twitterText = `🚀 Je participe au Forum BOOST Entrepreneurship 2026 !\n📅 29 Mars – 1er Avril 2026 • Djibouti-Ville\n#ForumBOOST #StartupDjibouti`
   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(twitterText)}&url=${encodeURIComponent(sharePageUrl)}`
   const whatsappText = `Je participe au Forum BOOST Entrepreneurship 2026 ! 🎉\n${sharePageUrl}`
   const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(whatsappText)}`
@@ -306,7 +302,7 @@ export async function sendConfirmationEmail(registration: Registration) {
 // ──────────────────────────────────────────────────────────────
 export async function sendBadgeEmail(registration: Registration, pdfBuffer: Buffer, _qrDataUrl?: string) {
   const typeLabel = PARTICIPANT_TYPE_LABELS[registration.participant_type] || registration.participant_type
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://forum-djibouti.onrender.com'
   const checkinUrl = `${appUrl}/checkin?id=${registration.id}`
 
   // Générer le PDF du programme

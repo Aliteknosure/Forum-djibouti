@@ -6,7 +6,7 @@ import { Calendar, MapPin, ArrowRight } from 'lucide-react'
 
 const MDENI_LOGO = "/logos/logo-cle.jpg"
 const HERO_IMAGE = "/logos/logo-bg-cle.jpg"
-const EVENT_DATE = new Date('2026-03-23T09:00:00')
+const EVENT_DATE = new Date('2026-03-29T09:00:00')
 
 function CountdownTimer() {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
@@ -73,9 +73,27 @@ export default function HeroSection() {
   const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } } }
   const fadeUp = { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7 } } }
 
+  // Animations titre mot par mot
+  const titleContainer = {
+    hidden: {},
+    visible: { transition: { staggerChildren: 0.18, delayChildren: 0.35 } }
+  }
+  const wordForum = {
+    hidden: { opacity: 0, x: -40, skewX: -8 },
+    visible: { opacity: 1, x: 0, skewX: 0, transition: { duration: 0.6, ease: 'easeOut' as const } }
+  }
+  const wordBoost = {
+    hidden: { opacity: 0, scale: 0.6, y: 20 },
+    visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' as const } }
+  }
+  const wordEntrepreneurship = {
+    hidden: { opacity: 0, x: 40, skewX: 8 },
+    visible: { opacity: 1, x: 0, skewX: 0, transition: { duration: 0.6, ease: 'easeOut' as const } }
+  }
+
   return (
     <section id="accueil" className="relative min-h-screen flex items-end overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-djibouti-dark via-cle-green to-djibouti-dark">
+      <div className="absolute inset-0 bg-gradient-to-br from-djibouti-dark via-djibouti-navy to-djibouti-dark">
         <div className="absolute inset-0 opacity-40" style={{ backgroundImage: `url(${HERO_IMAGE})`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
         <div className="absolute inset-0 bg-gradient-to-t from-djibouti-dark via-djibouti-dark/40 to-djibouti-dark/60" />
       </div>
@@ -89,7 +107,7 @@ export default function HeroSection() {
           <motion.div variants={fadeUp} className="hero-info-pill inline-flex items-center gap-3 px-4 py-2 rounded-full mb-8">
             <div className="flex items-center gap-1.5">
               <Calendar className="text-djibouti-gold" size={13} />
-              <span className="uppercase tracking-[0.12em] font-medium text-white/90 text-xs">23 Mars 2026</span>
+              <span className="uppercase tracking-[0.12em] font-medium text-white/90 text-xs">29 Mars – 1 Avril 2026</span>
             </div>
             <span className="w-px h-3 bg-white/15" />
             <div className="flex items-center gap-1.5">
@@ -97,12 +115,46 @@ export default function HeroSection() {
               <span className="uppercase tracking-[0.12em] font-medium text-white/90 text-xs">Djibouti-Ville</span>
             </div>
           </motion.div>
-          <motion.h1 variants={fadeUp} className="font-heading font-bold mb-5 text-left leading-[1.05]"
-            style={{ fontSize: 'clamp(2.2rem, 6vw, 4.5rem)' }}>
-            <span className="gradient-text">Forum BOOST</span>
-            <br />
-            <span className="text-white">Entrepreneurship</span>
+
+          {/* ── Titre animé mot par mot ── */}
+          <motion.h1
+            variants={titleContainer}
+            initial="hidden"
+            animate="visible"
+            className="font-heading font-bold mb-5 text-left leading-[1.05] overflow-hidden"
+            style={{ fontSize: 'clamp(2.2rem, 6vw, 4.5rem)' }}
+          >
+            {/* Ligne 1 : "Forum" + "BOOST" */}
+            <span className="flex items-baseline gap-[0.25em] flex-wrap">
+              <motion.span
+                variants={wordForum}
+                className="inline-block text-white"
+              >
+                Forum
+              </motion.span>
+              <motion.span
+                variants={wordBoost}
+                className="inline-block gradient-text relative"
+              >
+                BOOST
+                {/* Soulignement animé */}
+                <motion.span
+                  className="absolute -bottom-1 left-0 h-[3px] rounded-full bg-djibouti-gold"
+                  initial={{ width: 0 }}
+                  animate={{ width: '100%' }}
+                  transition={{ delay: 1, duration: 0.5, ease: 'easeOut' }}
+                />
+              </motion.span>
+            </span>
+            {/* Ligne 2 : "Entrepreneurship" */}
+            <motion.span
+              variants={wordEntrepreneurship}
+              className="inline-block text-white/90 tracking-wide"
+            >
+              Entrepreneurship
+            </motion.span>
           </motion.h1>
+
           <motion.p variants={fadeUp} className="text-base md:text-lg text-white/60 max-w-xl mb-4 leading-relaxed">
             Programme EDQ – Build by CLE : l&apos;acte de naissance officiel de l&apos;entrepreneuriat de quartier
           </motion.p>

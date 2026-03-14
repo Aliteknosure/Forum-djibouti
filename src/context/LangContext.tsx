@@ -21,12 +21,12 @@ export const translations = {
     },
     // Hero
     hero: {
-      badge:    'Forum BOOST Entrepreneurship · 23 mars 2026',
+      badge:    'Forum BOOST Entrepreneurship · 29 mars – 1 avril 2026',
       title:    "Forum BOOST\nEntrepreneurship",
-      subtitle: "Transformer l'entrepreneuriat de quartier en moteur de croissance nationale. 120 MSMEs leaders réunies pour un jour de connexions, de financement et d'opportunités.",
+      subtitle: "Transformer l'entrepreneuriat de quartier en moteur de croissance nationale. 120 MSMEs leaders réunies pour 4 jours de connexions, de financement et d'opportunités.",
       cta:      "S'inscrire maintenant",
       ctaSub:   'Voir le programme',
-      date:     '23 mars 2026',
+      date:     '29 mars – 1 avril 2026',
       location: 'Djibouti-Ville',
       seats:    'Inscription gratuite',
     },
@@ -50,7 +50,7 @@ export const translations = {
     program: {
       tag:      'Agenda',
       title:    'Programme du Forum BOOST Entrepreneurship',
-      subtitle: '23 mars 2026 — De la cérémonie d\'ouverture à la signature des conventions bancaires.',
+      subtitle: '29 mars – 1 avril 2026 — De la cérémonie d\'ouverture à la clôture.',
     },
     // Speakers
     speakers: {
@@ -73,7 +73,7 @@ export const translations = {
     // Register
     register: {
       title:    "Inscription au Forum",
-      subtitle: "Réservez votre place gratuite pour le 23 mars 2026.",
+      subtitle: "Réservez votre place gratuite pour le 29 mars – 1 avril 2026.",
       firstName: 'Prénom',
       lastName:  'Nom',
       email:     'Adresse email',
@@ -113,12 +113,12 @@ export const translations = {
     },
     // Hero
     hero: {
-      badge:    'Forum BOOST Entrepreneurship · March 23, 2026',
+      badge:    'Forum BOOST Entrepreneurship · March 29 – April 1, 2026',
       title:    'Forum BOOST\nEntrepreneurship',
-      subtitle: 'Transforming neighborhood entrepreneurship into a national growth engine. 120 leading MSMEs gathered for a day of connections, financing and opportunities.',
+      subtitle: 'Transforming neighborhood entrepreneurship into a national growth engine. 120 leading MSMEs gathered for 4 days of connections, financing and opportunities.',
       cta:      'Register now',
       ctaSub:   'View the program',
-      date:     'March 23, 2026',
+      date:     'March 29 – April 1, 2026',
       location: 'Djibouti City',
       seats:    'Free registration',
     },

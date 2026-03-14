@@ -12,16 +12,17 @@ const navItems = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex" style={{ backgroundColor: '#f1f5f9' }}>
-      {/* Sidebar */}
+
+      {/* ── Sidebar desktop (md+) ── */}
       <aside
-        className="w-56 flex flex-col fixed inset-y-0 left-0 z-30"
+        className="hidden md:flex w-56 flex-col fixed inset-y-0 left-0 z-30"
         style={{ backgroundColor: '#0a1932', borderRight: '1px solid rgba(255,255,255,0.06)' }}
       >
         {/* Logo */}
         <div className="px-5 py-6" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <div className="flex items-center gap-3">
             <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm"
+              className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm shrink-0"
               style={{ background: 'linear-gradient(135deg, #d4af37, #b8960c)', color: '#060f1f' }}
             >
               F
@@ -73,10 +74,34 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
       </aside>
 
-      {/* Main content */}
-      <main className="flex-1 ml-56 min-h-screen">
+      {/* ── Main content ── */}
+      <main className="flex-1 md:ml-56 min-h-screen pb-20 md:pb-0">
         {children}
       </main>
+
+      {/* ── Bottom nav mobile (< md) ── */}
+      <nav
+        className="md:hidden fixed bottom-0 left-0 right-0 z-40 flex items-center justify-around px-2 py-2"
+        style={{ backgroundColor: '#0a1932', borderTop: '1px solid rgba(255,255,255,0.1)' }}
+      >
+        {navItems.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-lg text-white/60 hover:text-white transition-colors"
+          >
+            <item.icon size={20} />
+            <span className="text-[10px] font-medium">{item.label}</span>
+          </Link>
+        ))}
+        <Link
+          href="/"
+          className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-lg text-white/60 hover:text-white transition-colors"
+        >
+          <Globe size={20} />
+          <span className="text-[10px] font-medium">Site</span>
+        </Link>
+      </nav>
     </div>
   )
 }
