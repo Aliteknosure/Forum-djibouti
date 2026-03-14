@@ -137,7 +137,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Space Grotesk', sans-serif; }
    depuis la branche charte-originale ou charte-cle dans main.
    ================================================================ */
 :root {
-  /* Valeurs par défaut — surchargées par chaque branche de charte */
+  /* ── Charte Originale Djibouti (navy / green / gold) ── */
   --forum-navy:         #1A3C6E;
   --forum-green:        #009A44;
   --forum-gold:         #F5A623;
