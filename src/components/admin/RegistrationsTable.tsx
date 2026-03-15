@@ -43,6 +43,8 @@ const typeColors: Record<string, string> = {
   ecosystem_leader: 'bg-red-100 text-red-700',
   partner: 'bg-cyan-100 text-cyan-700',
   visitor: 'bg-gray-100 text-gray-700',
+  masterclasse: 'bg-violet-100 text-violet-700',
+  panel: 'bg-orange-100 text-orange-700',
 }
 
 export default function RegistrationsTable({ initialData, totalCount }: Props) {
@@ -200,6 +202,8 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
             <SelectItem value="ecosystem_leader">� Ecosystem Leader</SelectItem>
             <SelectItem value="partner">🤝 Partenaire</SelectItem>
             <SelectItem value="visitor">👥 Visiteur</SelectItem>
+            <SelectItem value="masterclasse">📚 Masterclasse</SelectItem>
+            <SelectItem value="panel">🗣️ Panel</SelectItem>
           </SelectContent>
         </Select>
         </div>
@@ -235,9 +239,9 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
         <Table>
           <TableHeader>
             <TableRow style={{ backgroundColor: '#f8fafc' }}>
-              <TableHead className="font-semibold text-xs" style={{ color: '#0a1932' }}>Participant</TableHead>
-              <TableHead className="font-semibold text-xs" style={{ color: '#0a1932' }}>Contact</TableHead>
-              <TableHead className="font-semibold text-xs" style={{ color: '#0a1932' }}>Type</TableHead>
+                  <TableHead className="font-semibold text-xs" style={{ color: '#0a1932' }}>Participant</TableHead>
+                  <TableHead className="font-semibold text-xs" style={{ color: '#0a1932' }}>Contact</TableHead>
+                  <TableHead className="font-semibold text-xs" style={{ color: '#0a1932' }}>Type / Session</TableHead>
               <TableHead className="font-semibold text-xs" style={{ color: '#0a1932' }}>Pays</TableHead>
               <TableHead className="font-semibold text-xs" style={{ color: '#0a1932' }}>Statut</TableHead>
               <TableHead className="font-semibold text-xs" style={{ color: '#0a1932' }}>Badge</TableHead>
@@ -262,13 +266,26 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
               data.map((reg) => (
                 <TableRow key={reg.id} className="hover:bg-gray-50/50 transition-colors">
                   <TableCell>
-                    <div>
-                      <p className="font-medium text-sm" style={{ color: '#0a1932' }}>
-                        {reg.first_name} {reg.last_name}
-                      </p>
-                      {reg.organization && (
-                        <p className="text-xs text-gray-400">{reg.organization}</p>
+                    <div className="flex items-center gap-2">
+                      {reg.photo_url ? (
+                        <img
+                          src={reg.photo_url}
+                          alt=""
+                          className="w-8 h-8 rounded-full object-cover shrink-0 border border-gray-200"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center shrink-0 text-xs text-gray-400 font-bold border border-gray-200">
+                          {reg.first_name?.[0]}{reg.last_name?.[0]}
+                        </div>
                       )}
+                      <div>
+                        <p className="font-medium text-sm" style={{ color: '#0a1932' }}>
+                          {reg.first_name} {reg.last_name}
+                        </p>
+                        {reg.organization && (
+                          <p className="text-xs text-gray-400">{reg.organization}</p>
+                        )}
+                      </div>
                     </div>
                   </TableCell>
                   <TableCell className="text-sm text-gray-500">{reg.email}</TableCell>
@@ -278,6 +295,9 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
                     >
                       {PARTICIPANT_TYPE_LABELS[reg.participant_type] || reg.participant_type}
                     </span>
+                    {reg.session_choice && (
+                      <p className="text-xs text-gray-400 mt-1">{reg.session_choice.toUpperCase()}</p>
+                    )}
                   </TableCell>
                   <TableCell className="text-sm text-gray-500">{reg.country}</TableCell>
                   <TableCell>
@@ -355,14 +375,27 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
             >
               {/* Header card */}
               <div className="flex items-start justify-between gap-2 mb-3">
-                <div>
-                  <p className="font-semibold text-sm" style={{ color: '#0a1932' }}>
-                    {reg.first_name} {reg.last_name}
-                  </p>
-                  {reg.organization && (
-                    <p className="text-xs text-gray-400">{reg.organization}</p>
+                <div className="flex items-center gap-2">
+                  {reg.photo_url ? (
+                    <img
+                      src={reg.photo_url}
+                      alt=""
+                      className="w-10 h-10 rounded-full object-cover shrink-0 border border-gray-200"
+                    />
+                  ) : (
+                    <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center shrink-0 text-sm text-gray-400 font-bold border border-gray-200">
+                      {reg.first_name?.[0]}{reg.last_name?.[0]}
+                    </div>
                   )}
-                  <p className="text-xs text-gray-400 mt-0.5">{reg.email}</p>
+                  <div>
+                    <p className="font-semibold text-sm" style={{ color: '#0a1932' }}>
+                      {reg.first_name} {reg.last_name}
+                    </p>
+                    {reg.organization && (
+                      <p className="text-xs text-gray-400">{reg.organization}</p>
+                    )}
+                    <p className="text-xs text-gray-400 mt-0.5">{reg.email}</p>
+                  </div>
                 </div>
                 <div className="flex flex-col items-end gap-1 shrink-0">
                   <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusColors[reg.status] || ''}`}>
@@ -371,6 +404,9 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
                   <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${typeColors[reg.participant_type] || ''}`}>
                     {PARTICIPANT_TYPE_LABELS[reg.participant_type] || reg.participant_type}
                   </span>
+                  {reg.session_choice && (
+                    <span className="text-xs text-gray-400">{reg.session_choice.toUpperCase()}</span>
+                  )}
                 </div>
               </div>
               {/* Méta */}

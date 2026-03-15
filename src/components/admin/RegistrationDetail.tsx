@@ -7,7 +7,7 @@ import { useToast } from '@/hooks/use-toast'
 import {
   CheckCircle, XCircle, Send, ArrowLeft, Mail, Phone,
   Building2, Briefcase, MapPin, Calendar, QrCode, Loader2,
-  Newspaper, Mic2, Store, Trash2
+  Newspaper, Mic2, Store, Trash2, BookOpen, PanelTop
 } from 'lucide-react'
 import { Registration, PARTICIPANT_TYPE_LABELS, PARTICIPANT_TYPE_COLORS, PARTICIPANT_TYPE_ICONS, STATUS_LABELS } from '@/types/registration'
 import Link from 'next/link'
@@ -106,12 +106,20 @@ export default function RegistrationDetail({ registration: initial }: { registra
       >
         <div className="flex items-start justify-between flex-wrap gap-4">
           <div className="flex items-center gap-4">
-            <div
-              className="w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-lg text-white"
-              style={{ background: `linear-gradient(135deg, ${typeColor}, ${typeColor}88)` }}
-            >
-              {typeIcon}
-            </div>
+            {reg.photo_url ? (
+              <img
+                src={reg.photo_url}
+                alt={`${reg.first_name} ${reg.last_name}`}
+                className="w-16 h-16 rounded-2xl object-cover border-2 border-white/20"
+              />
+            ) : (
+              <div
+                className="w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-lg text-white"
+                style={{ background: `linear-gradient(135deg, ${typeColor}, ${typeColor}88)` }}
+              >
+                {typeIcon}
+              </div>
+            )}
             <div>
               <h1 className="text-xl font-bold text-white">
                 {reg.first_name} {reg.last_name}
@@ -277,6 +285,42 @@ export default function RegistrationDetail({ registration: initial }: { registra
               </div>
             )}
           </div>
+        </div>
+      )}
+
+      {/* Champs Masterclasse */}
+      {reg.participant_type === 'masterclasse' && (
+        <div className="bg-white rounded-xl p-5 mb-6" style={{ border: '1px solid #ddd6fe' }}>
+          <div className="flex items-center gap-2 mb-4">
+            <BookOpen size={15} style={{ color: '#7c3aed' }} />
+            <p className="text-sm font-semibold" style={{ color: '#0a1932' }}>Session Masterclasse</p>
+          </div>
+          {reg.session_choice ? (
+            <div className="bg-violet-50 rounded-lg p-3">
+              <p className="text-xs text-gray-400">Session choisie</p>
+              <p className="text-sm font-medium text-violet-700 mt-0.5">{reg.session_choice.toUpperCase()}</p>
+            </div>
+          ) : (
+            <p className="text-sm text-gray-400">Aucune session sélectionnée</p>
+          )}
+        </div>
+      )}
+
+      {/* Champs Panel */}
+      {reg.participant_type === 'panel' && (
+        <div className="bg-white rounded-xl p-5 mb-6" style={{ border: '1px solid #fed7aa' }}>
+          <div className="flex items-center gap-2 mb-4">
+            <PanelTop size={15} style={{ color: '#ea580c' }} />
+            <p className="text-sm font-semibold" style={{ color: '#0a1932' }}>Session Panel</p>
+          </div>
+          {reg.session_choice ? (
+            <div className="bg-orange-50 rounded-lg p-3">
+              <p className="text-xs text-gray-400">Panel choisi</p>
+              <p className="text-sm font-medium text-orange-700 mt-0.5">{reg.session_choice.toUpperCase()}</p>
+            </div>
+          ) : (
+            <p className="text-sm text-gray-400">Aucun panel sélectionné</p>
+          )}
         </div>
       )}
 
