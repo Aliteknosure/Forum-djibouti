@@ -78,9 +78,9 @@ export async function GET(req: NextRequest) {
             </div>
             {/* Badge rôle */}
             <div style={{
-              display: 'flex', alignItems: 'center', gap: '8px', width: 'fit-content',
+              display: 'flex', alignItems: 'center', gap: '8px',
               background: `${cfg.color}20`, border: `2px solid ${cfg.color}`,
-              borderRadius: '10px', padding: '8px 18px',
+              borderRadius: '10px', padding: '8px 18px', alignSelf: 'flex-start',
             }}>
               <span style={{ color: cfg.color, fontWeight: 800, fontSize: '16px', letterSpacing: '1px' }}>
                 {cfg.label.toUpperCase()}
