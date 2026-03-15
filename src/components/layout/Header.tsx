@@ -23,14 +23,13 @@ const SIMPLE_EXTRA = [
   { label: 'Panel',        href: '#panel' },
 ]
 
-// Seul MSME Village a un sous-menu
+// Seul Startup & MSMEs City a un sous-menu
 const MSME_SUBMENU = [
-  { label: 'Stands & Exposants',  href: '#msme-stands',     desc: 'Découvrez les entreprises exposantes' },
-  { label: 'Pitch Competition',   href: '#msme-pitch',      desc: 'Pitchez votre projet devant les investisseurs' },
-  { label: 'Speed Networking',    href: '#msme-networking', desc: 'Rencontres B2B en format accéléré' },
-  { label: 'Mentorat & Coaching', href: '#msme-mentorat',   desc: 'Sessions individuelles avec des mentors' },
-  { label: 'Financement & Accès', href: '#msme-finance',    desc: 'Opportunités de financement disponibles' },
-  { label: 'Innovation Lab',      href: '#msme-lab',        desc: 'Démonstrations tech et solutions innovantes' },
+  { label: 'Idea District',        href: '#startup-city', desc: 'Startups innovantes et projets tech en démonstration' },
+  { label: 'Entrepreneurs Street', href: '#startup-city', desc: 'PME/TPE locales : produits, services et savoir-faire' },
+  { label: 'Support Hub',          href: '#startup-city', desc: 'Accompagnement et institutions d\'appui aux entrepreneurs' },
+  { label: 'Investment Square',    href: '#startup-city', desc: 'Rencontres structurées entrepreneurs-investisseurs' },
+  { label: 'Boost Stage',          href: '#startup-city', desc: 'Pitchs, success stories et mini panels thématiques' },
 ]
 
 export default function Header() {
@@ -104,13 +103,13 @@ export default function Header() {
               </a>
             ))}
 
-            {/* MSME Village — dropdown */}
+            {/* Startup & MSMEs City — dropdown */}
             <div className="relative">
               <button
                 onClick={() => setOpenDropdown(openDropdown === 'msme' ? null : 'msme')}
                 className={`flex items-center gap-1 text-sm font-semibold transition-colors hover:text-djibouti-green whitespace-nowrap ${scrolled ? 'text-djibouti-navy' : 'text-white'}`}
               >
-                <span>MSME Village</span>
+                <span>Startup &amp; MSMEs City</span>
                 <ChevronDown size={14} className={`transition-transform duration-200 ${openDropdown === 'msme' ? 'rotate-180' : ''}`} />
               </button>
 
@@ -124,8 +123,8 @@ export default function Header() {
                     className="absolute top-full mt-3 right-0 w-[520px] bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
                   >
                     <div className="px-5 py-4 bg-gradient-to-r from-djibouti-navy to-djibouti-dark">
-                      <p className="text-djibouti-gold text-xs font-bold tracking-widest uppercase">MSME Village</p>
-                      <p className="text-white/60 text-xs mt-1">Espace dédié aux PME & startups</p>
+                      <p className="text-djibouti-gold text-xs font-bold tracking-widest uppercase">Startup &amp; MSMEs City</p>
+                      <p className="text-white/60 text-xs mt-1">L&apos;espace vivant du Forum BOOST</p>
                     </div>
                     <div className="grid grid-cols-2 gap-1 p-3">
                       {MSME_SUBMENU.map((sub) => (
@@ -196,13 +195,13 @@ export default function Header() {
               </a>
             ))}
 
-            {/* MSME Village — accordion */}
+            {/* Startup & MSMEs City — accordion */}
             <div className="w-full">
               <button
                 onClick={() => setMobileExpanded(mobileExpanded === 'msme' ? null : 'msme')}
                 className="flex items-center justify-between w-full text-white text-xl font-heading font-medium hover:text-djibouti-gold transition-colors py-1"
               >
-                <span>MSME Village</span>
+                <span>Startup &amp; MSMEs City</span>
                 <ChevronDown size={18} className={`transition-transform duration-200 ${mobileExpanded === 'msme' ? 'rotate-180' : ''}`} />
               </button>
               <AnimatePresence>
