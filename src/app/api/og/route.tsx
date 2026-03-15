@@ -61,11 +61,11 @@ export async function GET(req: NextRequest) {
         }}>
 
           {/* Header */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <div style={{ fontSize: '12px', fontWeight: 800, letterSpacing: '4px', color: '#F5A623', textTransform: 'uppercase' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <div style={{ fontSize: '22px', fontWeight: 900, letterSpacing: '3px', color: '#F5A623', textTransform: 'uppercase' }}>
               FORUM BOOST ENTREPRENEURSHIP
             </div>
-            <div style={{ fontSize: '18px', fontWeight: 700, color: 'rgba(255,255,255,0.45)' }}>
+            <div style={{ fontSize: '28px', fontWeight: 800, color: 'rgba(255,255,255,0.75)' }}>
               29 Mars – 1er Avril 2026 · Djibouti
             </div>
           </div>
@@ -88,8 +88,8 @@ export async function GET(req: NextRequest) {
             </div>
             {/* Nom */}
             <div style={{
-              fontSize: name.length > 22 ? '48px' : '62px',
-              fontWeight: 900, color: '#ffffff', lineHeight: 1.05, letterSpacing: '-1px',
+              fontSize: name.length > 22 ? '36px' : '42px',
+              fontWeight: 900, color: '#ffffff', lineHeight: 1.05, letterSpacing: '-0.5px',
             }}>
               {name}
             </div>
@@ -127,21 +127,21 @@ export async function GET(req: NextRequest) {
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
               src={photo}
-              width={160}
-              height={160}
+              width={200}
+              height={200}
               style={{
                 borderRadius: '50%',
-                border: `4px solid ${cfg.color}`,
+                border: `5px solid ${cfg.color}`,
                 objectFit: 'cover',
                 display: 'flex',
               }}
             />
           ) : (
             <div style={{
-              width: '140px', height: '140px', borderRadius: '50%',
+              width: '185px', height: '185px', borderRadius: '50%',
               background: `${cfg.color}15`, border: `3px solid ${cfg.color}50`,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '52px',
+              fontSize: '64px',
             }}>
               👤
             </div>
