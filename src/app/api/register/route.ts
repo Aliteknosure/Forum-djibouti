@@ -63,6 +63,8 @@ export async function POST(req: NextRequest) {
         media_type: data.media_type || null,
         // Photo de profil
         photo_url: data.photo_url || null,
+        // Session Masterclasse ou Panel
+        session_choice: data.session_choice || null,
         status: 'pending',
         badge_sent: false,
         checked_in: false,

@@ -12,6 +12,8 @@ const TYPE_CONFIG: Record<string, { label: string; color: string; tagline: strin
   ecosystem_leader: { label: 'Ecosystem Leader',  color: '#06B6D4', tagline: "Je bâtis l'écosystème !" },
   partner:          { label: 'Partenaire',        color: '#EC4899', tagline: "Nous soutenons le Forum !" },
   press:            { label: 'Presse',            color: '#84CC16', tagline: "Je couvre l'événement !" },
+  masterclasse:     { label: 'Masterclasse',       color: '#7C3AED', tagline: "Je me forme avec les experts !" },
+  panel:            { label: 'Panel',              color: '#EA580C', tagline: "Je participe au débat !" },
   // legacy
   exposant_msme:    { label: 'Exposant MSME',     color: '#F97316', tagline: "Venez voir notre stand !" },
   paneliste:        { label: 'Panéliste',         color: '#8B5CF6', tagline: "Je prends la parole !" },

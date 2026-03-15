@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { registrationSchema, RegistrationSchemaType } from '@/lib/validations'
 import { useToast } from '@/hooks/use-toast'
-import { Loader2, ArrowRight, AlertCircle, Check, Mic, TrendingUp, Rocket, Store, Globe, Handshake, Users } from 'lucide-react'
+import { Loader2, ArrowRight, AlertCircle, Check, Mic, TrendingUp, Rocket, Store, Globe, Handshake, Users, BookOpen, PanelTop } from 'lucide-react'
 import PhotoUpload from '@/components/forms/PhotoUpload'
 
 const PARTICIPANT_TYPES = [
@@ -67,6 +67,22 @@ const PARTICIPANT_TYPES = [
     color: 'border-gray-400 bg-gray-50 text-gray-700',
     activeColor: 'border-gray-500 bg-gray-500 text-white',
   },
+  {
+    value: 'masterclasse',
+    label: 'Masterclasse',
+    icon: <BookOpen size={20} />,
+    desc: 'Formation intensive avec experts — places limitées',
+    color: 'border-violet-400 bg-violet-50 text-violet-700',
+    activeColor: 'border-violet-500 bg-violet-500 text-white',
+  },
+  {
+    value: 'panel',
+    label: 'Panel',
+    icon: <PanelTop size={20} />,
+    desc: 'Tables rondes & débats thématiques',
+    color: 'border-orange-400 bg-orange-50 text-orange-700',
+    activeColor: 'border-orange-500 bg-orange-500 text-white',
+  },
 ]
 
 const COUNTRIES = [
@@ -85,6 +101,21 @@ const SECTORS = [
 
 const REGIONS_DJ = [
   'Djibouti-Ville', 'Balbala', 'Ali Sabieh', 'Arta', 'Dikhil', 'Obock', 'Tadjourah',
+]
+
+const MASTERCLASSE_SESSIONS = [
+  { value: 'mc1', label: 'Masterclasse 1 — Financement & Levée de fonds', date: '29 Mars · 09h00 – 12h00', seats: 30 },
+  { value: 'mc2', label: 'Masterclasse 2 — Marketing Digital & Personal Branding', date: '30 Mars · 14h00 – 17h00', seats: 30 },
+  { value: 'mc3', label: 'Masterclasse 3 — Transformation Digitale des PME', date: '31 Mars · 09h00 – 12h00', seats: 30 },
+  { value: 'mc4', label: 'Masterclasse 4 — Export & Marchés Régionaux', date: '1 Avril · 09h00 – 12h00', seats: 30 },
+]
+
+const PANEL_SESSIONS = [
+  { value: 'p1', label: 'Panel 1 — Entrepreneuriat & Innovation en Afrique de l\'Est', date: '29 Mars · 14h00 – 16h00' },
+  { value: 'p2', label: 'Panel 2 — Financement des PME & Accès au Capital', date: '30 Mars · 10h00 – 12h00' },
+  { value: 'p3', label: 'Panel 3 — Femmes Entrepreneures & Leadership', date: '30 Mars · 14h00 – 16h00' },
+  { value: 'p4', label: 'Panel 4 — Numérique & Économie de Demain', date: '31 Mars · 14h00 – 16h00' },
+  { value: 'p5', label: 'Panel 5 — Investissement & Développement Durable', date: '1 Avril · 10h00 – 12h00' },
 ]
 
 function FieldError({ message }: { message?: string }) {
@@ -124,6 +155,7 @@ export default function RegistrationForm() {
   const sector = watch('sector')
   const regionOrigin = watch('region_origin')
   const standNeeds = watch('stand_needs') ?? []
+  const sessionChoice = watch('session_choice')
 
   const toggleStandNeed = (need: string) => {
     const current = (watch('stand_needs') ?? []) as string[]
@@ -538,6 +570,104 @@ export default function RegistrationForm() {
                           />
                         </div>
                       </div>
+                    </motion.div>
+                  )}
+
+                  {/* ── CHAMPS MASTERCLASSE ── */}
+                  {participantType === 'masterclasse' && (
+                    <motion.div
+                      key="masterclasse-fields"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="space-y-4 pt-2"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="flex-1 h-px bg-violet-100" />
+                        <span className="text-xs text-violet-600 font-semibold">Choisissez votre Masterclasse</span>
+                        <div className="flex-1 h-px bg-violet-100" />
+                      </div>
+                      <p className="text-xs text-gray-500 -mt-2">Places limitées à 30 par session. Inscription gratuite.</p>
+                      <div className="space-y-2">
+                        {MASTERCLASSE_SESSIONS.map((s) => (
+                          <label
+                            key={s.value}
+                            className={`flex items-start gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
+                              sessionChoice === s.value
+                                ? 'border-violet-500 bg-violet-50'
+                                : 'border-gray-200 hover:border-violet-200'
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              name="session_choice"
+                              value={s.value}
+                              checked={sessionChoice === s.value}
+                              onChange={() => setValue('session_choice', s.value)}
+                              className="mt-1 accent-violet-500"
+                            />
+                            <div>
+                              <p className={`text-sm font-semibold ${sessionChoice === s.value ? 'text-violet-700' : 'text-djibouti-navy'}`}>
+                                {s.label}
+                              </p>
+                              <p className="text-xs text-gray-400 mt-0.5">{s.date} · {s.seats} places</p>
+                            </div>
+                          </label>
+                        ))}
+                      </div>
+                      {!sessionChoice && (
+                        <p className="text-xs text-amber-600 flex items-center gap-1">
+                          <AlertCircle size={12} /> Veuillez choisir une session
+                        </p>
+                      )}
+                    </motion.div>
+                  )}
+
+                  {/* ── CHAMPS PANEL ── */}
+                  {participantType === 'panel' && (
+                    <motion.div
+                      key="panel-fields"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="space-y-4 pt-2"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="flex-1 h-px bg-orange-100" />
+                        <span className="text-xs text-orange-600 font-semibold">Choisissez votre Panel</span>
+                        <div className="flex-1 h-px bg-orange-100" />
+                      </div>
+                      <p className="text-xs text-gray-500 -mt-2">Siège réservé. Inscription gratuite.</p>
+                      <div className="space-y-2">
+                        {PANEL_SESSIONS.map((s) => (
+                          <label
+                            key={s.value}
+                            className={`flex items-start gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
+                              sessionChoice === s.value
+                                ? 'border-orange-500 bg-orange-50'
+                                : 'border-gray-200 hover:border-orange-200'
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              name="session_choice"
+                              value={s.value}
+                              checked={sessionChoice === s.value}
+                              onChange={() => setValue('session_choice', s.value)}
+                              className="mt-1 accent-orange-500"
+                            />
+                            <div>
+                              <p className={`text-sm font-semibold ${sessionChoice === s.value ? 'text-orange-700' : 'text-djibouti-navy'}`}>
+                                {s.label}
+                              </p>
+                              <p className="text-xs text-gray-400 mt-0.5">{s.date}</p>
+                            </div>
+                          </label>
+                        ))}
+                      </div>
+                      {!sessionChoice && (
+                        <p className="text-xs text-amber-600 flex items-center gap-1">
+                          <AlertCircle size={12} /> Veuillez choisir un panel
+                        </p>
+                      )}
                     </motion.div>
                   )}
 
