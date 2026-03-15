@@ -19,18 +19,18 @@ const NAV_ITEMS = [
 
 // Liens simples (pas de dropdown)
 const SIMPLE_EXTRA = [
-  { label: 'Masterclasse', href: '#masterclasse', icon: '🎓' },
-  { label: 'Panel',        href: '#panel',        icon: '🎤' },
+  { label: 'Masterclasse', href: '#masterclasse' },
+  { label: 'Panel',        href: '#panel' },
 ]
 
 // Seul MSME Village a un sous-menu
 const MSME_SUBMENU = [
-  { label: 'Stands & Exposants',  href: '#msme-stands',     icon: '🏪', desc: 'Découvrez les entreprises exposantes' },
-  { label: 'Pitch Competition',   href: '#msme-pitch',      icon: '🚀', desc: 'Pitchez votre projet devant les investisseurs' },
-  { label: 'Speed Networking',    href: '#msme-networking', icon: '🤝', desc: 'Rencontres B2B en format accéléré' },
-  { label: 'Mentorat & Coaching', href: '#msme-mentorat',   icon: '💡', desc: 'Sessions individuelles avec des mentors' },
-  { label: 'Financement & Accès', href: '#msme-finance',    icon: '💰', desc: 'Opportunités de financement disponibles' },
-  { label: 'Innovation Lab',      href: '#msme-lab',        icon: '🔬', desc: 'Démonstrations tech et solutions innovantes' },
+  { label: 'Stands & Exposants',  href: '#msme-stands',     desc: 'Découvrez les entreprises exposantes' },
+  { label: 'Pitch Competition',   href: '#msme-pitch',      desc: 'Pitchez votre projet devant les investisseurs' },
+  { label: 'Speed Networking',    href: '#msme-networking', desc: 'Rencontres B2B en format accéléré' },
+  { label: 'Mentorat & Coaching', href: '#msme-mentorat',   desc: 'Sessions individuelles avec des mentors' },
+  { label: 'Financement & Accès', href: '#msme-finance',    desc: 'Opportunités de financement disponibles' },
+  { label: 'Innovation Lab',      href: '#msme-lab',        desc: 'Démonstrations tech et solutions innovantes' },
 ]
 
 export default function Header() {
@@ -77,18 +77,18 @@ export default function Header() {
       />
 
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'glass shadow-lg py-3' : 'bg-transparent py-5'}`}>
-        <div className="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between gap-4">
 
-          {/* Logo */}
-          <a href="#accueil" onClick={(e) => scrollToSection(e, '#accueil')} className="flex items-center gap-3">
+          {/* Logo — gauche */}
+          <a href="#accueil" onClick={(e) => scrollToSection(e, '#accueil')} className="flex items-center shrink-0">
             <img src={MDENI_LOGO} alt="MDENI Logo" className="h-12 w-auto" />
           </a>
 
-          {/* Nav desktop — visible uniquement sur très grands écrans */}
-          <div className="hidden xl:flex items-center gap-5" ref={dropdownRef}>
+          {/* Nav desktop — centre */}
+          <div className="hidden xl:flex flex-1 items-center justify-center gap-6" ref={dropdownRef}>
             {NAV_ITEMS.map((item) => (
               <a key={item.href} href={item.href} onClick={(e) => scrollToSection(e, item.href)}
-                className={`text-xs font-medium transition-colors hover:text-djibouti-green whitespace-nowrap ${scrolled ? 'text-djibouti-navy' : 'text-white'}`}>
+                className={`text-sm font-medium transition-colors hover:text-djibouti-green whitespace-nowrap ${scrolled ? 'text-djibouti-navy' : 'text-white'}`}>
                 {item.label}
               </a>
             ))}
@@ -96,12 +96,11 @@ export default function Header() {
             {/* Séparateur */}
             <div className={`h-5 w-px shrink-0 ${scrolled ? 'bg-gray-300' : 'bg-white/20'}`} />
 
-            {/* Masterclasse — lien simple */}
+            {/* Masterclasse + Panel — liens simples */}
             {SIMPLE_EXTRA.map((item) => (
               <a key={item.href} href={item.href} onClick={(e) => scrollToSection(e, item.href)}
-                className={`flex items-center gap-1 text-xs font-semibold transition-colors hover:text-djibouti-green whitespace-nowrap ${scrolled ? 'text-djibouti-navy' : 'text-white'}`}>
-                <span>{item.icon}</span>
-                <span>{item.label}</span>
+                className={`text-sm font-semibold transition-colors hover:text-djibouti-green whitespace-nowrap ${scrolled ? 'text-djibouti-navy' : 'text-white'}`}>
+                {item.label}
               </a>
             ))}
 
@@ -109,11 +108,10 @@ export default function Header() {
             <div className="relative">
               <button
                 onClick={() => setOpenDropdown(openDropdown === 'msme' ? null : 'msme')}
-                className={`flex items-center gap-1 text-xs font-semibold transition-colors hover:text-djibouti-green whitespace-nowrap ${scrolled ? 'text-djibouti-navy' : 'text-white'}`}
+                className={`flex items-center gap-1 text-sm font-semibold transition-colors hover:text-djibouti-green whitespace-nowrap ${scrolled ? 'text-djibouti-navy' : 'text-white'}`}
               >
-                <span>🏘️</span>
                 <span>MSME Village</span>
-                <ChevronDown size={13} className={`transition-transform duration-200 ${openDropdown === 'msme' ? 'rotate-180' : ''}`} />
+                <ChevronDown size={14} className={`transition-transform duration-200 ${openDropdown === 'msme' ? 'rotate-180' : ''}`} />
               </button>
 
               <AnimatePresence>
@@ -126,7 +124,7 @@ export default function Header() {
                     className="absolute top-full mt-3 right-0 w-[520px] bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
                   >
                     <div className="px-5 py-4 bg-gradient-to-r from-djibouti-navy to-djibouti-dark">
-                      <p className="text-djibouti-gold text-xs font-bold tracking-widest uppercase">🏘️ MSME Village</p>
+                      <p className="text-djibouti-gold text-xs font-bold tracking-widest uppercase">MSME Village</p>
                       <p className="text-white/60 text-xs mt-1">Espace dédié aux PME & startups</p>
                     </div>
                     <div className="grid grid-cols-2 gap-1 p-3">
@@ -137,7 +135,6 @@ export default function Header() {
                           onClick={(e) => scrollToSection(e, sub.href)}
                           className="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors group"
                         >
-                          <span className="text-xl mt-0.5">{sub.icon}</span>
                           <div>
                             <p className="text-sm font-semibold text-djibouti-navy group-hover:text-djibouti-green transition-colors">{sub.label}</p>
                             <p className="text-xs text-gray-400 mt-0.5 leading-snug">{sub.desc}</p>
@@ -151,8 +148,8 @@ export default function Header() {
             </div>
           </div>
 
-          {/* CTA + burger */}
-          <div className="flex items-center gap-4">
+          {/* CTA + burger — droite */}
+          <div className="flex items-center gap-4 shrink-0">
             <a href="#inscription" onClick={(e) => scrollToSection(e, '#inscription')}
               className="hidden md:flex btn-primary text-sm py-2.5 px-6">
               S&apos;inscrire
@@ -195,7 +192,7 @@ export default function Header() {
             {SIMPLE_EXTRA.map((item) => (
               <a key={item.href} href={item.href} onClick={(e) => scrollToSection(e, item.href)}
                 className="text-white text-xl font-heading font-medium hover:text-djibouti-gold transition-colors">
-                {item.icon} {item.label}
+                {item.label}
               </a>
             ))}
 
@@ -205,7 +202,7 @@ export default function Header() {
                 onClick={() => setMobileExpanded(mobileExpanded === 'msme' ? null : 'msme')}
                 className="flex items-center justify-between w-full text-white text-xl font-heading font-medium hover:text-djibouti-gold transition-colors py-1"
               >
-                <span>🏘️ MSME Village</span>
+                <span>MSME Village</span>
                 <ChevronDown size={18} className={`transition-transform duration-200 ${mobileExpanded === 'msme' ? 'rotate-180' : ''}`} />
               </button>
               <AnimatePresence>
@@ -223,7 +220,6 @@ export default function Header() {
                         onClick={(e) => scrollToSection(e, sub.href)}
                         className="flex items-center gap-2 py-2 text-white/70 hover:text-djibouti-gold text-base transition-colors"
                       >
-                        <span>{sub.icon}</span>
                         <span>{sub.label}</span>
                       </a>
                     ))}
