@@ -3,6 +3,7 @@ import MinisterSection from '@/components/sections/MinisterSection'
 import AboutSection from '@/components/sections/AboutSection'
 import ThematiquesSection from '@/components/sections/ThematiquesSection'
 import ProgramSection from '@/components/sections/ProgramSection'
+import PanelSection from '@/components/sections/PanelSection'
 import OrateursSection from '@/components/sections/OrateurSection'
 import SponsorsSection from '@/components/sections/SponsorsSection'
 import FAQSection from '@/components/sections/FAQSection'
@@ -23,6 +24,7 @@ export default function HomePage() {
       <SponsorsSection />
       <ThematiquesSection />
       <ProgramSection />
+      <PanelSection />
       <OrateursSection />
       <section id="inscription" className="py-14 md:py-12 bg-gradient-to-br from-djibouti-navy to-djibouti-dark">
         <div className="max-w-3xl mx-auto px-4 md:px-6">
