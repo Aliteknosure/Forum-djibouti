@@ -2,7 +2,12 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Lightbulb, Store, Users, TrendingUp, Mic, ArrowRight, MapPin, Clock, X, ChevronRight } from 'lucide-react'
+import {
+  Lightbulb, Store, Users, TrendingUp, Mic,
+  ArrowRight, MapPin, Clock, X, ChevronRight,
+  Trophy, Flame, Handshake, Globe,
+  CheckCircle2,
+} from 'lucide-react'
 
 const QUARTIERS = [
   {
@@ -98,11 +103,11 @@ const QUARTIERS = [
 ]
 
 const PARCOURS = [
-  { num: '1', label: 'Découvrir une idée innovante' },
-  { num: '2', label: 'Comprendre comment créer une entreprise' },
-  { num: '3', label: 'Rencontrer des entrepreneurs' },
-  { num: '4', label: 'Explorer les opportunités de financement' },
-  { num: '5', label: 'S\'inspirer des success stories' },
+  { num: '1', label: 'Découvrir une idée innovante',            icon: Lightbulb },
+  { num: '2', label: 'Comprendre comment créer une entreprise', icon: Store },
+  { num: '3', label: 'Rencontrer des entrepreneurs',            icon: Users },
+  { num: '4', label: 'Explorer les opportunités de financement',icon: TrendingUp },
+  { num: '5', label: 'S\'inspirer des success stories',         icon: Trophy },
 ]
 
 const STATS = [
@@ -117,12 +122,32 @@ export default function StartupCitySection() {
   const activeQ = QUARTIERS.find((q) => q.id === selected) ?? null
 
   return (
-    <section id="startup-city" className="py-24 md:py-32 bg-djibouti-dark relative overflow-hidden">
-      {/* Déco fond */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
-        style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
-      <div className="absolute top-0 left-0 w-[700px] h-[700px] bg-djibouti-gold/8 rounded-full blur-[160px] pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-djibouti-green/8 rounded-full blur-[140px] pointer-events-none" />
+    <section
+      id="startup-city"
+      className="py-24 md:py-32 relative overflow-hidden"
+      style={{ background: 'linear-gradient(160deg, #071514 0%, #0d2321 40%, #071a19 70%, #050f0e 100%)' }}
+    >
+      {/* ── Orbes lumineux ── */}
+      <div className="absolute top-[-80px] left-[-120px] w-[560px] h-[560px] rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(14,112,107,0.22) 0%, transparent 70%)' }} />
+      <div className="absolute bottom-0 right-[-60px] w-[480px] h-[480px] rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(40,188,183,0.14) 0%, transparent 70%)' }} />
+      <div className="absolute top-[35%] left-[55%] w-[320px] h-[320px] rounded-full pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(14,112,107,0.10) 0%, transparent 70%)' }} />
+
+      {/* ── Grille dot très subtile ── */}
+      <div
+        className="absolute inset-0 opacity-[0.025] pointer-events-none"
+        style={{ backgroundImage: 'radial-gradient(circle, #28BCB7 1px, transparent 1px)', backgroundSize: '28px 28px' }}
+      />
+
+      {/* ── Ligne déco diagonale ── */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.04]"
+        style={{
+          backgroundImage: 'repeating-linear-gradient(135deg, #28BCB7 0px, #28BCB7 1px, transparent 1px, transparent 60px)',
+        }}
+      />
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
 
@@ -153,10 +178,10 @@ export default function StartupCitySection() {
 
           {/* Conviction fondatrice */}
           <div className="inline-flex items-start gap-3 rounded-2xl px-5 py-3 text-left max-w-xl mx-auto"
-            style={{ background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.2)' }}>
-            <Lightbulb size={16} className="text-djibouti-gold shrink-0 mt-0.5" />
-            <p className="text-djibouti-gold/80 text-xs leading-relaxed">
-              <span className="font-bold">Conviction fondatrice :</span>{' '}
+            style={{ background: 'rgba(40,188,183,0.10)', border: '1px solid rgba(40,188,183,0.28)' }}>
+            <Lightbulb size={16} className="text-djibouti-gold shrink-0 mt-0.5" style={{ color: '#28BCB7' }} />
+            <p className="text-white/85 text-xs leading-relaxed">
+              <span className="font-bold" style={{ color: '#28BCB7' }}>Conviction fondatrice :</span>{' '}
               Le succès entrepreneurial repose sur l&apos;accompagnement structuré avant l&apos;accès au financement.
               Le CLE constitue le cœur de cette ville.
             </p>
@@ -174,9 +199,18 @@ export default function StartupCitySection() {
           {STATS.map((stat) => {
             const Icon = stat.icon
             return (
-              <div key={stat.label} className="rounded-2xl p-5 text-center"
-                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                <Icon size={18} className="text-djibouti-gold mx-auto mb-2 opacity-60" />
+              <div
+                key={stat.label}
+                className="rounded-2xl p-5 text-center"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(14,112,107,0.18) 0%, rgba(40,188,183,0.06) 100%)',
+                  border: '1px solid rgba(40,188,183,0.18)',
+                }}
+              >
+                <div className="w-8 h-8 rounded-xl flex items-center justify-center mx-auto mb-3"
+                  style={{ background: 'rgba(40,188,183,0.15)' }}>
+                  <Icon size={16} className="text-djibouti-gold" />
+                </div>
                 <p className="text-2xl md:text-3xl font-heading font-bold text-white mb-1">{stat.value}</p>
                 <p className="text-white/40 text-xs">{stat.label}</p>
               </div>
@@ -190,28 +224,50 @@ export default function StartupCitySection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="rounded-2xl p-6 md:p-8 mb-16"
-          style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}
+          style={{
+            background: 'linear-gradient(135deg, rgba(14,112,107,0.12) 0%, rgba(40,188,183,0.05) 100%)',
+            border: '1px solid rgba(40,188,183,0.18)',
+          }}
         >
-          <p className="text-white/40 text-xs font-semibold uppercase tracking-widest mb-6 text-center">
+          <p className="text-djibouti-gold text-xs font-semibold uppercase tracking-widest mb-8 text-center">
             Parcours visiteur — L&apos;aventure entrepreneuriale de bout en bout
           </p>
-          <div className="flex flex-wrap justify-center items-center gap-2 md:gap-0">
-            {PARCOURS.map((step, i) => (
-              <div key={step.num} className="flex items-center gap-2">
-                <div className="flex flex-col items-center text-center" style={{ minWidth: '110px' }}>
+          <div className="relative flex flex-col md:flex-row justify-center items-start md:items-start gap-6 md:gap-0">
+            {/* Ligne de connexion desktop */}
+            <div
+              className="hidden md:block absolute top-5 left-[10%] right-[10%] h-px pointer-events-none"
+              style={{ background: 'linear-gradient(90deg, transparent, rgba(40,188,183,0.3), rgba(40,188,183,0.3), rgba(40,188,183,0.3), transparent)' }}
+            />
+            {PARCOURS.map((step, i) => {
+              const Icon = step.icon
+              return (
+                <div key={step.num} className="flex md:flex-col items-center md:items-center gap-4 md:gap-0 md:flex-1 md:px-2 relative">
+                  {/* Bulle icône */}
                   <div
-                    className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white mb-2"
-                    style={{ background: 'linear-gradient(135deg, #d4af37, #009A44)' }}
+                    className="relative shrink-0 w-10 h-10 md:w-11 md:h-11 rounded-full flex items-center justify-center z-10 mb-0 md:mb-3"
+                    style={{
+                      background: 'linear-gradient(135deg, #0E706B, #28BCB7)',
+                      boxShadow: '0 0 0 3px rgba(40,188,183,0.15), 0 4px 12px rgba(14,112,107,0.35)',
+                    }}
                   >
-                    {step.num}
+                    <Icon size={16} className="text-white" />
+                    <span
+                      className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-black text-white"
+                      style={{ background: '#0a1f1e', border: '1px solid rgba(40,188,183,0.4)' }}
+                    >
+                      {step.num}
+                    </span>
                   </div>
-                  <p className="text-white/60 text-xs leading-snug">{step.label}</p>
+                  <p className="text-white/65 text-xs leading-snug md:text-center" style={{ maxWidth: '90px' }}>
+                    {step.label}
+                  </p>
+                  {/* Flèche mobile */}
+                  {i < PARCOURS.length - 1 && (
+                    <ChevronRight size={14} className="text-white/20 shrink-0 md:hidden ml-auto" />
+                  )}
                 </div>
-                {i < PARCOURS.length - 1 && (
-                  <ChevronRight size={16} className="text-white/20 shrink-0 mb-4 hidden md:block" />
-                )}
-              </div>
-            ))}
+              )
+            })}
           </div>
         </motion.div>
 
@@ -230,9 +286,10 @@ export default function StartupCitySection() {
                 className="group relative text-left rounded-2xl p-5 overflow-hidden transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] focus:outline-none"
                 style={{
                   background: selected === q.id
-                    ? `linear-gradient(145deg, ${q.color}25, ${q.color}10)`
-                    : 'rgba(255,255,255,0.04)',
-                  border: `1px solid ${selected === q.id ? q.color + '50' : 'rgba(255,255,255,0.07)'}`,
+                    ? `linear-gradient(145deg, ${q.color}22, rgba(7,21,20,0.95))`
+                    : 'linear-gradient(145deg, rgba(14,112,107,0.10), rgba(7,21,20,0.85))',
+                  border: `1px solid ${selected === q.id ? q.color + '55' : 'rgba(40,188,183,0.14)'}`,
+                  boxShadow: selected === q.id ? `0 0 24px -4px ${q.color}30` : 'none',
                   minHeight: '220px',
                 }}
               >
@@ -291,8 +348,9 @@ export default function StartupCitySection() {
               transition={{ duration: 0.3 }}
               className="rounded-2xl p-6 md:p-8 mb-10"
               style={{
-                background: `linear-gradient(135deg, ${activeQ.color}15, ${activeQ.color}05)`,
-                border: `1px solid ${activeQ.color}30`,
+                background: `linear-gradient(135deg, ${activeQ.color}18 0%, rgba(7,21,20,0.95) 60%)`,
+                border: `1px solid ${activeQ.color}35`,
+                boxShadow: `0 0 40px -8px ${activeQ.color}25`,
               }}
             >
               <div className="flex items-start justify-between gap-4 mb-5">
@@ -331,8 +389,7 @@ export default function StartupCitySection() {
                   <ul className="space-y-2">
                     {activeQ.details.map((d, i) => (
                       <li key={i} className="flex items-start gap-2.5 text-sm text-white/70">
-                        <span className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5"
-                          style={{ background: activeQ.color }} />
+                        <CheckCircle2 size={14} className="shrink-0 mt-0.5" style={{ color: activeQ.color }} />
                         {d}
                       </li>
                     ))}
@@ -380,18 +437,32 @@ export default function StartupCitySection() {
           className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-14"
         >
           {[
-            { icon: '🏆', titre: 'Valoriser les talents', desc: 'Donner de la visibilité aux startups et PME locales' },
-            { icon: '🔥', titre: 'Renforcer la culture', desc: 'Ancrer l\'esprit entrepreneurial dans la jeunesse' },
-            { icon: '🤝', titre: 'Générer des opportunités', desc: 'Faciliter des partenariats et des investissements concrets' },
-            { icon: '🌍', titre: 'Attirer des partenaires', desc: 'Projeter une image positive de l\'écosystème djiboutien' },
-          ].map((item) => (
-            <div key={item.titre} className="rounded-2xl p-4 text-center"
-              style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
-              <div className="text-2xl mb-2">{item.icon}</div>
-              <p className="text-white font-semibold text-sm mb-1">{item.titre}</p>
-              <p className="text-white/40 text-xs leading-snug">{item.desc}</p>
-            </div>
-          ))}
+            { icon: Trophy,    color: '#F5A623', titre: 'Valoriser les talents',       desc: 'Donner de la visibilité aux startups et PME locales' },
+            { icon: Flame,     color: '#EC4899', titre: 'Renforcer la culture',        desc: 'Ancrer l\'esprit entrepreneurial dans la jeunesse' },
+            { icon: Handshake, color: '#0E706B', titre: 'Générer des opportunités',    desc: 'Faciliter des partenariats et des investissements concrets' },
+            { icon: Globe,     color: '#28BCB7', titre: 'Attirer des partenaires',     desc: 'Projeter une image positive de l\'écosystème djiboutien' },
+          ].map((item) => {
+            const Icon = item.icon
+            return (
+              <div
+                key={item.titre}
+                className="rounded-2xl p-5 text-center group"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(14,112,107,0.12) 0%, rgba(7,21,20,0.8) 100%)',
+                  border: '1px solid rgba(40,188,183,0.14)',
+                }}
+              >
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-3"
+                  style={{ background: `${item.color}20` }}
+                >
+                  <Icon size={20} style={{ color: item.color }} />
+                </div>
+                <p className="text-white font-semibold text-sm mb-1">{item.titre}</p>
+                <p className="text-white/40 text-xs leading-snug">{item.desc}</p>
+              </div>
+            )
+          })}
         </motion.div>
 
         {/* ── CTA Global ── */}

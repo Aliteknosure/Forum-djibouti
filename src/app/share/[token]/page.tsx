@@ -75,12 +75,15 @@ export default async function SharePage({ params }: Props) {
       <div className="w-full max-w-2xl">
 
         {/* Preview card — aperçu de l'image OG */}
-        <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl mb-4 sm:mb-8">
+        <div
+          className="rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl mb-4 sm:mb-8"
+          style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={ogImageUrl}
             alt={`Badge de ${name}`}
-            className="w-full"
+            className="w-full rounded-xl sm:rounded-2xl"
             style={{ display: 'block' }}
           />
         </div>
