@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown, Users, Calendar, Clock, ArrowRight, Target, BookOpen } from 'lucide-react'
+import { Users, Calendar, Clock, ArrowRight, Target, BookOpen, X, ChevronRight } from 'lucide-react'
 
 const PANELS = [
   {
@@ -234,225 +234,127 @@ const PANELS = [
 ]
 
 export default function PanelSection() {
-  const [openPanel, setOpenPanel] = useState<string | null>(null)
+  const [selected, setSelected] = useState<string | null>(null)
+  const activePanel = PANELS.find((p) => p.id === selected) ?? null
 
   return (
-    <section id="panel" className="py-24 md:py-32 bg-white relative overflow-hidden">
-      {/* Déco background */}
-      <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-djibouti-green/5 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-djibouti-gold/5 rounded-full blur-[120px] pointer-events-none" />
+    <section id="panel" className="py-24 md:py-32 bg-djibouti-navy relative overflow-hidden">
+      {/* Déco bg */}
+      <div className="absolute top-0 left-0 w-[700px] h-[700px] bg-djibouti-green/10 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-djibouti-gold/8 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
 
-      <div className="max-w-6xl mx-auto px-4 md:px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
 
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-14"
+          className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-3 mb-4">
-            <span className="w-8 h-px bg-djibouti-green" />
-            <span className="text-djibouti-green text-xs md:text-sm font-semibold uppercase tracking-[0.2em]">
+          <div className="inline-flex items-center gap-3 mb-5">
+            <span className="w-10 h-px bg-djibouti-green" />
+            <span className="text-djibouti-green text-xs md:text-sm font-semibold uppercase tracking-[0.25em]">
               Panels Thématiques
             </span>
-            <span className="w-8 h-px bg-djibouti-green" />
+            <span className="w-10 h-px bg-djibouti-green" />
           </div>
-          <h2 className="text-3xl md:text-5xl font-heading font-bold text-djibouti-navy mb-4">
-            Débats & Tables{' '}
+          <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mb-4">
+            Débats &{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-djibouti-green to-djibouti-gold">
-              Rondes
+              Tables Rondes
             </span>
           </h2>
-          <p className="text-gray-500 text-base max-w-2xl mx-auto">
+          <p className="text-white/50 text-base max-w-2xl mx-auto">
             7 panels thématiques sur 4 jours — experts, entrepreneurs et décideurs débattent des grands enjeux
             du numérique et de l'entrepreneuriat à Djibouti.
           </p>
         </motion.div>
 
-        {/* Panels en accordion */}
-        <div className="space-y-4">
-          {PANELS.map((panel, index) => {
-            const isOpen = openPanel === panel.id
-            return (
-              <motion.div
-                key={panel.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className={`rounded-2xl border-2 overflow-hidden transition-all duration-300 ${
-                  isOpen ? panel.borderColor : 'border-gray-100'
-                }`}
+        {/* Grille de cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {PANELS.map((panel, index) => (
+            <motion.button
+              key={panel.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.07 }}
+              onClick={() => setSelected(panel.id)}
+              className="group relative text-left rounded-2xl overflow-hidden cursor-pointer focus:outline-none"
+              style={{ minHeight: '280px' }}
+            >
+              {/* Fond coloré avec dégradé */}
+              <div
+                className="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
+                style={{
+                  background: `linear-gradient(145deg, ${panel.color}22 0%, ${panel.color}08 100%)`,
+                  border: `1px solid ${panel.color}30`,
+                  borderRadius: '16px',
+                }}
+              />
+              {/* Barre de couleur haut */}
+              <div className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl" style={{ background: panel.color }} />
+
+              {/* Numéro géant en watermark */}
+              <div
+                className="absolute -bottom-4 -right-2 text-[80px] font-black leading-none select-none transition-transform duration-500 group-hover:scale-110 group-hover:-translate-y-1"
+                style={{ color: `${panel.color}18` }}
               >
-                {/* Trigger */}
-                <button
-                  onClick={() => setOpenPanel(isOpen ? null : panel.id)}
-                  className={`w-full flex items-center gap-4 p-5 md:p-6 text-left transition-colors ${
-                    isOpen ? panel.bgLight : 'bg-white hover:bg-gray-50/80'
-                  }`}
-                >
-                  {/* Numéro */}
-                  <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 text-white font-bold text-xs"
-                    style={{ background: `linear-gradient(135deg, ${panel.color}, ${panel.color}99)` }}
+                {panel.numero.replace('Panel ', 'P')}
+              </div>
+
+              <div className="relative z-10 p-5 flex flex-col h-full" style={{ minHeight: '280px' }}>
+                {/* Header card */}
+                <div className="flex items-start justify-between gap-2 mb-4">
+                  <span
+                    className="text-xs font-bold px-3 py-1 rounded-full"
+                    style={{ background: `${panel.color}20`, color: panel.color }}
                   >
-                    {panel.id.toUpperCase()}
+                    {panel.numero}
+                  </span>
+                  <span className="text-xs text-white/40 flex items-center gap-1 shrink-0">
+                    <Calendar size={10} /> {panel.jour}
+                  </span>
+                </div>
+
+                {/* Titre */}
+                <h3 className="text-white font-bold text-sm md:text-base leading-snug mb-2 flex-1">
+                  {panel.titre}
+                </h3>
+
+                {/* Sous-titre */}
+                <p className="text-white/40 text-xs leading-relaxed mb-4 line-clamp-2">
+                  {panel.soustitre}
+                </p>
+
+                {/* Footer card */}
+                <div className="mt-auto space-y-2">
+                  <div className="flex items-center gap-1.5 text-white/50 text-xs">
+                    <Clock size={11} style={{ color: panel.color }} />
+                    <span>{panel.date} · {panel.horaire}</span>
                   </div>
-
-                  {/* Contenu */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex flex-wrap items-center gap-2 mb-1">
-                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${panel.bgLight} ${panel.textColor}`}>
-                        {panel.numero}
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-1">
+                    {panel.tags.slice(0, 2).map((tag) => (
+                      <span key={tag} className="text-xs px-2 py-0.5 rounded-full" style={{ background: `${panel.color}18`, color: panel.color }}>
+                        {tag}
                       </span>
-                      <span className="text-xs text-gray-400 flex items-center gap-1">
-                        <Calendar size={11} /> {panel.date}
-                      </span>
-                      <span className="text-xs text-gray-400 flex items-center gap-1">
-                        <Clock size={11} /> {panel.horaire}
-                      </span>
-                    </div>
-                    <p className="font-semibold text-djibouti-navy text-sm md:text-base leading-snug">
-                      {panel.titre}
-                    </p>
+                    ))}
                   </div>
-
-                  {/* Chevron */}
-                  <ChevronDown
-                    size={20}
-                    className={`shrink-0 text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
-                  />
-                </button>
-
-                {/* Détails */}
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25 }}
-                      className="overflow-hidden"
-                    >
-                      <div className={`px-5 md:px-6 pb-6 pt-3 ${panel.bgLight}`}>
-
-                        {/* Sous-titre */}
-                        <p className="text-xs italic text-gray-400 mb-3">{panel.soustitre}</p>
-
-                        {/* Description */}
-                        <p className="text-gray-600 text-sm leading-relaxed mb-5">
-                          {panel.description}
-                        </p>
-
-                        {/* Contexte / enjeux */}
-                        <div className="rounded-xl border border-white/70 bg-white/60 px-4 py-3 mb-5">
-                          <p className="text-xs font-semibold uppercase tracking-wider mb-1.5 flex items-center gap-1.5" style={{ color: panel.color }}>
-                            <Target size={11} /> Enjeux stratégiques
-                          </p>
-                          <p className="text-xs text-gray-500 leading-relaxed">{panel.contexte}</p>
-                        </div>
-
-                        <div className="grid md:grid-cols-3 gap-4 mb-5">
-                          {/* Thématiques */}
-                          <div className="md:col-span-2">
-                            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                              <BookOpen size={12} /> Thématiques abordées
-                            </p>
-                            <div className="space-y-1.5">
-                              {panel.themes.map((t, i) => (
-                                <div key={i} className="flex items-start gap-2">
-                                  <div className={`w-1.5 h-1.5 rounded-full shrink-0 mt-1.5 ${panel.dotColor}`} />
-                                  <span className="text-xs text-gray-600 leading-relaxed">{t}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-
-                          {/* Colonne droite : intervenants + infos */}
-                          <div className="space-y-4">
-                            {/* Intervenants */}
-                            <div>
-                              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                                <Users size={12} /> Intervenants
-                              </p>
-                              <div className="space-y-1.5">
-                                {panel.intervenants.map((p, i) => (
-                                  <div key={i} className="flex items-start gap-1.5">
-                                    <div className={`w-1.5 h-1.5 rounded-full shrink-0 mt-1.5 ${panel.dotColor}`} />
-                                    <div>
-                                      <span className="text-xs text-gray-400">{p.role} : </span>
-                                      <span className="text-xs font-medium text-djibouti-navy">{p.nom}</span>
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-
-                            {/* Infos pratiques */}
-                            <div>
-                              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
-                                Infos pratiques
-                              </p>
-                              <div className="space-y-1.5">
-                                <div className="flex items-center gap-1.5 text-xs text-gray-600">
-                                  <Calendar size={12} style={{ color: panel.color }} />
-                                  <span>{panel.date} — {panel.jour}</span>
-                                </div>
-                                <div className="flex items-center gap-1.5 text-xs text-gray-600">
-                                  <Clock size={12} style={{ color: panel.color }} />
-                                  <span>{panel.horaire} · {panel.duree}</span>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Publics cibles */}
-                            <div>
-                              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
-                                Publics cibles
-                              </p>
-                              <div className="flex flex-wrap gap-1">
-                                {panel.publics.map((pub) => (
-                                  <span key={pub} className={`text-xs px-2 py-0.5 rounded-full font-medium ${panel.bgLight} ${panel.textColor} border border-current/20`}>
-                                    {pub}
-                                  </span>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Tags */}
-                        <div className="flex flex-wrap gap-1.5 mb-4">
-                          {panel.tags.map((tag) => (
-                            <span key={tag} className={`text-xs px-2 py-0.5 rounded-full font-semibold ${panel.bgLight} ${panel.textColor}`}>
-                              #{tag}
-                            </span>
-                          ))}
-                        </div>
-
-                        {/* CTA */}
-                        <div className="pt-4 border-t border-white/60">
-                          <a
-                            href="#inscription"
-                            onClick={(e) => {
-                              e.preventDefault()
-                              document.querySelector('#inscription')?.scrollIntoView({ behavior: 'smooth' })
-                            }}
-                            className="inline-flex items-center gap-2 text-sm font-semibold transition-colors hover:underline"
-                            style={{ color: panel.color }}
-                          >
-                            Réserver ma place pour ce panel
-                            <ArrowRight size={15} />
-                          </a>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            )
-          })}
+                  {/* CTA hint */}
+                  <div
+                    className="flex items-center gap-1 text-xs font-semibold mt-1 opacity-0 translate-x-[-6px] group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
+                    style={{ color: panel.color }}
+                  >
+                    Voir le détail <ChevronRight size={13} />
+                  </div>
+                </div>
+              </div>
+            </motion.button>
+          ))}
         </div>
 
         {/* CTA global */}
@@ -460,9 +362,9 @@ export default function PanelSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mt-12"
+          className="text-center mt-14"
         >
-          <p className="text-gray-400 text-sm mb-4">Siège réservé · Inscription gratuite · Places limitées</p>
+          <p className="text-white/30 text-sm mb-4">Siège réservé · Inscription gratuite · Places limitées</p>
           <a
             href="#inscription"
             onClick={(e) => {
@@ -476,6 +378,193 @@ export default function PanelSection() {
           </a>
         </motion.div>
       </div>
+
+      {/* ── Modal détail ── */}
+      <AnimatePresence>
+        {activePanel && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              key="backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelected(null)}
+              className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
+            />
+
+            {/* Panel modal */}
+            <motion.div
+              key="modal"
+              initial={{ opacity: 0, scale: 0.95, y: 40 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              className="fixed inset-4 md:inset-[5%] lg:inset-x-[15%] lg:inset-y-[5%] z-50 overflow-hidden rounded-3xl flex flex-col"
+              style={{ background: '#0d1b2e', border: `1px solid ${activePanel.color}30` }}
+            >
+              {/* Barre couleur */}
+              <div className="h-1.5 w-full shrink-0" style={{ background: `linear-gradient(90deg, ${activePanel.color}, ${activePanel.color}66)` }} />
+
+              {/* Scroll container */}
+              <div className="overflow-y-auto flex-1 p-6 md:p-8">
+
+                {/* Header modal */}
+                <div className="flex items-start justify-between gap-4 mb-6">
+                  <div className="flex-1">
+                    <div className="flex flex-wrap items-center gap-2 mb-3">
+                      <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ background: `${activePanel.color}25`, color: activePanel.color }}>
+                        {activePanel.numero}
+                      </span>
+                      <span className="text-xs text-white/40 flex items-center gap-1.5">
+                        <Calendar size={11} /> {activePanel.date} — {activePanel.jour}
+                      </span>
+                      <span className="text-xs text-white/40 flex items-center gap-1.5">
+                        <Clock size={11} /> {activePanel.horaire}
+                      </span>
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-heading font-bold text-white leading-tight mb-1">
+                      {activePanel.titre}
+                    </h3>
+                    <p className="text-sm italic" style={{ color: `${activePanel.color}bb` }}>
+                      {activePanel.soustitre}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setSelected(null)}
+                    className="shrink-0 w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/60 hover:text-white transition-colors"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+
+                {/* Description */}
+                <p className="text-white/70 text-sm leading-relaxed mb-6">
+                  {activePanel.description}
+                </p>
+
+                {/* Enjeux stratégiques */}
+                <div className="rounded-2xl p-4 mb-6" style={{ background: `${activePanel.color}12`, border: `1px solid ${activePanel.color}25` }}>
+                  <p className="text-xs font-semibold uppercase tracking-widest mb-2 flex items-center gap-2" style={{ color: activePanel.color }}>
+                    <Target size={12} /> Enjeux stratégiques
+                  </p>
+                  <p className="text-white/60 text-sm leading-relaxed">{activePanel.contexte}</p>
+                </div>
+
+                {/* Grille 2 colonnes */}
+                <div className="grid md:grid-cols-5 gap-6 mb-6">
+
+                  {/* Thématiques — large */}
+                  <div className="md:col-span-3">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-4 flex items-center gap-2">
+                      <BookOpen size={12} /> Thématiques abordées
+                    </p>
+                    <div className="space-y-3">
+                      {activePanel.themes.map((t, i) => (
+                        <div key={i} className="flex items-start gap-3">
+                          <div
+                            className="w-5 h-5 rounded-lg shrink-0 flex items-center justify-center text-xs font-bold text-white mt-0.5"
+                            style={{ background: `${activePanel.color}30`, color: activePanel.color }}
+                          >
+                            {i + 1}
+                          </div>
+                          <span className="text-white/70 text-sm leading-relaxed">{t}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Colonne droite */}
+                  <div className="md:col-span-2 space-y-5">
+
+                    {/* Intervenants */}
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-3 flex items-center gap-2">
+                        <Users size={12} /> Intervenants
+                      </p>
+                      <div className="space-y-2">
+                        {activePanel.intervenants.map((p, i) => (
+                          <div key={i} className="flex items-center gap-3 rounded-xl px-3 py-2" style={{ background: `${activePanel.color}10` }}>
+                            <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: activePanel.color }} />
+                            <div className="min-w-0">
+                              <span className="text-xs" style={{ color: `${activePanel.color}99` }}>{p.role} · </span>
+                              <span className="text-xs font-semibold text-white">{p.nom}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Format */}
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-3">
+                        Format
+                      </p>
+                      <div className="rounded-xl px-3 py-2.5" style={{ background: `${activePanel.color}10` }}>
+                        <p className="text-xs text-white/70">{activePanel.duree}</p>
+                      </div>
+                    </div>
+
+                    {/* Publics cibles */}
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-widest text-white/40 mb-3">
+                        Publics cibles
+                      </p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {activePanel.publics.map((pub) => (
+                          <span
+                            key={pub}
+                            className="text-xs px-2.5 py-1 rounded-full"
+                            style={{ background: `${activePanel.color}15`, color: `${activePanel.color}cc` }}
+                          >
+                            {pub}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-1.5">
+                      {activePanel.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-xs px-2 py-0.5 rounded-full font-semibold"
+                          style={{ background: `${activePanel.color}20`, color: activePanel.color }}
+                        >
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* CTA */}
+                <div className="flex items-center justify-between pt-5 border-t" style={{ borderColor: `${activePanel.color}20` }}>
+                  <button
+                    onClick={() => setSelected(null)}
+                    className="text-sm text-white/40 hover:text-white/70 transition-colors"
+                  >
+                    ← Retour aux panels
+                  </button>
+                  <a
+                    href="#inscription"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setSelected(null)
+                      setTimeout(() => document.querySelector('#inscription')?.scrollIntoView({ behavior: 'smooth' }), 150)
+                    }}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white transition-all hover:scale-105 active:scale-95"
+                    style={{ background: `linear-gradient(135deg, ${activePanel.color}, ${activePanel.color}cc)` }}
+                  >
+                    Réserver ma place
+                    <ArrowRight size={15} />
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </section>
   )
 }
