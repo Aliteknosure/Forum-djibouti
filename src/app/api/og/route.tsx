@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
           width: '1200px',
           height: '630px',
           display: 'flex',
-          background: 'linear-gradient(135deg, #030d1a 0%, #0D1B2A 50%, #0a1932 100%)',
+          background: 'linear-gradient(135deg, #041f1e 0%, #0a3330 50%, #0E706B30 100%)',
           position: 'relative',
           overflow: 'hidden',
           fontFamily: 'sans-serif',
@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
         {/* Bande colorée gauche */}
         <div style={{
           width: '8px', display: 'flex',
-          background: `linear-gradient(180deg, ${cfg.color}, #F5A623)`,
+          background: `linear-gradient(180deg, #0E706B, #28BCB7)`,
         }} />
 
         {/* Cercle décoratif haut-droite */}
