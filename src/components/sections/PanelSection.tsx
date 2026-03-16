@@ -238,9 +238,11 @@ export default function PanelSection() {
   const activePanel = PANELS.find((p) => p.id === selected) ?? null
 
   return (
-    <section id="panel" className="py-24 md:py-32 bg-djibouti-navy relative overflow-hidden">
+    <section id="panel" className="py-24 md:py-32 bg-gradient-to-b from-[#071a12] to-[#0a2118] relative overflow-hidden">
+      {/* Bordure top décorative — sépare visuellement du Programme */}
+      <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-djibouti-green to-transparent" />
       {/* Déco bg */}
-      <div className="absolute top-0 left-0 w-[700px] h-[700px] bg-djibouti-green/10 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute top-0 left-0 w-[700px] h-[700px] bg-djibouti-green/15 rounded-full blur-[160px] pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-djibouti-gold/8 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
         style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
@@ -255,15 +257,15 @@ export default function PanelSection() {
           className="text-center mb-16"
         >
           <div className="inline-flex items-center gap-3 mb-5">
-            <span className="w-10 h-px bg-djibouti-green" />
-            <span className="text-djibouti-green text-xs md:text-sm font-semibold uppercase tracking-[0.25em]">
+            <span className="w-10 h-px bg-djibouti-gold" />
+            <span className="text-djibouti-gold text-xs md:text-sm font-bold uppercase tracking-[0.25em] bg-djibouti-gold/15 px-4 py-1.5 rounded-full border border-djibouti-gold/40">
               Panels Thématiques
             </span>
-            <span className="w-10 h-px bg-djibouti-green" />
+            <span className="w-10 h-px bg-djibouti-gold" />
           </div>
           <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mb-4">
             Débats &{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-djibouti-green to-djibouti-gold">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-djibouti-green to-white">
               Tables Rondes
             </span>
           </h2>

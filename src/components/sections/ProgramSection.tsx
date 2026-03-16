@@ -218,7 +218,9 @@ export default function ProgramSection() {
   const [activeDay, setActiveDay] = useState(0)
 
   return (
-    <section id="programme" className="py-24 md:py-32 bg-djibouti-navy relative overflow-hidden">
+    <section id="programme" className="py-24 md:py-32 bg-gradient-to-b from-[#0a1628] to-[#0d1f3c] relative overflow-hidden">
+      {/* Bordure top décorative */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-djibouti-gold/60 to-transparent" />
       <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-overlay"
         style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/cubes.png')" }} />
       <div className="absolute top-40 left-0 w-[500px] h-[500px] bg-djibouti-green/10 rounded-full blur-[120px] pointer-events-none" />
@@ -234,15 +236,15 @@ export default function ProgramSection() {
           className="text-center mb-14"
         >
           <div className="inline-flex items-center gap-3 mb-4">
-            <span className="w-8 h-px bg-djibouti-green" />
-            <span className="text-djibouti-green text-xs md:text-sm font-semibold uppercase tracking-[0.2em]">
+            <span className="w-8 h-px bg-djibouti-gold" />
+            <span className="text-djibouti-gold text-xs md:text-sm font-bold uppercase tracking-[0.25em] bg-djibouti-gold/10 px-4 py-1.5 rounded-full border border-djibouti-gold/30">
               Programme Officiel
             </span>
-            <span className="w-8 h-px bg-djibouti-green" />
+            <span className="w-8 h-px bg-djibouti-gold" />
           </div>
           <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mb-4">
             4 jours pour{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-djibouti-green to-djibouti-gold">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-djibouti-gold to-white">
               lancer un mouvement
             </span>
           </h2>
