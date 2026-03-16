@@ -195,7 +195,7 @@ export default function MinisterSection() {
                   SEM Mariam Hamadou Ali
                 </p>
                 <p className="text-white/40 text-xs mt-0.5">
-                  Ministre Délégué — MDENI · République de Djibouti
+                  Ministre Délégué<br />chargée de l&apos;Économie Numérique<br />et de l&apos;Innovation
                 </p>
               </div>
             </motion.div>
