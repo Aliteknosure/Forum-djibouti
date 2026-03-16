@@ -5,6 +5,7 @@ import { generateProgramPDF } from './program-generator'
 export const resend = new Resend(process.env.RESEND_API_KEY)
 
 export const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'noreply@forum-djibouti.dj'
+export const ADMIN_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || 'info@cledjibouti.com'
 export const FORUM_NAME = "Forum BOOST Entrepreneurship"
 export const FORUM_DATE = '29 mars – 1 avril 2026'
 export const FORUM_LOCATION = 'Djibouti-Ville, République de Djibouti'
@@ -403,3 +404,143 @@ export async function sendBadgeEmail(registration: Registration, pdfBuffer: Buff
     ],
   })
 }
+
+// ──────────────────────────────────────────────────────────────
+// Notification admin — nouvelle inscription
+// ──────────────────────────────────────────────────────────────
+export async function sendAdminNotificationEmail(data: {
+  first_name: string
+  last_name: string
+  email: string
+  phone?: string | null
+  participant_type: string
+  organization?: string | null
+  job_title?: string | null
+  country: string
+  id: string
+  created_at?: string
+}) {
+  const typeLabel = PARTICIPANT_TYPE_LABELS[data.participant_type as keyof typeof PARTICIPANT_TYPE_LABELS] || data.participant_type
+  const adminUrl = `${FORUM_URL}/admin/registrations`
+  const detailUrl = `${FORUM_URL}/admin/registrations`
+  const time = data.created_at
+    ? new Date(data.created_at).toLocaleString('fr-FR', { timeZone: 'Africa/Djibouti', dateStyle: 'short', timeStyle: 'short' })
+    : new Date().toLocaleString('fr-FR', { timeZone: 'Africa/Djibouti', dateStyle: 'short', timeStyle: 'short' })
+
+  const typeColors: Record<string, string> = {
+    visitor: '#3b82f6',
+    speaker: '#8b5cf6',
+    press: '#10b981',
+    vip: '#f59e0b',
+    student: '#06b6d4',
+    investor: '#ec4899',
+    startup_msme: '#f97316',
+    exhibitor: '#14b8a6',
+    ecosystem_leader: '#6366f1',
+    partner: '#d4af37',
+  }
+  const badgeColor = typeColors[data.participant_type] || '#0a1932'
+
+  const html = `
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nouvelle inscription</title></head>
+<body style="margin:0;padding:0;background:#f1f5f9;font-family:Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f1f5f9;padding:32px 16px;">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+
+        <!-- Header -->
+        <tr><td style="background:#0a1932;padding:28px 36px;">
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td>
+                <p style="margin:0;color:#d4af37;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:700;">${FORUM_NAME} — Admin</p>
+                <p style="margin:6px 0 0;color:#ffffff;font-size:18px;font-weight:700;">🔔 Nouvelle inscription</p>
+              </td>
+              <td align="right">
+                <span style="background:${badgeColor};color:#fff;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;">${typeLabel}</span>
+              </td>
+            </tr>
+          </table>
+        </td></tr>
+
+        <!-- Body -->
+        <tr><td style="padding:32px 36px;">
+
+          <!-- Infos participant -->
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0;margin-bottom:24px;">
+            <tr><td style="padding:20px 24px;">
+              <p style="margin:0 0 14px;color:#0a1932;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:1px;">Participant</p>
+              <table cellpadding="5" cellspacing="0" style="width:100%;font-size:14px;color:#334155;">
+                <tr>
+                  <td style="color:#94a3b8;width:130px;vertical-align:top;">Nom complet</td>
+                  <td><strong style="color:#0a1932;">${data.first_name} ${data.last_name}</strong></td>
+                </tr>
+                <tr>
+                  <td style="color:#94a3b8;vertical-align:top;">Email</td>
+                  <td><a href="mailto:${data.email}" style="color:#0a1932;text-decoration:none;">${data.email}</a></td>
+                </tr>
+                ${data.phone ? `<tr><td style="color:#94a3b8;vertical-align:top;">Téléphone</td><td>${data.phone}</td></tr>` : ''}
+                ${data.organization ? `<tr><td style="color:#94a3b8;vertical-align:top;">Organisation</td><td>${data.organization}</td></tr>` : ''}
+                ${data.job_title ? `<tr><td style="color:#94a3b8;vertical-align:top;">Fonction</td><td>${data.job_title}</td></tr>` : ''}
+                <tr>
+                  <td style="color:#94a3b8;vertical-align:top;">Pays</td>
+                  <td>${data.country}</td>
+                </tr>
+                <tr>
+                  <td style="color:#94a3b8;vertical-align:top;">Reçue le</td>
+                  <td style="color:#64748b;font-size:13px;">${time}</td>
+                </tr>
+              </table>
+            </td></tr>
+          </table>
+
+          <!-- ID -->
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#fefce8;border:1px solid #fde68a;border-radius:8px;margin-bottom:24px;">
+            <tr><td style="padding:14px 20px;">
+              <p style="margin:0 0 4px;color:#92400e;font-size:12px;font-weight:700;">ID inscription</p>
+              <p style="margin:0;color:#78350f;font-family:monospace;font-size:12px;word-break:break-all;">${data.id}</p>
+            </td></tr>
+          </table>
+
+          <!-- CTA -->
+          <table cellpadding="0" cellspacing="0">
+            <tr>
+              <td style="padding-right:12px;">
+                <a href="${adminUrl}" style="display:inline-block;background:#0a1932;color:#d4af37;text-decoration:none;padding:11px 24px;border-radius:8px;font-weight:700;font-size:13px;">
+                  Voir le dashboard →
+                </a>
+              </td>
+              <td>
+                <a href="mailto:${data.email}" style="display:inline-block;background:#f1f5f9;color:#334155;text-decoration:none;padding:11px 24px;border-radius:8px;font-weight:600;font-size:13px;border:1px solid #e2e8f0;">
+                  Contacter le participant
+                </a>
+              </td>
+            </tr>
+          </table>
+
+        </td></tr>
+
+        <!-- Footer -->
+        <tr><td style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:16px 36px;">
+          <p style="margin:0;color:#94a3b8;font-size:11px;text-align:center;">
+            Notification automatique — ${FORUM_NAME} · ${FORUM_DATE}
+          </p>
+        </td></tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`
+
+  return resend.emails.send({
+    from: FROM_EMAIL,
+    to: ADMIN_EMAIL,
+    subject: `🔔 Nouvelle inscription — ${data.first_name} ${data.last_name} (${typeLabel})`,
+    html,
+  })
+}
+

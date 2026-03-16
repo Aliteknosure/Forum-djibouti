@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
-import { resend, FROM_EMAIL, buildConfirmationEmailHtml, FORUM_NAME, FORUM_DATE } from '@/lib/resend'
+import { resend, FROM_EMAIL, buildConfirmationEmailHtml, FORUM_NAME, FORUM_DATE, sendAdminNotificationEmail } from '@/lib/resend'
 import { registrationSchema } from '@/lib/validations'
 
 export async function POST(req: NextRequest) {
@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Erreur lors de l\'enregistrement.' }, { status: 500 })
     }
 
-    // Envoi email de confirmation
+    // Envoi email de confirmation au participant
     await resend.emails.send({
       from: FROM_EMAIL,
       to: data.email,
@@ -93,6 +93,19 @@ export async function POST(req: NextRequest) {
         id: registration.id,
       }),
     })
+
+    // Notification admin — envoi en parallèle, sans bloquer la réponse
+    sendAdminNotificationEmail({
+      first_name: data.first_name,
+      last_name: data.last_name,
+      email: data.email,
+      phone: data.phone,
+      participant_type: data.participant_type,
+      organization: data.organization,
+      job_title: data.job_title,
+      country: data.country,
+      id: registration.id,
+    }).catch((err) => console.error('Admin notification error:', err))
 
     return NextResponse.json({ success: true, id: registration.id }, { status: 201 })
   } catch (err) {
