@@ -1,33 +1,36 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import Image from 'next/image'
+
+const CHEF_ETAT = {
+  nom: 'SEM Ismaïl Omar Guelleh',
+  titre: 'Président de la République de Djibouti',
+  institution: 'République de Djibouti',
+  role: 'Discours officiel d\'ouverture · Jour 1',
+  initiales: 'IOG',
+  couleur: '#d4af37',
+  emoji: '🏛️',
+  jour: 'Jour 1',
+  photo: '/images/iog.jpg',
+}
+
+const MINISTRE = {
+  nom: 'SEM Mariam Hamadou Ali',
+  titre: 'Ministre de l\'Économie Numérique et de l\'Innovation',
+  institution: 'Ministère de l\'Économie Numérique et de l\'Innovation',
+  role: 'Discours officiel d\'ouverture · Jour 1',
+  initiales: 'MHA',
+  couleur: '#0E706B',
+  emoji: '📡',
+  jour: 'Jour 1',
+  photo: '/images/ministre-photo.jpg',
+}
 
 const orateurs = [
   // ── Jour 1 ──
   {
-    nom: 'Président de la République',
-    titre: 'Chef de l\'État',
-    institution: 'République de Djibouti',
-    role: 'Discours officiel d\'ouverture · Jour 1',
-    initiales: 'PR',
-    couleur: '#d4af37',
-    emoji: '🏛️',
-    jour: 'Jour 1',
-    photo: '/images/iog.jpg',
-  },
-  {
-    nom: 'Ministre — Économie Numérique',
-    titre: 'Ministre délégué',
-    institution: 'Ministère de l\'Économie Numérique et de l\'Innovation',
-    role: 'Discours officiel d\'ouverture · Jour 1',
-    initiales: 'MDN',
-    couleur: '#3b82f6',
-    emoji: '📡',
-    jour: 'Jour 1',
-    photo: '/images/ministre-photo.jpg',
-  },
-  {
+    nom: 'Moussa Kassim Modjib',
     nom: 'Moussa Kassim Modjib',
     titre: 'Entrepreneur',
     institution: 'Limo',
@@ -190,8 +193,8 @@ export default function OrateursSection() {
       <style>{`
         [data-animate]{opacity:0;transform:translateY(28px);transition:opacity .6s ease-out,transform .6s ease-out}
         [data-animate].animate-in{opacity:1;transform:translateY(0)}
-        .orateur-card:hover .orateur-photo-ring { transform: scale(1.05); }
         .orateur-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.10); }
+        .vip-card:hover { transform: translateY(-4px); }
       `}</style>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
 
@@ -215,12 +218,150 @@ export default function OrateursSection() {
           </p>
         </div>
 
-        {/* Grille des jours */}
+        {/* ── NIVEAU 1 : Chef de l'État — seul, centré, grande carte ── */}
+        <div className="mb-6" data-animate data-delay="60">
+          <div className="flex items-center gap-4 mb-6">
+            <div
+              className="text-xs font-bold px-4 py-1.5 rounded-full whitespace-nowrap"
+              style={{ background: 'rgba(212,175,55,0.12)', color: '#d4af37', border: '1px solid rgba(212,175,55,0.35)' }}
+            >
+              🏛️ Chef de l'État
+            </div>
+            <div className="flex-1 h-px" style={{ background: 'rgba(212,175,55,0.25)' }} />
+          </div>
+
+          <div className="flex justify-center">
+            <div
+              className="vip-card group rounded-3xl overflow-hidden transition-all duration-400 flex flex-col sm:flex-row w-full max-w-2xl"
+              style={{
+                border: '2px solid rgba(212,175,55,0.5)',
+                boxShadow: '0 8px 40px rgba(212,175,55,0.15)',
+                background: 'linear-gradient(135deg, #fffbf0, #fff)',
+              }}
+            >
+              {/* Photo */}
+              <div className="relative sm:w-56 shrink-0 overflow-hidden" style={{ minHeight: 240 }}>
+                {CHEF_ETAT.photo ? (
+                  <Image
+                    src={CHEF_ETAT.photo}
+                    alt={CHEF_ETAT.nom}
+                    fill
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center gap-2"
+                    style={{ background: 'linear-gradient(160deg, rgba(212,175,55,0.2), rgba(212,175,55,0.05))' }}>
+                    <span className="text-6xl">{CHEF_ETAT.emoji}</span>
+                    <span className="text-3xl font-bold" style={{ color: '#d4af37' }}>{CHEF_ETAT.initiales}</span>
+                  </div>
+                )}
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, transparent 70%, white)' }} />
+                <div className="absolute bottom-0 left-0 right-0 h-1" style={{ background: 'linear-gradient(90deg, #d4af37, rgba(212,175,55,0.3))' }} />
+              </div>
+
+              {/* Infos */}
+              <div className="flex flex-col justify-center p-6 sm:p-8 flex-1">
+                <div
+                  className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-3 self-start"
+                  style={{ background: 'rgba(212,175,55,0.15)', color: '#b8960c', border: '1px solid rgba(212,175,55,0.3)' }}
+                >
+                  <span>★</span> Invité d'honneur
+                </div>
+                <h3 className="text-xl sm:text-2xl font-heading font-bold text-djibouti-navy mb-1">
+                  {CHEF_ETAT.nom}
+                </h3>
+                <p className="text-sm font-semibold mb-0.5" style={{ color: '#d4af37' }}>{CHEF_ETAT.titre}</p>
+                <p className="text-sm text-gray-500 mb-4">{CHEF_ETAT.institution}</p>
+                <div
+                  className="rounded-xl px-4 py-2.5 text-sm font-medium"
+                  style={{ background: 'rgba(212,175,55,0.10)', border: '1px solid rgba(212,175,55,0.25)', color: '#b8960c' }}
+                >
+                  🎤 {CHEF_ETAT.role}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── NIVEAU 2 : Ministre — seule, centrée, carte premium ── */}
+        <div className="mb-14" data-animate data-delay="120">
+          <div className="flex items-center gap-4 mb-6">
+            <div
+              className="text-xs font-bold px-4 py-1.5 rounded-full whitespace-nowrap"
+              style={{ background: 'rgba(14,112,107,0.10)', color: '#0E706B', border: '1px solid rgba(14,112,107,0.3)' }}
+            >
+              📡 Ministre délégué
+            </div>
+            <div className="flex-1 h-px" style={{ background: 'rgba(14,112,107,0.2)' }} />
+          </div>
+
+          <div className="flex justify-center">
+            <div
+              className="vip-card group rounded-3xl overflow-hidden transition-all duration-400 flex flex-col sm:flex-row w-full max-w-2xl"
+              style={{
+                border: '2px solid rgba(14,112,107,0.35)',
+                boxShadow: '0 8px 40px rgba(14,112,107,0.10)',
+                background: 'linear-gradient(135deg, #f0faf9, #fff)',
+              }}
+            >
+              {/* Photo */}
+              <div className="relative sm:w-56 shrink-0 overflow-hidden" style={{ minHeight: 240 }}>
+                {MINISTRE.photo ? (
+                  <Image
+                    src={MINISTRE.photo}
+                    alt={MINISTRE.nom}
+                    fill
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="w-full h-full flex flex-col items-center justify-center gap-2"
+                    style={{ background: 'linear-gradient(160deg, rgba(14,112,107,0.15), rgba(14,112,107,0.04))' }}>
+                    <span className="text-6xl">{MINISTRE.emoji}</span>
+                    <span className="text-3xl font-bold" style={{ color: '#0E706B' }}>{MINISTRE.initiales}</span>
+                  </div>
+                )}
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, transparent 70%, white)' }} />
+                <div className="absolute bottom-0 left-0 right-0 h-1" style={{ background: 'linear-gradient(90deg, #0E706B, rgba(14,112,107,0.3))' }} />
+              </div>
+
+              {/* Infos */}
+              <div className="flex flex-col justify-center p-6 sm:p-8 flex-1">
+                <div
+                  className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold mb-3 self-start"
+                  style={{ background: 'rgba(14,112,107,0.10)', color: '#0E706B', border: '1px solid rgba(14,112,107,0.25)' }}
+                >
+                  <span>◆</span> Invitée d'honneur
+                </div>
+                <h3 className="text-xl sm:text-2xl font-heading font-bold text-djibouti-navy mb-1">
+                  {MINISTRE.nom}
+                </h3>
+                <p className="text-sm font-semibold mb-0.5" style={{ color: '#0E706B' }}>{MINISTRE.titre}</p>
+                <p className="text-sm text-gray-500 mb-4">{MINISTRE.institution}</p>
+                <div
+                  className="rounded-xl px-4 py-2.5 text-sm font-medium"
+                  style={{ background: 'rgba(14,112,107,0.08)', border: '1px solid rgba(14,112,107,0.2)', color: '#0E706B' }}
+                >
+                  🎤 {MINISTRE.role}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Séparateur ── */}
+        <div className="flex items-center gap-4 mb-10" data-animate data-delay="150">
+          <div className="flex-1 h-px bg-gray-100" />
+          <span className="text-xs text-gray-400 font-semibold uppercase tracking-widest px-3">Autres intervenants</span>
+          <div className="flex-1 h-px bg-gray-100" />
+        </div>
+
+        {/* ── NIVEAU 3 : Tous les autres orateurs par jour ── */}
         {['Jour 1', 'Jour 2', 'Jour 3', 'Jour 4'].map((jour, ji) => {
           const jourOrateurs = orateurs.filter(o => o.jour === jour)
+          if (jourOrateurs.length === 0) return null
           const color = JOUR_COLORS[jour]
           return (
-            <div key={jour} className="mb-14" data-animate data-delay={ji * 80}>
+            <div key={jour} className="mb-14" data-animate data-delay={180 + ji * 80}>
               {/* Titre du jour */}
               <div className="flex items-center gap-4 mb-8">
                 <span
@@ -237,7 +378,7 @@ export default function OrateursSection() {
                   <div
                     key={i}
                     data-animate
-                    data-delay={ji * 80 + i * 60}
+                    data-delay={180 + ji * 80 + i * 60}
                     className="orateur-card group rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 flex flex-col"
                     style={{ border: `1px solid ${color}33`, background: 'white', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}
                   >
@@ -256,31 +397,17 @@ export default function OrateursSection() {
                           style={{ background: `linear-gradient(160deg, ${color}22, ${color}08)` }}
                         >
                           <span className="text-5xl">{o.emoji}</span>
-                          <span
-                            className="text-2xl font-bold"
-                            style={{ color }}
-                          >
-                            {o.initiales}
-                          </span>
+                          <span className="text-2xl font-bold" style={{ color }}>{o.initiales}</span>
                         </div>
                       )}
-                      {/* Overlay gradient bas pour lisibilité */}
-                      <div
-                        className="absolute inset-0"
-                        style={{ background: 'linear-gradient(to top, rgba(10,25,50,0.55) 0%, transparent 50%)' }}
-                      />
-                      {/* Badge emoji en haut à droite */}
+                      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(10,25,50,0.55) 0%, transparent 50%)' }} />
                       <div
                         className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-base backdrop-blur-sm"
                         style={{ background: `${color}cc`, border: `1px solid ${color}` }}
                       >
                         {o.emoji}
                       </div>
-                      {/* Barre colorée en bas de la photo */}
-                      <div
-                        className="absolute bottom-0 left-0 right-0 h-1"
-                        style={{ background: `linear-gradient(90deg, ${color}, ${color}66)` }}
-                      />
+                      <div className="absolute bottom-0 left-0 right-0 h-1" style={{ background: `linear-gradient(90deg, ${color}, ${color}66)` }} />
                     </div>
 
                     {/* Infos sous la photo */}
@@ -302,7 +429,7 @@ export default function OrateursSection() {
           )
         })}
 
-        <p className="text-center text-gray-400 text-xs mt-6" data-animate data-delay="200">
+        <p className="text-center text-gray-400 text-xs mt-6" data-animate data-delay="400">
           * Les noms définitifs des intervenants seront confirmés et publiés avant le 29 mars 2026.
         </p>
       </div>
