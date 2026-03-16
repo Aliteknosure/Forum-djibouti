@@ -8,8 +8,8 @@ const MDENI_LOGO = "/logos/cle.png"
 
 const NAV_ITEMS = [
   { label: 'Accueil', href: '#accueil' },
+  { label: 'Mot de la Ministre', href: '#mot-ministre' },
   { label: 'À Propos', href: '#apropos' },
-  { label: 'Ministre', href: '#mot-ministre' },
   { label: 'Partenaires', href: '#partenaires' },
   { label: 'Thématiques', href: '#thematiques' },
   { label: 'Programme', href: '#programme' },
