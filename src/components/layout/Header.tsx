@@ -19,7 +19,6 @@ const NAV_ITEMS = [
 
 // Liens simples (pas de dropdown)
 const SIMPLE_EXTRA = [
-  { label: 'Masterclasse', href: '#masterclasse' },
   { label: 'Panel',        href: '#panel' },
 ]
 

@@ -7,7 +7,7 @@ import { useToast } from '@/hooks/use-toast'
 import {
   CheckCircle, XCircle, Send, ArrowLeft, Mail, Phone,
   Building2, Briefcase, MapPin, Calendar, QrCode, Loader2,
-  Newspaper, Mic2, Store, Trash2, BookOpen, PanelTop
+  Newspaper, Mic2, Store, Trash2, PanelTop
 } from 'lucide-react'
 import { Registration, PARTICIPANT_TYPE_LABELS, PARTICIPANT_TYPE_COLORS, PARTICIPANT_TYPE_ICONS, STATUS_LABELS } from '@/types/registration'
 import Link from 'next/link'
@@ -285,24 +285,6 @@ export default function RegistrationDetail({ registration: initial }: { registra
               </div>
             )}
           </div>
-        </div>
-      )}
-
-      {/* Champs Masterclasse */}
-      {reg.participant_type === 'masterclasse' && (
-        <div className="bg-white rounded-xl p-5 mb-6" style={{ border: '1px solid #ddd6fe' }}>
-          <div className="flex items-center gap-2 mb-4">
-            <BookOpen size={15} style={{ color: '#7c3aed' }} />
-            <p className="text-sm font-semibold" style={{ color: '#0a1932' }}>Session Masterclasse</p>
-          </div>
-          {reg.session_choice ? (
-            <div className="bg-violet-50 rounded-lg p-3">
-              <p className="text-xs text-gray-400">Session choisie</p>
-              <p className="text-sm font-medium text-violet-700 mt-0.5">{reg.session_choice.toUpperCase()}</p>
-            </div>
-          ) : (
-            <p className="text-sm text-gray-400">Aucune session sélectionnée</p>
-          )}
         </div>
       )}
 

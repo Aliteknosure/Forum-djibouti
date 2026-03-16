@@ -1,4 +1,4 @@
-export type ParticipantType = 'speaker' | 'investor' | 'startup_msme' | 'exhibitor' | 'ecosystem_leader' | 'partner' | 'visitor' | 'masterclasse' | 'panel'
+export type ParticipantType = 'speaker' | 'investor' | 'startup_msme' | 'exhibitor' | 'ecosystem_leader' | 'partner' | 'visitor' | 'panel'
 export type RegistrationStatus = 'pending' | 'approved' | 'rejected'
 
 export interface Registration {
@@ -67,7 +67,6 @@ export const PARTICIPANT_TYPE_LABELS: Record<ParticipantType, string> = {
   ecosystem_leader: 'Ecosystem Leader',
   partner: 'Partenaire',
   visitor: 'Visiteur',
-  masterclasse: 'Masterclasse',
   panel: 'Panel',
 }
 
@@ -79,7 +78,6 @@ export const PARTICIPANT_TYPE_COLORS: Record<ParticipantType, string> = {
   ecosystem_leader: '#EF4444',
   partner: '#06B6D4',
   visitor: '#6B7280',
-  masterclasse: '#7C3AED',
   panel: '#EA580C',
 }
 
@@ -91,7 +89,6 @@ export const PARTICIPANT_TYPE_ICONS: Record<ParticipantType, string> = {
   ecosystem_leader: '🌍',
   partner: '🤝',
   visitor: '👥',
-  masterclasse: '📚',
   panel: '🗣️',
 }
 

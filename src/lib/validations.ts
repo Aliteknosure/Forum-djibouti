@@ -8,7 +8,7 @@ export const registrationSchema = z.object({
   phone: z.string().min(6, 'Numéro de téléphone invalide'),
   organization: z.string().optional().or(z.literal('')),
   job_title: z.string().optional().or(z.literal('')),
-  participant_type: z.enum(['speaker', 'investor', 'startup_msme', 'exhibitor', 'ecosystem_leader', 'partner', 'visitor', 'masterclasse', 'panel'] as const, {
+  participant_type: z.enum(['speaker', 'investor', 'startup_msme', 'exhibitor', 'ecosystem_leader', 'partner', 'visitor', 'panel'] as const, {
     error: 'Veuillez sélectionner un type de participant',
   }),
   country: z.string().min(2, 'Veuillez indiquer votre pays'),
