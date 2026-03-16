@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Calendar, MapPin, ArrowRight } from 'lucide-react'
 
-const MDENI_LOGO = "/logos/logo-cle.jpg"
+const MDENI_LOGO = "/logos/cle.png"
 const HERO_IMAGE = "/logos/logo-bg-cle.jpg"
 const EVENT_DATE = new Date('2026-03-29T09:00:00')
 

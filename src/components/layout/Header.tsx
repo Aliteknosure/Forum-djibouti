@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ArrowRight, ChevronDown } from 'lucide-react'
 
-const MDENI_LOGO = "/logos/logo-cle.jpg"
+const MDENI_LOGO = "/logos/cle.png"
 
 const NAV_ITEMS = [
   { label: 'Accueil', href: '#accueil' },
@@ -78,8 +78,8 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between gap-4">
 
           {/* Logo — gauche */}
-          <a href="#accueil" onClick={(e) => scrollToSection(e, '#accueil')} className="flex items-center shrink-0">
-            <img src={MDENI_LOGO} alt="MDENI Logo" className="h-12 w-auto" />
+          <a href="#accueil" onClick={(e) => scrollToSection(e, '#accueil')} className="flex items-center shrink-0 ml-6">
+            <img src={MDENI_LOGO} alt="MDENI Logo" className="h-16 w-auto" />
           </a>
 
           {/* Nav desktop — centre */}
