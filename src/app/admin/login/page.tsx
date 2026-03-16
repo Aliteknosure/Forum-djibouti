@@ -1,19 +1,21 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Loader2, Lock, AlertCircle } from 'lucide-react'
+import { Loader2, Lock, AlertCircle, Clock } from 'lucide-react'
 
-export default function AdminLoginPage() {
+function AdminLoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const expired = searchParams.get('expired')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -75,6 +77,14 @@ export default function AdminLoginPage() {
           <p className="text-gray-500 text-sm mt-1">Forum BOOST Entrepreneurship</p>
         </div>
 
+        {/* Message session expirée */}
+        {expired && (
+          <div className="flex items-start gap-2 text-amber-700 text-sm bg-amber-50 border border-amber-200 py-3 px-4 rounded-lg mb-4">
+            <Clock size={16} className="mt-0.5 shrink-0" />
+            <span>Votre session a expiré après inactivité. Reconnectez-vous.</span>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email</Label>
@@ -117,5 +127,13 @@ export default function AdminLoginPage() {
         </form>
       </div>
     </div>
+  )
+}
+
+export default function AdminLoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <AdminLoginForm />
+    </Suspense>
   )
 }

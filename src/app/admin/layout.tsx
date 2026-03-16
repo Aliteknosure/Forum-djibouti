@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { signOut } from '@/lib/auth'
 import { LayoutDashboard, Users, CreditCard, QrCode, LogOut, Globe } from 'lucide-react'
+import { SessionProviderWrapper } from '@/components/admin/SessionProviderWrapper'
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
@@ -12,6 +13,8 @@ const navItems = [
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex" style={{ backgroundColor: '#f1f5f9' }}>
+      {/* SessionProvider + SessionWatcher pour déconnexion automatique */}
+      <SessionProviderWrapper>
 
       {/* ── Sidebar desktop (md+) ── */}
       <aside
@@ -102,6 +105,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <span className="text-[10px] font-medium">Site</span>
         </Link>
       </nav>
+      </SessionProviderWrapper>
     </div>
   )
 }
