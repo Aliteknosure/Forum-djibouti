@@ -6,7 +6,8 @@ import { Input } from '@/components/ui/input'
 import { useToast } from '@/hooks/use-toast'
 import {
   CheckCircle2, XCircle, Loader2, Search, QrCode,
-  User, Mail, Building2, MapPin, AlertTriangle, Camera, Keyboard, RefreshCw
+  User, Mail, Building2, MapPin, AlertTriangle, Camera, Keyboard, RefreshCw,
+  CameraOff, Video, VideoOff
 } from 'lucide-react'
 import { Registration, PARTICIPANT_TYPE_LABELS } from '@/types/registration'
 import dynamic from 'next/dynamic'
@@ -46,6 +47,7 @@ export default function CheckInScanner() {
   const [history, setHistory] = useState<HistoryEntry[]>([])
   const [historyLoading, setHistoryLoading] = useState(true)
   const [scannerActive, setScannerActive] = useState(true)
+  const [cameraEnabled, setCameraEnabled] = useState(false)
   const { toast } = useToast()
 
   // Charger l'historique depuis Supabase au montage
@@ -124,8 +126,8 @@ export default function CheckInScanner() {
     } finally {
       setLoading(false)
       setInput('')
-      // Reprendre le scanner après 3 secondes
-      setTimeout(() => setScannerActive(true), 3000)
+      // Reprendre le scanner après 3 secondes seulement si caméra activée
+      setTimeout(() => { if (cameraEnabled) setScannerActive(true) }, 3000)
     }
   }
 
@@ -144,7 +146,7 @@ export default function CheckInScanner() {
           style={{ backgroundColor: '#f1f5f9', border: '1px solid #e2e8f0' }}
         >
           <button
-            onClick={() => { setMode('camera'); setScannerActive(true) }}
+            onClick={() => { setMode('camera'); }}
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all ${
               mode === 'camera'
                 ? 'bg-white shadow-sm text-navy-900'
@@ -156,7 +158,7 @@ export default function CheckInScanner() {
             Scanner caméra
           </button>
           <button
-            onClick={() => { setMode('manual'); setScannerActive(false) }}
+            onClick={() => { setMode('manual'); setScannerActive(false); setCameraEnabled(false) }}
             className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all ${
               mode === 'manual'
                 ? 'bg-white shadow-sm'
@@ -172,19 +174,70 @@ export default function CheckInScanner() {
         {/* Mode caméra */}
         {mode === 'camera' && (
           <div className="space-y-3">
-            <QRScanner
-              active={scannerActive && !loading}
-              onScan={handleCheckIn}
-            />
-            {loading && (
-              <div className="flex items-center justify-center gap-2 py-3 text-sm text-gray-500">
-                <Loader2 size={16} className="animate-spin" />
-                Vérification en cours...
+
+            {/* Bouton ON/OFF caméra */}
+            <button
+              onClick={() => {
+                const next = !cameraEnabled
+                setCameraEnabled(next)
+                setScannerActive(next)
+                if (!next) setResult(null)
+              }}
+              className="w-full flex items-center justify-between px-5 py-3.5 rounded-xl font-semibold text-sm transition-all duration-200 active:scale-95"
+              style={cameraEnabled ? {
+                background: 'linear-gradient(135deg, #dcfce7, #bbf7d0)',
+                border: '2px solid #22c55e',
+                color: '#15803d',
+                boxShadow: '0 0 16px rgba(34,197,94,0.2)',
+              } : {
+                background: 'linear-gradient(135deg, #fee2e2, #fecaca)',
+                border: '2px solid #f87171',
+                color: '#b91c1c',
+              }}
+            >
+              <div className="flex items-center gap-2.5">
+                {cameraEnabled
+                  ? <Video size={18} className="text-green-600" />
+                  : <VideoOff size={18} className="text-red-500" />
+                }
+                <span>{cameraEnabled ? 'Caméra active — Cliquer pour désactiver' : 'Caméra désactivée — Cliquer pour activer'}</span>
+              </div>
+              {/* Indicateur LED */}
+              <span
+                className={`w-2.5 h-2.5 rounded-full ${cameraEnabled ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)] animate-pulse' : 'bg-red-400'}`}
+              />
+            </button>
+
+            {/* Scanner QR — affiché uniquement si caméra active */}
+            {cameraEnabled ? (
+              <>
+                <QRScanner
+                  active={scannerActive && !loading}
+                  onScan={handleCheckIn}
+                />
+                {loading && (
+                  <div className="flex items-center justify-center gap-2 py-3 text-sm text-gray-500">
+                    <Loader2 size={16} className="animate-spin" />
+                    Vérification en cours...
+                  </div>
+                )}
+                <p className="text-xs text-gray-400 text-center">
+                  Pointez la caméra vers le QR code du badge participant
+                </p>
+              </>
+            ) : (
+              /* Placeholder caméra éteinte */
+              <div
+                className="rounded-2xl flex flex-col items-center justify-center gap-3 py-12"
+                style={{ background: '#f8fafc', border: '2px dashed #cbd5e1' }}
+              >
+                <div className="w-14 h-14 rounded-2xl bg-gray-200 flex items-center justify-center">
+                  <CameraOff size={26} className="text-gray-400" />
+                </div>
+                <p className="text-gray-400 text-sm font-medium">Caméra désactivée</p>
+                <p className="text-gray-300 text-xs">Activez la caméra pour scanner les badges</p>
               </div>
             )}
-            <p className="text-xs text-gray-400 text-center">
-              Pointez la caméra vers le QR code du badge participant
-            </p>
           </div>
         )}
 
