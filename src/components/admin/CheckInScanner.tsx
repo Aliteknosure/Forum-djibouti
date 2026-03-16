@@ -208,10 +208,11 @@ export default function CheckInScanner() {
               />
             </button>
 
-            {/* Scanner QR — affiché uniquement si caméra active */}
+            {/* Scanner QR — monté/démonté complètement selon l'état caméra */}
             {cameraEnabled ? (
               <>
                 <QRScanner
+                  key={cameraEnabled ? 'camera-on' : 'camera-off'}
                   active={scannerActive && !loading}
                   onScan={handleCheckIn}
                 />

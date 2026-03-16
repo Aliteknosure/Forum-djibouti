@@ -70,6 +70,17 @@ export default function QRScanner({ onScan, active }: Props) {
       } catch {}
       scannerRef.current = null
     }
+    // Forcer l'arrêt de TOUS les flux vidéo actifs du navigateur
+    try {
+      const streams = await navigator.mediaDevices.getUserMedia({ video: true })
+      streams.getTracks().forEach(track => track.stop())
+    } catch {}
+    // Arrêter aussi tous les tracks vidéo déjà actifs sur la page
+    document.querySelectorAll('video').forEach(video => {
+      const stream = video.srcObject as MediaStream | null
+      if (stream) stream.getTracks().forEach(track => track.stop())
+      video.srcObject = null
+    })
     setStatus('idle')
   }
 
