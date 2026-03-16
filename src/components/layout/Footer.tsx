@@ -52,7 +52,7 @@ export default function Footer() {
                 <Twitter size={18} className="text-white" />
               </a>
               <a
-                href="https://www.linkedin.com/company/minist%C3%A8re-d%C3%A9l%C3%A9gu%C3%A9-charg%C3%A9-de-l-economie-num%C3%A9rique-et-de-l-innovation-mdeni/posts/?feedView=all"
+                href="https://www.linkedin.com/company/centre-cle-djibouti/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-djibouti-green transition-colors"
@@ -99,26 +99,26 @@ export default function Footer() {
             <ul className="space-y-4">
               <li>
                 <a
-                  href="mailto:djibouti.numerique@gmail.com"
+                  href="mailto:info@cledjibouti.com"
                   className="flex items-center gap-3 text-white/60 hover:text-djibouti-gold transition-colors"
                 >
                   <Mail size={18} />
-                  djibouti.numerique@gmail.com
+                  info@cledjibouti.com
                 </a>
               </li>
               <li>
                 <a
-                  href="tel:+25321339231"
+                  href="tel:+25321333800"
                   className="flex items-center gap-3 text-white/60 hover:text-djibouti-gold transition-colors"
                 >
                   <Phone size={18} />
-                  +253 21 33 92 31
+                  +253 21 33 38 00
                 </a>
               </li>
               <li className="flex items-start gap-3 text-white/60">
                 <MapPin size={18} className="mt-0.5 flex-shrink-0" />
                 <span>
-                  Ministère de l&apos;Économie Numérique<br />
+                  Centre de Leadership et de l&apos;Entrepreneuriat (CLE)<br />
                   Djibouti, République de Djibouti
                 </span>
               </li>
@@ -129,7 +129,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-white/40 text-sm text-center md:text-left">
-            © 2026 MDENI – Tous droits réservés | République de Djibouti
+            © 2026 CLE – Tous droits réservés | République de Djibouti
           </p>
           <div className="flex gap-4 text-sm">
             <span className="text-djibouti-gold">#SmartNation</span>
