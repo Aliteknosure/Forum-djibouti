@@ -18,7 +18,7 @@ const CHEF_ETAT = {
 const MINISTRE = {
   nom: 'SEM Mariam Hamadou Ali',
   titre: 'Ministre de l\'Économie Numérique et de l\'Innovation',
-  institution: 'Ministère de l\'Économie Numérique et de l\'Innovation',
+  institution: 'République de Djibouti',
   role: 'Discours officiel d\'ouverture · Jour 1',
   initiales: 'MHA',
   couleur: '#0E706B',
