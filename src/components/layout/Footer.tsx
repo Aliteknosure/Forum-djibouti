@@ -28,11 +28,13 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <div className="flex items-center gap-4 mb-6">
               {/* CLE logo */}
-              <img
-                src="/logos/logo-cle.jpg"
-                alt="Logo CLE"
-                className="h-16 w-auto rounded-xl object-contain flex-shrink-0"
-              />
+              <div className="bg-white rounded-xl px-3 py-2 flex-shrink-0 shadow-md">
+                <img
+                  src="/logos/cle.png"
+                  alt="Logo CLE"
+                  className="h-12 w-auto object-contain"
+                />
+              </div>
               <div>
                 <span className="font-heading font-bold text-2xl text-white">BOOST 2026</span>
                 <span className="block text-white/60 text-sm">Forum BOOST Entrepreneurship — Djibouti</span>
