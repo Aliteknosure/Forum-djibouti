@@ -126,8 +126,8 @@ export default function CheckInScanner() {
     } finally {
       setLoading(false)
       setInput('')
-      // Reprendre le scanner après 3 secondes seulement si caméra activée
-      setTimeout(() => { if (cameraEnabled) setScannerActive(true) }, 3000)
+      // Reprendre le scanner après 5 secondes seulement si caméra activée
+      setTimeout(() => { if (cameraEnabled) setScannerActive(true) }, 5000)
     }
   }
 

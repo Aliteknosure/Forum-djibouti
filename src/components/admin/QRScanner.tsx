@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { Camera, CameraOff, Loader2 } from 'lucide-react'
 
 interface Props {
@@ -8,23 +8,67 @@ interface Props {
   active: boolean
 }
 
+// Arrêt global de tous les flux vidéo du navigateur
+async function killAllVideoStreams() {
+  try {
+    // Stopper tous les tracks sur tous les éléments <video> du DOM
+    document.querySelectorAll('video').forEach((video) => {
+      const stream = video.srcObject as MediaStream | null
+      if (stream) {
+        stream.getTracks().forEach((t) => { t.stop(); t.enabled = false })
+      }
+      video.srcObject = null
+      video.pause()
+    })
+    // Stopper aussi via l'API navigator si une permission active existe
+    const devices = await navigator.mediaDevices.enumerateDevices()
+    const hasCamera = devices.some(d => d.kind === 'videoinput')
+    if (hasCamera) {
+      // Demander un stream juste pour récupérer les tracks et les stopper
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => stream.getTracks().forEach(t => t.stop()))
+        .catch(() => {})
+    }
+  } catch {}
+}
+
 export default function QRScanner({ onScan, active }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const scannerRef = useRef<unknown>(null)
+  const isStoppingRef = useRef(false)
   const [status, setStatus] = useState<'idle' | 'loading' | 'running' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  // lastScanned reset à 5s pour éviter scan en boucle
   const lastScanned = useRef<string>('')
+  const lastScannedTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  useEffect(() => {
-    if (!active) {
-      stopScanner()
-      return
+  const stopScanner = useCallback(async () => {
+    if (isStoppingRef.current) return
+    isStoppingRef.current = true
+
+    if (scannerRef.current) {
+      try {
+        const scanner = scannerRef.current as {
+          isScanning: boolean
+          stop: () => Promise<void>
+          clear: () => void
+        }
+        if (scanner.isScanning) {
+          await scanner.stop()
+        }
+        scanner.clear()
+      } catch {}
+      scannerRef.current = null
     }
-    startScanner()
-    return () => { stopScanner() }
-  }, [active])
 
-  const startScanner = async () => {
+    // Tuer tous les flux vidéo
+    await killAllVideoStreams()
+
+    setStatus('idle')
+    isStoppingRef.current = false
+  }, [])
+
+  const startScanner = useCallback(async () => {
     if (!containerRef.current) return
     setStatus('loading')
 
@@ -38,51 +82,49 @@ export default function QRScanner({ onScan, active }: Props) {
 
       await scanner.start(
         { facingMode: 'environment' },
-        { fps: 10, qrbox: { width: 250, height: 250 } },
+        { fps: 8, qrbox: { width: 220, height: 220 } },
         (decodedText) => {
-          // Éviter les doublons rapides
+          // Bloquer les doublons pendant 5 secondes
           if (decodedText === lastScanned.current) return
           lastScanned.current = decodedText
-          setTimeout(() => { lastScanned.current = '' }, 3000)
+          if (lastScannedTimer.current) clearTimeout(lastScannedTimer.current)
+          lastScannedTimer.current = setTimeout(() => {
+            lastScanned.current = ''
+          }, 5000)
           onScan(decodedText)
         },
         () => {}
       )
       setStatus('running')
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Impossible d\'accéder à la caméra'
-      setErrorMsg(msg.includes('permission') || msg.includes('NotAllowed')
-        ? 'Accès à la caméra refusé. Autorisez la caméra dans votre navigateur.'
-        : msg)
+      const msg = err instanceof Error ? err.message : "Impossible d'accéder à la caméra"
+      setErrorMsg(
+        msg.includes('permission') || msg.includes('NotAllowed') || msg.includes('NotFound')
+          ? 'Accès à la caméra refusé. Autorisez la caméra dans votre navigateur.'
+          : msg
+      )
       setStatus('error')
     }
-  }
+  }, [onScan])
 
-  const stopScanner = async () => {
-    if (scannerRef.current) {
-      try {
-        const scanner = scannerRef.current as {
-          stop: () => Promise<void>
-          clear: () => void
-        }
-        await scanner.stop()
-        scanner.clear()
-      } catch {}
-      scannerRef.current = null
+  useEffect(() => {
+    if (active) {
+      startScanner()
+    } else {
+      stopScanner()
     }
-    // Forcer l'arrêt de TOUS les flux vidéo actifs du navigateur
-    try {
-      const streams = await navigator.mediaDevices.getUserMedia({ video: true })
-      streams.getTracks().forEach(track => track.stop())
-    } catch {}
-    // Arrêter aussi tous les tracks vidéo déjà actifs sur la page
-    document.querySelectorAll('video').forEach(video => {
-      const stream = video.srcObject as MediaStream | null
-      if (stream) stream.getTracks().forEach(track => track.stop())
-      video.srcObject = null
-    })
-    setStatus('idle')
-  }
+    return () => {
+      stopScanner()
+    }
+  }, [active, startScanner, stopScanner])
+
+  // Cleanup au démontage du composant
+  useEffect(() => {
+    return () => {
+      if (lastScannedTimer.current) clearTimeout(lastScannedTimer.current)
+      stopScanner()
+    }
+  }, [stopScanner])
 
   return (
     <div className="relative w-full">
