@@ -10,12 +10,12 @@ const styles = StyleSheet.create({
   page: {
     width: 297,
     height: 420,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#0a1932',
     flexDirection: 'column',
     fontFamily: 'Helvetica',
   },
   header: {
-    backgroundColor: '#0a1932',
+    backgroundColor: '#060f1f',
     paddingTop: 14,
     paddingBottom: 12,
     paddingHorizontal: 24,
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   headerSubtitle: {
-    color: 'rgba(255,255,255,0.85)',
+    color: 'rgba(255,255,255,0.7)',
     fontSize: 9,
     textAlign: 'center',
     letterSpacing: 0.5,
@@ -85,26 +85,26 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 18,
     fontFamily: 'Helvetica-Bold',
-    color: '#0a1932',
+    color: '#ffffff',
     textAlign: 'center',
     marginBottom: 4,
     letterSpacing: -0.3,
   },
   jobTitle: {
     fontSize: 9,
-    color: '#475569',
+    color: 'rgba(255,255,255,0.65)',
     textAlign: 'center',
     marginBottom: 2,
   },
   organization: {
     fontSize: 9,
-    color: '#94a3b8',
+    color: 'rgba(255,255,255,0.45)',
     textAlign: 'center',
     marginBottom: 2,
   },
   country: {
     fontSize: 8,
-    color: '#b8960c',
+    color: '#d4af37',
     textAlign: 'center',
     fontFamily: 'Helvetica-Bold',
     marginBottom: 10,
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
-    backgroundColor: '#e2e8f0',
+    backgroundColor: 'rgba(255,255,255,0.12)',
     width: '100%',
     marginBottom: 10,
   },
@@ -125,20 +125,23 @@ const styles = StyleSheet.create({
     width: 72,
     height: 72,
     marginBottom: 4,
+    borderRadius: 6,
   },
   qrLabel: {
     fontSize: 7,
-    color: '#94a3b8',
+    color: 'rgba(255,255,255,0.4)',
     textAlign: 'center',
     letterSpacing: 0.5,
   },
   footer: {
-    backgroundColor: '#0a1932',
+    backgroundColor: '#060f1f',
     paddingVertical: 8,
     paddingHorizontal: 24,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(212,175,55,0.3)',
   },
   footerDate: {
     color: '#d4af37',
@@ -146,11 +149,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Helvetica-Bold',
   },
   footerLocation: {
-    color: 'rgba(255,255,255,0.6)',
+    color: 'rgba(255,255,255,0.5)',
     fontSize: 6,
   },
   idText: {
-    color: 'rgba(255,255,255,0.4)',
+    color: 'rgba(255,255,255,0.3)',
     fontSize: 6,
   },
 })
