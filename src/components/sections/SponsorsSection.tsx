@@ -1,7 +1,41 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Landmark, Globe2, Building2, Handshake, Settings } from 'lucide-react'
+import { Landmark, Globe2, Building2, Handshake, Settings, MapPin } from 'lucide-react'
+import Image from 'next/image'
+
+const TERRITORIAL_PARTNERS = [
+  {
+    name: 'REDA',
+    logo: '/logos/reda.png',
+    desc: 'Agence Régionale de Développement',
+    bg: 'white',
+  },
+  {
+    name: 'CJEO Obock',
+    logo: '/logos/club-jeune-obock.jpg',
+    desc: 'Club des Jeunes Entrepreneurs d\'Obock',
+    bg: 'white',
+  },
+  {
+    name: 'Dumar iyo Dadaal',
+    logo: '/logos/dumar-iyo-dadaal.jpg',
+    desc: 'Women Empowerment — 3D',
+    bg: 'white',
+  },
+  {
+    name: 'CJED Djibouti',
+    logo: '/logos/cjed.jpg',
+    desc: 'Club des Jeunes Entrepreneurs de Djibouti',
+    bg: 'navy',
+  },
+  {
+    name: 'CJED Ali Sabieh',
+    logo: '/logos/club-jeune-entrepre.jpg',
+    desc: 'Club des Jeunes Entrepreneurs d\'Ali Sabieh',
+    bg: 'white',
+  },
+]
 
 const categories = [
   {
@@ -132,6 +166,89 @@ export default function SponsorsSection() {
             )
           })}
         </div>
+
+        {/* ── Partenaires Territoriaux — Logos ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="mt-20"
+        >
+          {/* Séparateur titre */}
+          <div className="flex items-center gap-4 mb-10">
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-djibouti-gold/30 to-transparent" />
+            <div className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-djibouti-gold/30 bg-djibouti-gold/5">
+              <MapPin size={13} className="text-djibouti-gold" />
+              <span className="text-djibouti-gold text-xs font-bold uppercase tracking-[0.22em] whitespace-nowrap">
+                Relais Territoriaux
+              </span>
+            </div>
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-djibouti-gold/30 to-transparent" />
+          </div>
+
+          {/* Grille logos */}
+          <div className="flex flex-wrap justify-center items-start gap-5 md:gap-8">
+            {TERRITORIAL_PARTNERS.map((partner, i) => (
+              <motion.div
+                key={partner.name}
+                initial={{ opacity: 0, scale: 0.85, y: 20 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.09 }}
+                className="group flex flex-col items-center gap-3 cursor-default"
+              >
+                {/* Carte logo */}
+                <div
+                  className="relative w-28 h-28 md:w-32 md:h-32 rounded-2xl flex items-center justify-center p-3 transition-all duration-300 group-hover:scale-105 group-hover:-translate-y-1.5"
+                  style={{
+                    background: partner.bg === 'navy'
+                      ? 'rgba(14,34,72,0.9)'
+                      : 'rgba(255,255,255,0.93)',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    boxShadow: '0 4px 24px rgba(0,0,0,0.25)',
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLElement).style.border = '1px solid rgba(212,175,55,0.5)'
+                    ;(e.currentTarget as HTMLElement).style.boxShadow = '0 8px 36px rgba(212,175,55,0.2)'
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLElement).style.border = '1px solid rgba(255,255,255,0.12)'
+                    ;(e.currentTarget as HTMLElement).style.boxShadow = '0 4px 24px rgba(0,0,0,0.25)'
+                  }}
+                >
+                  {/* Halo doré au hover */}
+                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                    style={{ background: 'radial-gradient(circle at center, rgba(212,175,55,0.08), transparent 70%)' }} />
+
+                  <Image
+                    src={partner.logo}
+                    alt={partner.name}
+                    width={100}
+                    height={100}
+                    className="w-full h-full object-contain relative z-10 transition-all duration-300 group-hover:brightness-110"
+                  />
+                </div>
+
+                {/* Nom + description */}
+                <div className="text-center max-w-[128px]">
+                  <p className="text-white/80 text-xs font-semibold leading-tight group-hover:text-djibouti-gold transition-colors duration-300">
+                    {partner.name}
+                  </p>
+                  <p className="text-white/30 text-[10px] mt-0.5 leading-tight">
+                    {partner.desc}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Note bas de section */}
+          <p className="text-center text-white/20 text-xs mt-10 tracking-wider uppercase">
+            Présents dans les 5 régions · Caravane G2B
+          </p>
+        </motion.div>
+
       </div>
     </section>
   )
