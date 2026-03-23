@@ -29,147 +29,162 @@ const DAYS: Day[] = [
     label: 'Ouverture & Inspiration',
     color: 'djibouti-gold',
     items: [
-      { time: '08:00 – 09:30', title: 'Cérémonie d\'Ouverture Officielle de l\'EDQ', description: 'Visite présidentielle du Boost Entrepreneurship City · Accueil des invités et des participants.', type: 'ceremony' },
-      { time: '09:30 – 09:40', title: 'Annonce du programme de la journée', description: 'Animation MC — présentation du déroulé de la journée.', type: 'announcement' },
-      { time: '09:40 – 09:50', title: 'Lecture du Saint Coran', description: 'Tradition d\'ouverture officielle.', type: 'ceremony' },
-      { time: '09:50 – 10:10', title: 'Vidéo d\'ouverture — Témoignages inspirants', description: 'Témoignages de jeunes entrepreneurs et femmes entrepreneures.', type: 'presentation' },
-      { time: '10:10 – 10:20', title: 'Sketch — Troupe Iskoufilan', description: 'Représentation artistique de la troupe Iskoufilan.', type: 'workshop' },
-      { time: '10:20 – 10:40', title: 'Pitch des 3 Voix des Quartiers', description: ['→ Moustapha – Forje', '→ Un entrepreneur de Startup Djibouti', '→ Un bénéficiaire du pool des experts'], type: 'presentation' },
-      { time: '10:40 – 10:50', title: 'Signature de la Charte d\'Engagement', description: 'Banques et CLE — formalisation des engagements partenaires.', type: 'ceremony' },
-      { time: '10:50 – 11:00', title: 'Discours Officiels', description: ['→ Ministère délégué à l\'économie numérique et de l\'innovation', '→ Président de la République'], type: 'keynote' },
-      { time: '12:00 – 13:00', title: 'Pause-Café Réseautage', description: 'Temps d\'échange et de networking entre participants.', type: 'networking' },
-      { time: '13:00 – 14:00', title: 'Déjeuner — Équipe CLE & Invités', description: 'Déjeuner avec vouchers pour l\'équipe CLE et les invités officiels.', type: 'networking' },
-      { time: '14:30 – 16:30', title: 'Conférence : « Tell Me Your Story »', description: 'Vie d\'entrepreneur : rencontrez et inspirez-vous de l\'histoire de 3 entrepreneurs. Réussites, échecs et leçons — l\'échec fait partie de l\'aventure entrepreneuriale et fait grandir.', type: 'keynote', speakers: ['Modérateur : À confirmer', 'Moussa Kassim Modjib / Limo', 'Beyleh-Fleetin'] },
-      { time: '16:30', title: 'Clôture — Fin de la Journée 1', description: 'Fin officielle de la première journée du Forum.', type: 'ceremony' },
+      {
+        time: '08h30 – 10h00',
+        title: 'Ouverture de l\'EDQ',
+        description: 'Visite des stands (Expo-Vente) · Accueil des invités et des participants.',
+        type: 'ceremony',
+        speakers: ['MC / Invités'],
+      },
+      {
+        time: '10h10 – 10h20',
+        title: 'Animation Musicale',
+        description: 'Animation musicale d\'ouverture.',
+        type: 'workshop',
+      },
+      {
+        time: '10h20 – 10h30',
+        title: 'Ouverture et annonce du programme de la journée',
+        description: 'Présentation du déroulé de la journée par le MC.',
+        type: 'announcement',
+      },
+      {
+        time: '10h30 – 10h40',
+        title: 'Vidéo d\'ouverture',
+        description: 'Projection de la vidéo d\'ouverture officielle.',
+        type: 'presentation',
+      },
+      {
+        time: '10h40 – 11h00',
+        title: 'Pitch des 3 Voix des Quartiers',
+        description: ['→ Moustapha – Forje', '→ Un entrepreneur de Startup Djibouti (à identifier)', '→ Un bénéficiaire du pool des experts'],
+        type: 'presentation',
+      },
+      {
+        time: '11h00 – 11h10',
+        title: 'Signature de la Charte d\'Engagement',
+        description: 'Signature entre les Banques (à identifier) et la CLE.',
+        type: 'ceremony',
+      },
+      {
+        time: '11h10 – 11h30',
+        title: 'Discours Officiels',
+        description: ['→ Ministère délégué à l\'économie numérique et de l\'innovation', '→ Président de la République'],
+        type: 'keynote',
+        speakers: ['MC'],
+      },
+      {
+        time: '11h30 – 13h00',
+        title: 'Pause-Café & Réseautage sur les stands',
+        description: 'Temps d\'échange et de networking entre participants sur les stands.',
+        type: 'networking',
+      },
+      {
+        time: '13h00 – 14h00',
+        title: 'Déjeuner',
+        description: 'Déjeuner Équipe CLE + invités (vouchers).',
+        type: 'networking',
+      },
+      {
+        time: '14h30 – 16h30',
+        title: 'Conférence : « Tell Me Your Story »',
+        description: 'Vie d\'entrepreneur : venez rencontrer et vous inspirer de l\'histoire de 3 entrepreneurs. Ils partageront réussites et échecs. Parler des réussites inspire, parler des échecs fait grandir — l\'échec fait partie de l\'aventure entrepreneuriale.',
+        type: 'keynote',
+        speakers: ['3 entrepreneurs à impact (à identifier)'],
+      },
     ],
   },
   {
     day: 'Jour 2',
     date: 'Lun. 30 Mars',
-    label: 'Panels & Ateliers',
+    label: 'Numérique & Innovation',
     color: 'djibouti-green',
     items: [
       {
-        time: '08:30 – 10:00', title: 'Panel 1 : Startup Act — Cadre légal et soutien aux startups',
-        description: 'Structuration d\'une idée, cadre juridique, financement et passage à l\'échelle : quelles clés pour transformer une startup en impact durable ?',
+        time: '09h00 – 10h30',
+        title: 'Panel 1 : De l\'idée à l\'impact — Startup Act & Code du Numérique',
+        description: 'Catalyseurs d\'un Djibouti innovant et inclusif : Structuration d\'une idée, cadre juridique, financement et passage à l\'échelle — quelles clés pour transformer une startup en impact durable ?',
         type: 'panel',
-        speakers: ['Keynote : MDENI', 'Modérateur : Raisso', 'Ministère du Numérique', 'CLE', 'Startups'],
+        speakers: ['MC : Hawa', 'Anouar', 'Simane'],
       },
       {
-        time: '10:20 – 11:50', title: 'Panel 2 : FinTech et Accès au Financement',
-        description: 'FinTech, innovation financière et nouveaux mécanismes de financement : quelles solutions pour élargir l\'accès au capital et accélérer la croissance des entreprises djiboutiennes ?',
-        type: 'panel',
-        speakers: ['Keynote : Warsama', 'Banque Centrale de Djibouti', 'BCIMR', 'Fintech Locale (Beyleh)'],
-      },
-      {
-        time: '11:00 – 12:30', title: 'Pause-Café · Sessions en parallèle',
-        description: 'Temps d\'échange, networking et sessions simultanées.',
+        time: '10h30 – 11h00',
+        title: 'Pause-Café',
+        description: 'Pause et networking.',
         type: 'networking',
       },
       {
-        time: '12:30 – 14:30', title: 'Pause Déjeuner',
+        time: '11h00 – 12h30',
+        title: 'Panel 2 : Cloud, Infrastructures Numériques & Cybersécurité',
+        description: 'Comment les solutions cloud et les infrastructures numériques permettent-elles aux entreprises de réduire leurs coûts, gagner en agilité et innover, tout en faisant face aux risques croissants (fraudes en ligne, usurpation d\'identité, atteintes aux données) ? Ce panel met en lumière les enjeux clés, les responsabilités des entreprises et les bonnes pratiques pour sécuriser les activités tout en accélérant la transformation digitale.',
+        type: 'panel',
+        speakers: ['MC : Mahdi Dawaleh', 'ANC', 'TO7', 'Huawei'],
+      },
+      {
+        time: '12h30 – 14h30',
+        title: 'Pause Déjeuner',
         description: 'Déjeuner des participants.',
         type: 'networking',
       },
       {
-        time: '14:30 – 15:30', title: 'Atelier Interactif : Préparer son Pitch',
-        description: 'Comment bien présenter son projet en quelques minutes et convaincre un jury ? Intro, développement, story telling... Découvrez les astuces qui vous aideront à pitcher comme des pros devant un jury, un investisseur ou un client.',
+        time: '14h30 – 15h30',
+        title: 'Atelier Interactif : Préparer son Pitch',
+        description: 'Comment bien présenter son projet en quelques minutes et convaincre un jury ? Intro, développement, storytelling... Découvrez les astuces pour pitcher comme des pros devant un jury, un investisseur ou un client.',
         type: 'workshop',
-        speakers: ['Amine HSEVEN'],
+        speakers: ['Ali Dimbio'],
       },
       {
-        time: '15:40 – 16:00', title: 'Démonstration : Plateforme G2B',
-        description: 'Présentation de la plateforme G2B en direct par visio-conférence.',
+        time: '15h40 – 16h40',
+        title: 'OpenHour : À la découverte de FLOODOO',
+        description: 'Présentation et démonstration de la solution FLOODOO.',
         type: 'presentation',
-      },
-      {
-        time: '16:00 – 17:00', title: 'Démonstration de FlooDOO',
-        description: 'Présentation et démonstration de la solution FlooDOO.',
-        type: 'presentation',
-      },
-      {
-        time: '17:00', title: 'Clôture — Fin de la Journée 2',
-        description: 'Fin officielle de la deuxième journée du Forum.',
-        type: 'ceremony',
       },
     ],
   },
   {
     day: 'Jour 3',
     date: 'Mar. 31 Mars',
-    label: 'Jour 3',
+    label: 'Entrepreneuriat & Financement',
     color: 'djibouti-sand',
     items: [
       {
-        time: '08:30 – 10:00', title: 'Panel 4 : Transformation Digitale des MSMEs',
-        description: 'Outils numériques pour améliorer productivité, gestion et accès aux marchés.',
+        time: '09h00 – 10h30',
+        title: 'Panel 3 : Entrepreneuriat Féminin',
+        description: 'Comment renforcer l\'entrepreneuriat féminin et lever les obstacles qui freinent encore son développement ? Comment améliorer l\'accès au financement et accompagner les femmes vers une croissance durable ? Des expertes et acteurs clés présentent les leviers institutionnels, financiers et stratégiques pour transformer ces défis en opportunités.',
         type: 'panel',
-        speakers: ['Modérateur : Consultant Digital', 'CLE', 'Djibouti Telecom', 'Entrepreneur E-Commerce'],
+        speakers: ['Choukri (Présidente Dumaar & Dadaal)', 'Gassira Mohamed — Psychopraticienne & Entrepreneure', 'Ahlane Ahmed — Fondatrice Mon Secret Indien'],
       },
       {
-        time: '10:20 – 11:50', title: 'Panel 5 : E-Commerce et Nouveaux Marchés',
-        description: 'Comment développer votre activité grâce au e-commerce et accroître votre visibilité en ligne ? Des spécialistes et entrepreneurs partagent stratégies et bonnes pratiques pour réussir votre transformation digitale.',
-        type: 'panel',
-        speakers: ['Entrepreneur E-Commerce LIMO', 'Représentant Banque / FinTech DMoney'],
+        time: '10h30 – 11h00',
+        title: 'Pause-Café',
+        description: 'Pause et networking.',
+        type: 'networking',
       },
       {
-        time: '12:30 – 14:30', title: 'Pause Déjeuner',
+        time: '11h00 – 12h30',
+        title: 'Panel 4 : Dispositifs d\'Accompagnement & Innovations Financières',
+        description: 'Ce panel explorera les dispositifs d\'accompagnement des MPMEs et les solutions innovantes de financement, notamment via la FinTech, afin d\'élargir l\'accès au capital et soutenir la croissance des entreprises djiboutiennes.',
+        type: 'panel',
+        speakers: ['Modérateur : DEREE', 'CLE', 'ANPI', 'C-star', 'Keynote : Amin (Hseven)'],
+      },
+      {
+        time: '12h30 – 14h30',
+        title: 'Pause Déjeuner',
         description: 'Déjeuner des participants.',
         type: 'networking',
       },
       {
-        time: '14:30 – 15:30', title: 'Panel 6 : Cloud et Infrastructures Numériques',
-        description: 'Comment les solutions cloud aident les entreprises à améliorer leur performance, réduire leurs coûts et accélérer leur transformation digitale ? Quels rôles jouent les infrastructures numériques dans le développement des services et de l\'innovation ?',
+        time: '14h30 – 15h30',
+        title: 'Panel 5 : E-Commerce & Marketing Digital',
+        description: 'Comment développer votre activité grâce au e-commerce et accroître votre visibilité en ligne ? Comment utiliser le marketing digital pour toucher plus de clients et augmenter vos ventes ? Des spécialistes et entrepreneurs partagent expériences, stratégies et bonnes pratiques pour réussir votre transformation digitale.',
         type: 'panel',
-        speakers: ['Direction Cybersécurité', 'Djibouti Telecom'],
+        speakers: ['MC : Journaliste RTD', 'CCD', 'Point Focal Zlecaf (M. Commerce)', 'Car\'tIN'],
       },
       {
-        time: '15:40 – 16:40', title: 'Atelier : Protégez vos Créations — Propriété Intellectuelle',
-        description: 'Comment savoir si votre création est nouvelle et comment assurer qu\'elle ne soit pas utilisée par d\'autres sans votre autorisation ? Des spécialistes vous expliquent les différents outils disponibles.',
-        type: 'workshop',
-        speakers: ['Abdourahman — Chef de Service PI · ODPIC'],
-      },
-      {
-        time: '17:00 – 18:30', title: 'Café Finance — Réseautage Investisseurs',
-        description: 'Réseautage avec le monde de la finance et des investisseurs à Djibouti. Participants sélectionnés en avance pour des échanges constructifs.',
-        type: 'networking',
-        speakers: ['CCD', 'Banques'],
-      },
-    ],
-  },
-  {
-    day: 'Jour 4',
-    date: 'Mer. 1er Avril',
-    label: 'Services Numériques & Clôture',
-    color: 'purple-400',
-    items: [
-      {
-        time: '09:00 – 10:30', title: 'Panel 7 : Services de Confiance Numérique',
-        description: 'Signature électronique, horodatage, recommandé électronique — quelles opportunités pour les MSMEs dans l\'économie numérique ?',
-        type: 'panel',
-        speakers: ['Autorité Numérique', 'Juriste', 'Entreprise Tech', 'Modérateur : Expert Droit Numérique'],
-      },
-      {
-        time: '10:30 – 11:30', title: 'Panel 9 : Protection des Données et Cybersécurité',
-        description: 'Fraudes en ligne, usurpation d\'identité, responsabilité des entreprises, protection des données personnelles — ce que tout entrepreneur doit savoir.',
-        type: 'panel',
-        speakers: ['Autorité Protection des Données', 'Expert Cybersécurité', 'Entreprise Digitale', 'Modérateur : Spécialiste Cybersécurité'],
-      },
-      {
-        time: '15:00 – 16:00', title: 'Démonstration : Plateforme Services Publics Numériques',
-        description: 'Présentation des services publics dématérialisés accessibles aux entreprises et aux citoyens.',
-        type: 'presentation',
-      },
-      {
-        time: '15:30 – 16:30', title: 'Masterclass : Cybersécurité et Protection des Données pour MSMEs',
-        description: 'Session pratique et interactive — Salle Ateliers.',
-        type: 'workshop',
-        speakers: ['Direction Cybersécurité'],
-      },
-      {
-        time: '16:30 – 17:30', title: 'Fin de l\'Événement — Cocktail de Clôture & Networking',
-        description: 'Célébration des 4 jours, échanges libres entre participants, investisseurs et entrepreneurs.',
-        type: 'networking',
+        time: '15h30 – 15h45',
+        title: 'Clôture',
+        description: 'Clôture officielle de l\'EDQ.',
+        type: 'ceremony',
       },
     ],
   },
@@ -204,14 +219,12 @@ const DAY_ACTIVE_STYLES: Record<number, string> = {
   0: 'border-djibouti-gold text-djibouti-gold bg-djibouti-gold/10',
   1: 'border-djibouti-green text-djibouti-green bg-djibouti-green/10',
   2: 'border-blue-400 text-blue-400 bg-blue-400/10',
-  3: 'border-purple-400 text-purple-400 bg-purple-400/10',
 }
 
 const DAY_DOT_STYLES: Record<number, string> = {
   0: 'bg-djibouti-gold',
   1: 'bg-djibouti-green',
   2: 'bg-blue-400',
-  3: 'bg-purple-400',
 }
 
 export default function ProgramSection() {
@@ -243,13 +256,13 @@ export default function ProgramSection() {
             <span className="w-8 h-px bg-djibouti-gold" />
           </div>
           <h2 className="text-3xl md:text-5xl font-heading font-bold text-white mb-4">
-            4 jours pour{' '}
+            3 jours pour aller à la découverte du{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-djibouti-gold to-white">
-              lancer un mouvement
+              monde de l&apos;Entrepreneuriat
             </span>
           </h2>
           <p className="text-white/50 text-base max-w-xl mx-auto mb-6">
-            29 Mars – 1er Avril 2026 · Djibouti-Ville
+            29 – 31 Mars 2026 · Djibouti-Ville
           </p>
           {/* Télécharger programme */}
           <a
@@ -403,11 +416,11 @@ export default function ProgramSection() {
           className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4"
         >
           {[
-            { number: '4', label: 'Jours' },
-            { number: '9', label: 'Panels & Conférences' },
-            { number: '4', label: 'Ateliers Interactifs' },
-            { number: '3', label: 'Démonstrations' },
-            { number: '20+', label: 'Intervenants' },
+            { number: '3', label: 'Jours' },
+            { number: '5', label: 'Panels' },
+            { number: '1', label: 'Atelier Pitch' },
+            { number: '1', label: 'OpenHour FLOODOO' },
+            { number: '15+', label: 'Intervenants' },
           ].map((stat, i) => (
             <motion.div
               key={i}

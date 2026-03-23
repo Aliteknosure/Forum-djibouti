@@ -70,7 +70,7 @@ export default function MinisterSection() {
               <div className="relative w-64 h-[340px] md:w-80 md:h-[420px] rounded-2xl overflow-hidden border border-djibouti-gold/30">
                 <Image
                   src="/images/ministre-photo.jpg"
-                  alt="SEM Mariam Hamadou Ali — Ministre Délégué chargée de l'Économie Numérique et de l'Innovation"
+                  alt="SEM Mariam Hamadou Ali — Ministre chargée de l'Économie Numérique et de l'Innovation"
                   fill
                   className="object-cover object-top"
                   priority
@@ -90,7 +90,7 @@ export default function MinisterSection() {
                 SEM Mariam Hamadou Ali
               </h3>
               <p className="text-djibouti-gold text-sm font-semibold mb-2">
-                Ministre Délégué
+                Ministre
               </p>
               <p className="text-white/45 text-xs leading-relaxed">
                 chargée de l&apos;Économie Numérique<br />
@@ -115,7 +115,7 @@ export default function MinisterSection() {
             >
               <p className="text-white/25 text-[10px] uppercase tracking-widest mb-1">Ministère</p>
               <p className="text-white/60 text-xs leading-relaxed">
-                MDENI — Ministère Délégué<br />
+                MDENI — Ministère<br />
                 chargé de l&apos;Économie Numérique<br />
                 et de l&apos;Innovation
               </p>
@@ -195,7 +195,7 @@ export default function MinisterSection() {
                   SEM Mariam Hamadou Ali
                 </p>
                 <p className="text-white/40 text-xs mt-0.5">
-                  Ministre Délégué<br />chargée de l&apos;Économie Numérique<br />et de l&apos;Innovation
+                  Ministre<br />chargée de l&apos;Économie Numérique<br />et de l&apos;Innovation
                 </p>
               </div>
             </motion.div>
