@@ -11,7 +11,6 @@ export default async function RegistrationsPage() {
     .from('registrations')
     .select('*', { count: 'exact' })
     .order('created_at', { ascending: false })
-    .limit(20)
 
   return (
     <div className="p-6 sm:p-8">
