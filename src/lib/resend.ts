@@ -7,7 +7,7 @@ export const resend = new Resend(process.env.RESEND_API_KEY)
 export const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'noreply@forum-djibouti.dj'
 export const ADMIN_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || 'info@cledjibouti.com'
 export const FORUM_NAME = "Forum BOOST Entrepreneurship"
-export const FORUM_DATE = '29 mars – 1 avril 2026'
+export const FORUM_DATE = '29 – 31 mars 2026'
 export const FORUM_LOCATION = 'Djibouti-Ville, République de Djibouti'
 export const FORUM_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://forum-djibouti.onrender.com'
 

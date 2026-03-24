@@ -3,7 +3,7 @@ import { generateQRCodeDataURL } from './qrcode'
 import { Registration, PARTICIPANT_TYPE_LABELS, PARTICIPANT_TYPE_COLORS } from '@/types/registration'
 
 const FORUM_NAME = "Forum BOOST Entrepreneurship"
-const FORUM_DATE = '29 mars – 1 avril 2026'
+const FORUM_DATE = '29 – 31 mars 2026'
 const FORUM_LOCATION = 'Djibouti-Ville, République de Djibouti'
 
 const styles = StyleSheet.create({
