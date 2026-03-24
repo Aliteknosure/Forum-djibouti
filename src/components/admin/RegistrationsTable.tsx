@@ -49,6 +49,7 @@ const typeColors: Record<string, string> = {
 
 export default function RegistrationsTable({ initialData, totalCount }: Props) {
   const [data, setData] = useState<Registration[]>(initialData)
+  const [total, setTotal] = useState<number>(totalCount)
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
   const [typeFilter, setTypeFilter] = useState('all')
@@ -87,6 +88,7 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
     const res = await fetch(`/api/admin/registrations?${params}`)
     const json = await res.json()
     setData(json.data || [])
+    setTotal(json.count ?? json.data?.length ?? 0)
     setLoading(false)
   }, [])
 
@@ -231,7 +233,7 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
 
       {/* Count */}
       <p className="text-sm text-gray-500 mb-3">
-        {data.length} résultat{data.length !== 1 ? 's' : ''} sur {totalCount} total
+        {data.length} résultat{data.length !== 1 ? 's' : ''} sur {total} total
       </p>
 
       {/* Table desktop */}
