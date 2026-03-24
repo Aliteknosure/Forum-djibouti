@@ -13,8 +13,6 @@ export async function GET(req: NextRequest) {
   const status = searchParams.get('status')
   const type = searchParams.get('type')
   const search = searchParams.get('search')
-  const page = parseInt(searchParams.get('page') || '1')
-  const limit = parseInt(searchParams.get('limit') || '20')
 
   let query = supabaseAdmin
     .from('registrations')
@@ -29,15 +27,12 @@ export async function GET(req: NextRequest) {
     )
   }
 
-  const from = (page - 1) * limit
-  query = query.range(from, from + limit - 1)
-
   const { data, error, count } = await query
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
   return NextResponse.json(
-    { data: (data || []) as Registration[], count, page, limit },
+    { data: (data || []) as Registration[], count },
     { headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' } }
   )
 }
