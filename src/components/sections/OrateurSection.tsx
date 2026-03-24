@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import { ChevronDown } from 'lucide-react'
 
 const CHEF_ETAT = {
   nom: 'SEM Ismaïl Omar Guelleh',
@@ -30,7 +31,6 @@ const MINISTRE = {
 const orateurs = [
   // ── Jour 1 ──
   {
-    nom: 'Moussa Kassim Modjib',
     nom: 'Moussa Kassim Modjib',
     titre: 'Entrepreneur',
     institution: 'Limo',
@@ -165,6 +165,7 @@ const JOUR_COLORS: Record<string, string> = {
 
 export default function OrateursSection() {
   const sectionRef = useRef<HTMLElement>(null)
+  const [showAll, setShowAll] = useState(false)
 
   useEffect(() => {
     const section = sectionRef.current
@@ -348,90 +349,110 @@ export default function OrateursSection() {
           </div>
         </div>
 
-        {/* ── Séparateur ── */}
-        <div className="flex items-center gap-4 mb-10" data-animate data-delay="150">
-          <div className="flex-1 h-px bg-gray-100" />
-          <span className="text-xs text-gray-400 font-semibold uppercase tracking-widest px-3">Autres intervenants</span>
-          <div className="flex-1 h-px bg-gray-100" />
+        {/* ── Bouton toggle — Autres intervenants ── */}
+        <div className="flex flex-col items-center gap-3 mt-4 mb-4" data-animate data-delay="150">
+          <button
+            onClick={() => setShowAll(v => !v)}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-semibold transition-all duration-300"
+            style={{
+              border: '1px solid rgba(212,175,55,0.35)',
+              color: '#b8960c',
+              background: showAll ? 'rgba(212,175,55,0.08)' : 'transparent',
+            }}
+          >
+            {showAll ? 'Masquer les autres intervenants' : `Voir les autres intervenants (${orateurs.length})`}
+            <ChevronDown
+              size={16}
+              className="transition-transform duration-300"
+              style={{ transform: showAll ? 'rotate(180deg)' : 'rotate(0deg)' }}
+            />
+          </button>
+          {!showAll && (
+            <p className="text-gray-400 text-xs">Intervenants confirmés · Annonces en cours</p>
+          )}
         </div>
 
-        {/* ── NIVEAU 3 : Tous les autres orateurs par jour ── */}
-        {['Jour 1', 'Jour 2', 'Jour 3', 'Jour 4'].map((jour, ji) => {
-          const jourOrateurs = orateurs.filter(o => o.jour === jour)
-          if (jourOrateurs.length === 0) return null
-          const color = JOUR_COLORS[jour]
-          return (
-            <div key={jour} className="mb-14" data-animate data-delay={180 + ji * 80}>
-              {/* Titre du jour */}
-              <div className="flex items-center gap-4 mb-8">
-                <span
-                  className="text-xs font-bold px-4 py-1.5 rounded-full"
-                  style={{ background: `${color}18`, color, border: `1px solid ${color}44` }}
-                >
-                  {jour}
-                </span>
-                <div className="flex-1 h-px" style={{ background: `${color}33` }} />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                {jourOrateurs.map((o, i) => (
-                  <div
-                    key={i}
-                    data-animate
-                    data-delay={180 + ji * 80 + i * 60}
-                    className="orateur-card group rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 flex flex-col"
-                    style={{ border: `1px solid ${color}33`, background: 'white', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}
-                  >
-                    {/* Grande photo rectangulaire */}
-                    <div className="relative w-full overflow-hidden" style={{ aspectRatio: '3/4', maxHeight: 260 }}>
-                      {o.photo ? (
-                        <Image
-                          src={o.photo}
-                          alt={o.nom}
-                          fill
-                          className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                        />
-                      ) : (
-                        <div
-                          className="w-full h-full flex flex-col items-center justify-center gap-2"
-                          style={{ background: `linear-gradient(160deg, ${color}22, ${color}08)` }}
-                        >
-                          <span className="text-5xl">{o.emoji}</span>
-                          <span className="text-2xl font-bold" style={{ color }}>{o.initiales}</span>
-                        </div>
-                      )}
-                      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(10,25,50,0.55) 0%, transparent 50%)' }} />
-                      <div
-                        className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-base backdrop-blur-sm"
-                        style={{ background: `${color}cc`, border: `1px solid ${color}` }}
-                      >
-                        {o.emoji}
-                      </div>
-                      <div className="absolute bottom-0 left-0 right-0 h-1" style={{ background: `linear-gradient(90deg, ${color}, ${color}66)` }} />
-                    </div>
-
-                    {/* Infos sous la photo */}
-                    <div className="flex flex-col flex-1 p-4">
-                      <h3 className="font-bold text-sm leading-tight mb-0.5 text-djibouti-navy">{o.nom}</h3>
-                      <p className="text-xs text-gray-400 mb-1">{o.titre}</p>
-                      <p className="text-xs font-semibold mb-3" style={{ color }}>{o.institution}</p>
-                      <div
-                        className="mt-auto rounded-lg px-3 py-2 text-xs leading-snug"
-                        style={{ backgroundColor: `${color}0f`, border: `1px solid ${color}2a`, color }}
-                      >
-                        🎤 {o.role}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+        {/* ── NIVEAU 3 : Tous les autres orateurs par jour (repliable) ── */}
+        {showAll && (
+          <>
+            <div className="flex items-center gap-4 mb-10 mt-6">
+              <div className="flex-1 h-px bg-gray-100" />
+              <span className="text-xs text-gray-400 font-semibold uppercase tracking-widest px-3">Autres intervenants</span>
+              <div className="flex-1 h-px bg-gray-100" />
             </div>
-          )
-        })}
 
-        <p className="text-center text-gray-400 text-xs mt-6" data-animate data-delay="400">
-          * Les noms définitifs des intervenants seront confirmés et publiés avant le 29 mars 2026.
-        </p>
+            {['Jour 1', 'Jour 2', 'Jour 3', 'Jour 4'].map((jour, ji) => {
+              const jourOrateurs = orateurs.filter(o => o.jour === jour)
+              if (jourOrateurs.length === 0) return null
+              const color = JOUR_COLORS[jour]
+              return (
+                <div key={jour} className="mb-14">
+                  <div className="flex items-center gap-4 mb-8">
+                    <span
+                      className="text-xs font-bold px-4 py-1.5 rounded-full"
+                      style={{ background: `${color}18`, color, border: `1px solid ${color}44` }}
+                    >
+                      {jour}
+                    </span>
+                    <div className="flex-1 h-px" style={{ background: `${color}33` }} />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    {jourOrateurs.map((o, i) => (
+                      <div
+                        key={i}
+                        className="orateur-card group rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 flex flex-col"
+                        style={{ border: `1px solid ${color}33`, background: 'white', boxShadow: '0 2px 12px rgba(0,0,0,0.06)' }}
+                      >
+                        <div className="relative w-full overflow-hidden" style={{ aspectRatio: '3/4', maxHeight: 260 }}>
+                          {o.photo ? (
+                            <Image
+                              src={o.photo}
+                              alt={o.nom}
+                              fill
+                              className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                            />
+                          ) : (
+                            <div
+                              className="w-full h-full flex flex-col items-center justify-center gap-2"
+                              style={{ background: `linear-gradient(160deg, ${color}22, ${color}08)` }}
+                            >
+                              <span className="text-5xl">{o.emoji}</span>
+                              <span className="text-2xl font-bold" style={{ color }}>{o.initiales}</span>
+                            </div>
+                          )}
+                          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(10,25,50,0.55) 0%, transparent 50%)' }} />
+                          <div
+                            className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-base backdrop-blur-sm"
+                            style={{ background: `${color}cc`, border: `1px solid ${color}` }}
+                          >
+                            {o.emoji}
+                          </div>
+                          <div className="absolute bottom-0 left-0 right-0 h-1" style={{ background: `linear-gradient(90deg, ${color}, ${color}66)` }} />
+                        </div>
+                        <div className="flex flex-col flex-1 p-4">
+                          <h3 className="font-bold text-sm leading-tight mb-0.5 text-djibouti-navy">{o.nom}</h3>
+                          <p className="text-xs text-gray-400 mb-1">{o.titre}</p>
+                          <p className="text-xs font-semibold mb-3" style={{ color }}>{o.institution}</p>
+                          <div
+                            className="mt-auto rounded-lg px-3 py-2 text-xs leading-snug"
+                            style={{ backgroundColor: `${color}0f`, border: `1px solid ${color}2a`, color }}
+                          >
+                            🎤 {o.role}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )
+            })}
+
+            <p className="text-center text-gray-400 text-xs mt-6">
+              * Les noms définitifs des intervenants seront confirmés et publiés avant le 29 mars 2026.
+            </p>
+          </>
+        )}
       </div>
     </section>
   )
