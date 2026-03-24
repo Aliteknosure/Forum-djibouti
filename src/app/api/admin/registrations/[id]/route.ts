@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
 import { auth } from '@/lib/auth'
 import { generateBadgePDF } from '@/lib/badge-generator'
-import { sendBadgeEmail } from '@/lib/resend'
+import { sendBadgeEmail, sendRejectionEmail } from '@/lib/resend'
 import { Registration } from '@/types/registration'
 
 type Params = { params: { id: string } }
@@ -139,6 +139,17 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
     if (updateError) {
       return NextResponse.json({ error: updateError.message }, { status: 500 })
+    }
+
+    // Envoyer email de rejet à l'utilisateur
+    try {
+      await sendRejectionEmail({
+        first_name: registration.first_name,
+        last_name: registration.last_name,
+        email: registration.email,
+      })
+    } catch (emailError) {
+      console.error('[REJECTION_EMAIL_ERROR]', emailError)
     }
 
     return NextResponse.json({

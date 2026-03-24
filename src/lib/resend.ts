@@ -544,3 +544,77 @@ export async function sendAdminNotificationEmail(data: {
   })
 }
 
+// ──────────────────────────────────────────────────────────────
+// Email de rejet d'inscription
+// ──────────────────────────────────────────────────────────────
+export function sendRejectionEmail(data: {
+  first_name: string
+  last_name: string
+  email: string
+}) {
+  const html = `
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mise à jour de votre inscription</title></head>
+<body style="margin:0;padding:0;background:#f1f5f9;font-family:Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f1f5f9;padding:40px 16px;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+
+        <!-- Header -->
+        <tr><td style="background:#0a1932;padding:36px 40px;text-align:center;">
+          <p style="margin:0;color:#d4af37;font-size:13px;letter-spacing:2px;text-transform:uppercase;font-weight:700;">${FORUM_NAME}</p>
+          <p style="margin:8px 0 0;color:rgba(255,255,255,0.6);font-size:12px;">${FORUM_DATE} · ${FORUM_LOCATION}</p>
+          <div style="height:2px;background:#d4af37;margin-top:20px;"></div>
+        </td></tr>
+
+        <!-- Body -->
+        <tr><td style="padding:40px;">
+          <h2 style="color:#0a1932;margin:0 0 8px;font-size:22px;">Mise à jour de votre inscription</h2>
+          <p style="color:#475569;margin:0 0 24px;font-size:15px;">
+            Bonjour <strong>${data.first_name} ${data.last_name}</strong>,
+          </p>
+          <p style="color:#475569;margin:0 0 24px;font-size:15px;line-height:1.7;">
+            Après examen de votre dossier, nous sommes dans l'obligation de vous informer que votre demande d'inscription au <strong>${FORUM_NAME}</strong> n'a pas pu être retenue pour cette édition.
+          </p>
+          <p style="color:#475569;margin:0 0 24px;font-size:15px;line-height:1.7;">
+            Nous vous remercions de l'intérêt que vous portez à notre événement et espérons vous accueillir lors de prochaines éditions.
+          </p>
+
+          <!-- Contact -->
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0;margin-bottom:28px;">
+            <tr><td style="padding:20px 24px;">
+              <p style="margin:0 0 6px;color:#0a1932;font-weight:700;font-size:14px;">Une question ?</p>
+              <p style="margin:0;color:#475569;font-size:13px;">
+                Contactez-nous à <a href="mailto:${ADMIN_EMAIL}" style="color:#d4af37;font-weight:600;">${ADMIN_EMAIL}</a>
+              </p>
+            </td></tr>
+          </table>
+
+          <p style="color:#94a3b8;font-size:13px;margin:0;">
+            Cordialement,<br>
+            <strong style="color:#0a1932;">L'équipe ${FORUM_NAME}</strong>
+          </p>
+        </td></tr>
+
+        <!-- Footer -->
+        <tr><td style="background:#f8fafc;border-top:1px solid #e2e8f0;padding:16px 36px;">
+          <p style="margin:0;color:#94a3b8;font-size:11px;text-align:center;">
+            ${FORUM_NAME} · ${FORUM_DATE} · ${FORUM_LOCATION}
+          </p>
+        </td></tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`
+
+  return resend.emails.send({
+    from: FROM_EMAIL,
+    to: data.email,
+    subject: `Mise à jour de votre inscription — ${FORUM_NAME}`,
+    html,
+  })
+}
