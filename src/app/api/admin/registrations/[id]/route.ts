@@ -41,7 +41,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   const body = await req.json()
   const { action } = body
 
-  if (!['approve', 'reject', 'send_badge'].includes(action)) {
+  if (!['approve', 'reject', 'send_badge', 'update', 'reset_to_pending'].includes(action)) {
     return NextResponse.json({ error: 'Action invalide' }, { status: 400 })
   }
 
@@ -83,6 +83,39 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   }
 
   const registration = reg as Registration
+
+  // ── Modifier les infos ─────────────────────────────────────
+  if (action === 'update') {
+    const { first_name, last_name, email, phone, organization, job_title, country } = body
+    const updates: Record<string, string> = {}
+    if (first_name !== undefined) updates.first_name = first_name.trim()
+    if (last_name !== undefined) updates.last_name = last_name.trim()
+    if (email !== undefined) updates.email = email.trim().toLowerCase()
+    if (phone !== undefined) updates.phone = phone.trim()
+    if (organization !== undefined) updates.organization = organization.trim()
+    if (job_title !== undefined) updates.job_title = job_title.trim()
+    if (country !== undefined) updates.country = country.trim()
+
+    if (Object.keys(updates).length === 0) {
+      return NextResponse.json({ error: 'Aucun champ à modifier' }, { status: 400 })
+    }
+
+    const { data: updated, error: updateError } = await supabaseAdmin
+      .from('registrations')
+      .update(updates)
+      .eq('id', id)
+      .select()
+      .single()
+
+    if (updateError) {
+      return NextResponse.json({ error: updateError.message }, { status: 500 })
+    }
+
+    return NextResponse.json({
+      message: 'Inscription mise à jour avec succès.',
+      registration: updated,
+    })
+  }
 
   // ── Approuver ──────────────────────────────────────────────
   if (action === 'approve') {

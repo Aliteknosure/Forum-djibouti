@@ -7,7 +7,7 @@ import { useToast } from '@/hooks/use-toast'
 import {
   CheckCircle, XCircle, Send, ArrowLeft, Mail, Phone,
   Building2, Briefcase, MapPin, Calendar, QrCode, Loader2,
-  Newspaper, Mic2, Store, Trash2, PanelTop
+  Newspaper, Mic2, Store, Trash2, PanelTop, Pencil, X, Save
 } from 'lucide-react'
 import { Registration, PARTICIPANT_TYPE_LABELS, PARTICIPANT_TYPE_COLORS, PARTICIPANT_TYPE_ICONS, STATUS_LABELS } from '@/types/registration'
 import Link from 'next/link'
@@ -23,6 +23,17 @@ export default function RegistrationDetail({ registration: initial }: { registra
   const [loading, setLoading] = useState<string | null>(null)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState(false)
+  const [editMode, setEditMode] = useState(false)
+  const [editLoading, setEditLoading] = useState(false)
+  const [editFields, setEditFields] = useState({
+    first_name: initial.first_name,
+    last_name: initial.last_name,
+    email: initial.email,
+    phone: initial.phone || '',
+    organization: initial.organization || '',
+    job_title: initial.job_title || '',
+    country: initial.country || '',
+  })
   const router = useRouter()
   const { toast } = useToast()
 
@@ -86,6 +97,32 @@ export default function RegistrationDetail({ registration: initial }: { registra
     }
   }
 
+  const saveEdit = async () => {
+    setEditLoading(true)
+    try {
+      const res = await fetch(`/api/admin/registrations/${reg.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'update', ...editFields }),
+      })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error)
+      toast({ title: '✅ Modifié', description: 'Les informations ont été mises à jour.' })
+      if (json.registration) setReg(json.registration)
+      setEditMode(false)
+      window.dispatchEvent(new CustomEvent('registration-changed'))
+      router.refresh()
+    } catch (err) {
+      toast({
+        title: 'Erreur',
+        description: err instanceof Error ? err.message : 'Erreur inconnue',
+        variant: 'destructive',
+      })
+    } finally {
+      setEditLoading(false)
+    }
+  }
+
   const typeColor = PARTICIPANT_TYPE_COLORS[reg.participant_type] || '#3b82f6'
   const typeIcon = PARTICIPANT_TYPE_ICONS[reg.participant_type] || '👤'
 
@@ -142,6 +179,64 @@ export default function RegistrationDetail({ registration: initial }: { registra
           </div>
         </div>
       </div>
+
+      {/* Formulaire de modification */}
+      {editMode && (
+        <div className="bg-white rounded-xl p-5 mb-6" style={{ border: '2px solid #3b82f6' }}>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-semibold text-sm flex items-center gap-2" style={{ color: '#0a1932' }}>
+              <Pencil size={14} /> Modifier les informations
+            </h3>
+            <button
+              onClick={() => { setEditMode(false); setEditFields({ first_name: reg.first_name, last_name: reg.last_name, email: reg.email, phone: reg.phone || '', organization: reg.organization || '', job_title: reg.job_title || '', country: reg.country || '' }) }}
+              className="text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <X size={16} />
+            </button>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {[
+              { key: 'first_name', label: 'Prénom' },
+              { key: 'last_name', label: 'Nom' },
+              { key: 'email', label: 'Email', type: 'email' },
+              { key: 'phone', label: 'Téléphone' },
+              { key: 'organization', label: 'Organisation' },
+              { key: 'job_title', label: 'Fonction' },
+              { key: 'country', label: 'Pays' },
+            ].map(({ key, label, type }) => (
+              <div key={key}>
+                <label className="block text-xs text-gray-500 mb-1">{label}</label>
+                <input
+                  type={type || 'text'}
+                  value={editFields[key as keyof typeof editFields]}
+                  onChange={(e) => setEditFields((prev) => ({ ...prev, [key]: e.target.value }))}
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-100 transition-all"
+                  style={{ color: '#0a1932' }}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="flex gap-2 mt-4 justify-end">
+            <Button
+              onClick={() => { setEditMode(false) }}
+              disabled={editLoading}
+              variant="outline"
+              className="flex items-center gap-2 text-sm"
+            >
+              <X size={13} /> Annuler
+            </Button>
+            <Button
+              onClick={saveEdit}
+              disabled={editLoading}
+              className="flex items-center gap-2 text-sm font-medium"
+              style={{ background: 'linear-gradient(135deg, #3b82f6, #2563eb)', color: 'white' }}
+            >
+              {editLoading ? <Loader2 size={13} className="animate-spin" /> : <Save size={13} />}
+              Enregistrer
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* Details grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
@@ -372,7 +467,16 @@ export default function RegistrationDetail({ registration: initial }: { registra
           )}
 
           {/* Séparateur + bouton supprimer */}
-          <div className="w-full border-t border-gray-100 mt-1 pt-3">
+          <div className="w-full border-t border-gray-100 mt-1 pt-3 flex flex-wrap gap-3">
+            <Button
+              onClick={() => setEditMode(true)}
+              disabled={loading !== null || deleteLoading || editMode}
+              variant="outline"
+              className="flex items-center gap-2 font-medium text-blue-600 border-blue-200 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300"
+            >
+              <Pencil size={14} />
+              Modifier les infos
+            </Button>
             <Button
               onClick={() => setConfirmDelete(true)}
               disabled={loading !== null || deleteLoading}
