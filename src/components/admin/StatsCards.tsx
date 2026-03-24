@@ -67,7 +67,7 @@ export default function StatsCards({ stats: initialStats }: { stats: Stats }) {
   }, [fetchStats])
 
   const cards = [
-    { label: 'Total inscrits', value: stats.total, icon: Users, color: '#3b82f6', bg: '#dbeafe' },
+    { label: 'Total candidatures', value: stats.total, icon: Users, color: '#3b82f6', bg: '#dbeafe' },
     { label: 'En attente', value: stats.pending, icon: Clock, color: '#f59e0b', bg: '#fef3c7' },
     { label: 'Validés', value: stats.approved, icon: CheckCircle, color: '#10b981', bg: '#dcfce7' },
     { label: 'Refusés', value: stats.rejected, icon: XCircle, color: '#ef4444', bg: '#fee2e2' },
