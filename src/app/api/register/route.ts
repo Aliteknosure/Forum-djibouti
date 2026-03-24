@@ -94,18 +94,28 @@ export async function POST(req: NextRequest) {
       }),
     })
 
-    // Notification admin — envoi en parallèle, sans bloquer la réponse
-    sendAdminNotificationEmail({
-      first_name: data.first_name,
-      last_name: data.last_name,
-      email: data.email,
-      phone: data.phone,
-      participant_type: data.participant_type,
-      organization: data.organization,
-      job_title: data.job_title,
-      country: data.country,
-      id: registration.id,
-    }).catch((err) => console.error('Admin notification error:', err))
+    // Petit délai pour éviter le rate-limit Resend (2 emails/sec)
+    await new Promise(resolve => setTimeout(resolve, 400))
+
+    // Notification admin — on attend + on logue l'erreur précisément
+    try {
+      await sendAdminNotificationEmail({
+        first_name: data.first_name,
+        last_name: data.last_name,
+        email: data.email,
+        phone: data.phone,
+        participant_type: data.participant_type,
+        organization: data.organization,
+        job_title: data.job_title,
+        country: data.country,
+        id: registration.id,
+      })
+    } catch (err) {
+      console.error('[ADMIN_NOTIF_FAILED]', {
+        participant: `${data.first_name} ${data.last_name}`,
+        error: err instanceof Error ? err.message : err,
+      })
+    }
 
     return NextResponse.json({ success: true, id: registration.id }, { status: 201 })
   } catch (err) {
