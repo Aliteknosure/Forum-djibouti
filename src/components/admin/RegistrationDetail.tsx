@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
@@ -36,6 +36,15 @@ export default function RegistrationDetail({ registration: initial }: { registra
   })
   const router = useRouter()
   const { toast } = useToast()
+
+  // Recharger les données fraîches depuis l'API au montage
+  // pour éviter l'état stale quand on revient via le cache navigateur
+  useEffect(() => {
+    fetch(`/api/admin/registrations/${initial.id}`)
+      .then((r) => r.json())
+      .then((json) => { if (json.data) setReg(json.data) })
+      .catch(() => {/* silencieux */})
+  }, [initial.id])
 
   const performAction = async (action: string, label: string) => {
     setLoading(action)
@@ -445,13 +454,13 @@ export default function RegistrationDetail({ registration: initial }: { registra
           )}
           {reg.status === 'approved' && (
             <Button
-              onClick={() => performAction('send_badge', 'Badge renvoyé')}
+              onClick={() => performAction('send_badge', reg.badge_sent ? 'Badge renvoyé' : 'Badge envoyé')}
               disabled={loading !== null}
               variant="outline"
               className="flex items-center gap-2 font-medium"
             >
               {loading === 'send_badge' ? <Loader2 size={14} className="animate-spin" /> : <Send size={14} />}
-              Renvoyer le badge
+              {reg.badge_sent ? 'Renvoyer le badge' : 'Envoyer le badge'}
             </Button>
           )}
           {reg.status === 'rejected' && (
