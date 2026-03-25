@@ -47,7 +47,7 @@ export default function RepartitionChart({ stats: initialStats }: { stats: Stats
     return () => window.removeEventListener('registration-changed', fetchStats)
   }, [fetchStats])
 
-  const types = ['speaker', 'investor', 'startup_msme', 'exhibitor', 'ecosystem_leader', 'partner', 'visitor']
+  const types = ['speaker', 'investor', 'startup_msme', 'exhibitor', 'ecosystem_leader', 'partner', 'visitor', 'panel']
 
   return (
     <div className="space-y-3">

@@ -16,7 +16,7 @@ interface Stats {
 export default function StatsCards({ stats: initialStats }: { stats: Stats }) {
   const [stats, setStats] = useState(initialStats)
   const [refreshing, setRefreshing] = useState(false)
-  const [lastUpdate, setLastUpdate] = useState<Date>(new Date())
+  const [lastUpdate, setLastUpdate] = useState<Date | null>(null)
   const [error, setError] = useState(false)
 
   const fetchStats = useCallback(async (showSpinner = false) => {
@@ -77,12 +77,13 @@ export default function StatsCards({ stats: initialStats }: { stats: Stats }) {
 
   const byRole = [
     { label: '🎤 Intervenants', value: stats.by_type?.speaker ?? 0, color: '#8b5cf6' },
-    { label: '� Investisseurs', value: stats.by_type?.investor ?? 0, color: '#10b981' },
+    { label: '💼 Investisseurs', value: stats.by_type?.investor ?? 0, color: '#10b981' },
     { label: '🚀 Startups / MSMEs', value: stats.by_type?.startup_msme ?? 0, color: '#f59e0b' },
-    { label: '� Exposants', value: stats.by_type?.exhibitor ?? 0, color: '#3b82f6' },
+    { label: '🏪 Exposants', value: stats.by_type?.exhibitor ?? 0, color: '#3b82f6' },
     { label: '🌐 Ecosystem Leaders', value: stats.by_type?.ecosystem_leader ?? 0, color: '#ef4444' },
     { label: '🤝 Partenaires', value: stats.by_type?.partner ?? 0, color: '#06b6d4' },
     { label: '👥 Visiteurs', value: stats.by_type?.visitor ?? 0, color: '#6b7280' },
+    { label: '🗣️ Panel', value: stats.by_type?.panel ?? 0, color: '#ea580c' },
   ]
 
   return (
@@ -108,7 +109,7 @@ export default function StatsCards({ stats: initialStats }: { stats: Stats }) {
       </div>
 
       {/* Stats par rôle */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 sm:gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-3">
         {byRole.map((role) => (
           <div
             key={role.label}
@@ -126,7 +127,9 @@ export default function StatsCards({ stats: initialStats }: { stats: Stats }) {
         <span className="text-xs text-gray-400">
           {error
             ? <span className="text-red-400">⚠ Erreur de chargement</span>
-            : <>Mis à jour à {lastUpdate.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</>
+            : lastUpdate
+              ? <>Mis à jour à {lastUpdate.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</>
+              : <>Chargement…</>
           }
         </span>
         <button
