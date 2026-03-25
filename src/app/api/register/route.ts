@@ -24,8 +24,8 @@ export async function POST(req: NextRequest) {
     const { data: existing } = await supabaseAdmin
       .from('registrations')
       .select('id')
-      .eq('email', data.email)
-      .single()
+      .eq('email', data.email.toLowerCase().trim())
+      .maybeSingle()
 
     if (existing) {
       return NextResponse.json(
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
       .insert({
         first_name: data.first_name,
         last_name: data.last_name,
-        email: data.email,
+        email: data.email.toLowerCase().trim(),
         phone: data.phone || null,
         organization: data.organization || null,
         job_title: data.job_title || null,
