@@ -41,7 +41,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
   const body = await req.json()
   const { action } = body
 
-  if (!['approve', 'reject', 'send_badge', 'update', 'reset_to_pending'].includes(action)) {
+  if (!['approve', 'reject', 'send_badge', 'update'].includes(action)) {
     return NextResponse.json({ error: 'Action invalide' }, { status: 400 })
   }
 

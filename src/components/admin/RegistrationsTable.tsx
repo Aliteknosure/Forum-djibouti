@@ -20,7 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Search, Download, ExternalLink, Loader2, CheckCircle, RefreshCw, Trash2 } from 'lucide-react'
+import { Search, Download, ExternalLink, Loader2, RefreshCw, Trash2 } from 'lucide-react'
 import { Registration, PARTICIPANT_TYPE_LABELS, STATUS_LABELS } from '@/types/registration'
 import { useToast } from '@/hooks/use-toast'
 
@@ -54,7 +54,6 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
   const [statusFilter, setStatusFilter] = useState('all')
   const [typeFilter, setTypeFilter] = useState('all')
   const [loading, setLoading] = useState(false)
-  const [actionLoading, setActionLoading] = useState<string | null>(null)
   const [deleteLoading, setDeleteLoading] = useState<string | null>(null)
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
   const [exporting, setExporting] = useState(false)
@@ -105,31 +104,6 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
   const handleTypeFilter = (value: string) => {
     setTypeFilter(value)
     fetchData(search, statusFilter, value)
-  }
-
-  const quickApprove = async (id: string) => {
-    setActionLoading(id)
-    try {
-      const res = await fetch(`/api/admin/registrations/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'approve' }),
-      })
-      const json = await res.json()
-      if (!res.ok) throw new Error(json.error)
-      toast({ title: '✓ Approuvé', description: 'Badge envoyé par email.' })
-      fetchData(search, statusFilter, typeFilter)
-      window.dispatchEvent(new CustomEvent('registration-changed'))
-      router.refresh()
-    } catch (err) {
-      toast({
-        title: 'Erreur',
-        description: err instanceof Error ? err.message : 'Erreur inconnue',
-        variant: 'destructive',
-      })
-    } finally {
-      setActionLoading(null)
-    }
   }
 
   const deleteRegistration = async (id: string) => {
@@ -227,7 +201,7 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
         >
           {exporting ? <Loader2 size={13} className="animate-spin" /> : <Download size={13} />}
           <span className="hidden sm:inline">Exporter CSV</span>
-          <span className="sm:hidden">CSV</span>
+          <span className="md:hidden">CSV</span>
         </Button>
       </div>
 
@@ -237,7 +211,7 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
       </p>
 
       {/* Table desktop */}
-      <div className="hidden sm:block rounded-xl overflow-hidden" style={{ border: '1px solid #e2e8f0' }}>
+      <div className="hidden md:block rounded-xl overflow-hidden" style={{ border: '1px solid #e2e8f0' }}>
         <Table>
           <TableHeader>
             <TableRow style={{ backgroundColor: '#f8fafc' }}>
@@ -319,20 +293,6 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      {reg.status === 'pending' && (
-                        <button
-                          onClick={() => quickApprove(reg.id)}
-                          disabled={actionLoading === reg.id}
-                          title="Approuver + envoyer badge"
-                          className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all hover:scale-105 disabled:opacity-50"
-                          style={{ background: 'linear-gradient(135deg, #10b981, #059669)', color: 'white' }}
-                        >
-                          {actionLoading === reg.id
-                            ? <Loader2 size={11} className="animate-spin" />
-                            : <CheckCircle size={11} />}
-                          Approuver
-                        </button>
-                      )}
                       <Link
                         href={`/admin/registrations/${reg.id}`}
                         className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all hover:scale-105"
@@ -361,7 +321,7 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
       </div>
 
       {/* Cards mobile (< sm) */}
-      <div className="sm:hidden space-y-3">
+      <div className="md:hidden space-y-3">
         {loading ? (
           <div className="text-center py-8">
             <Loader2 size={20} className="animate-spin mx-auto text-gray-400" />
@@ -423,17 +383,6 @@ export default function RegistrationsTable({ initialData, totalCount }: Props) {
               </div>
               {/* Actions */}
               <div className="flex gap-2">
-                {reg.status === 'pending' && (
-                  <button
-                    onClick={() => quickApprove(reg.id)}
-                    disabled={actionLoading === reg.id}
-                    className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold disabled:opacity-50"
-                    style={{ background: 'linear-gradient(135deg, #10b981, #059669)', color: 'white' }}
-                  >
-                    {actionLoading === reg.id ? <Loader2 size={11} className="animate-spin" /> : <CheckCircle size={11} />}
-                    Approuver
-                  </button>
-                )}
                 <Link
                   href={`/admin/registrations/${reg.id}`}
                   className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold"
