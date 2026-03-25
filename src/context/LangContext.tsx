@@ -21,12 +21,12 @@ export const translations = {
     },
     // Hero
     hero: {
-      badge:    'Forum BOOST Entrepreneurship · 29 mars – 1 avril 2026',
+      badge:    'Forum BOOST Entrepreneurship · 29 – 31 mars 2026',
       title:    "Forum BOOST\nEntrepreneurship",
-      subtitle: "Transformer l'entrepreneuriat de quartier en moteur de croissance nationale. 120 MSMEs leaders réunies pour 4 jours de connexions, de financement et d'opportunités.",
+      subtitle: "Transformer l'entrepreneuriat de quartier en moteur de croissance nationale. 120 MSMEs leaders réunies pour 3 jours de connexions, de financement et d'opportunités.",
       cta:      "S'inscrire maintenant",
       ctaSub:   'Voir le programme',
-      date:     '29 mars – 1 avril 2026',
+      date:     '29 – 31 mars 2026',
       location: 'Djibouti-Ville',
       seats:    'Inscription gratuite',
     },
@@ -50,7 +50,7 @@ export const translations = {
     program: {
       tag:      'Agenda',
       title:    'Programme du Forum BOOST Entrepreneurship',
-      subtitle: '29 mars – 1 avril 2026 — De la cérémonie d\'ouverture à la clôture.',
+      subtitle: '29 – 31 mars 2026 — De la cérémonie d\'ouverture à la clôture.',
     },
     // Speakers
     speakers: {
@@ -73,7 +73,7 @@ export const translations = {
     // Register
     register: {
       title:    "Inscription au Forum",
-      subtitle: "Réservez votre place gratuite pour le 29 mars – 1 avril 2026.",
+      subtitle: "Réservez votre place gratuite pour le 29 – 31 mars 2026.",
       firstName: 'Prénom',
       lastName:  'Nom',
       email:     'Adresse email',
@@ -113,12 +113,12 @@ export const translations = {
     },
     // Hero
     hero: {
-      badge:    'Forum BOOST Entrepreneurship · March 29 – April 1, 2026',
+      badge:    'Forum BOOST Entrepreneurship · March 29 – 31, 2026',
       title:    'Forum BOOST\nEntrepreneurship',
-      subtitle: 'Transforming neighborhood entrepreneurship into a national growth engine. 120 leading MSMEs gathered for 4 days of connections, financing and opportunities.',
+      subtitle: 'Transforming neighborhood entrepreneurship into a national growth engine. 120 leading MSMEs gathered for 3 days of connections, financing and opportunities.',
       cta:      'Register now',
       ctaSub:   'View the program',
-      date:     'March 29 – April 1, 2026',
+      date:     'March 29 – 31, 2026',
       location: 'Djibouti City',
       seats:    'Free registration',
     },
@@ -142,7 +142,7 @@ export const translations = {
     program: {
       tag:      'Agenda',
       title:    'Forum BOOST Entrepreneurship Program',
-      subtitle: 'March 23, 2026 — From the opening ceremony to the signing of banking conventions.',
+      subtitle: 'March 29 – 31, 2026 — From the opening ceremony to the closing.',
     },
     // Speakers
     speakers: {
@@ -165,7 +165,7 @@ export const translations = {
     // Register
     register: {
       title:    'Forum Registration',
-      subtitle: 'Reserve your free spot for March 23, 2026.',
+      subtitle: 'Reserve your free spot for March 29 – 31, 2026.',
       firstName: 'First name',
       lastName:  'Last name',
       email:     'Email address',

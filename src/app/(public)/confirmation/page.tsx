@@ -119,7 +119,7 @@ export default function ConfirmationPage() {
           </div>
           <div className="flex items-center gap-3 text-white/60 text-sm mb-1">
             <Calendar size={14} className="text-white/30" />
-            <span>29 mars – 1er avril 2026</span>
+            <span>29 – 31 mars 2026</span>
           </div>
           <div className="flex items-center gap-3 text-white/60 text-sm">
             <MapPin size={14} className="text-white/30" />

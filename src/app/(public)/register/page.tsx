@@ -29,7 +29,7 @@ export default function RegisterPage() {
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mt-6">
           <div className="flex items-center gap-2 text-white/70 text-sm">
             <Calendar size={15} style={{ color: '#d4af37' }} />
-            29 mars – 1er avril 2026
+            29 – 31 mars 2026
           </div>
           <div className="flex items-center gap-2 text-white/70 text-sm">
             <MapPin size={15} style={{ color: '#d4af37' }} />

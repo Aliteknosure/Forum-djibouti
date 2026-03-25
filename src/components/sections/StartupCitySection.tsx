@@ -89,7 +89,7 @@ const QUARTIERS = [
     nom: 'Boost Stage',
     soustitre: 'La scène centrale — le cœur battant de la ville',
     description:
-      'La scène principale où l\'énergie entrepreneuriale est à son maximum. Pitchs, témoignages inspirants, mini-panels et interviews live se succèdent tout au long des 4 jours du forum.',
+      'La scène principale où l\'énergie entrepreneuriale est à son maximum. Pitchs, témoignages inspirants, mini-panels et interviews live se succèdent tout au long des 3 jours du forum.',
     details: [
       'Pitchs de startups devant jury et public — format 5 min + Q&A',
       'Témoignages d\'entrepreneurs et success stories inspirantes',
@@ -112,7 +112,7 @@ const PARCOURS = [
 
 const STATS = [
   { value: '5', label: 'Quartiers thématiques', icon: MapPin },
-  { value: '4', label: 'Jours d\'immersion', icon: Clock },
+  { value: '3', label: 'Jours d\'immersion', icon: Clock },
   { value: '120+', label: 'Entreprises exposantes', icon: Store },
   { value: '500+', label: 'Participants attendus', icon: Users },
 ]
@@ -487,6 +487,6 @@ export default function StartupCitySection() {
         </motion.div>
 
       </div>
-    </section>
+    </section>  
   )
 }

@@ -67,7 +67,7 @@ export async function GET(req: NextRequest) {
               FORUM BOOST ENTREPRENEURSHIP
             </div>
             <div style={{ fontSize: '28px', fontWeight: 800, color: 'rgba(255,255,255,0.75)' }}>
-              29 Mars – 1er Avril 2026 · Djibouti
+              29 – 31 Mars 2026 · Djibouti
             </div>
           </div>
 

@@ -130,27 +130,27 @@ const orateurs = [
     jour: 'Jour 3',
     photo: null,
   },
-  // ── Jour 4 ──
+  // ── Jour 3 (suite) ──
   {
     nom: 'Autorité Numérique',
     titre: 'Représentant',
     institution: 'Autorité Nationale du Numérique',
-    role: 'Panel 7 : Services de Confiance · Jour 4',
+    role: 'Panel 7 : Services de Confiance · Jour 3',
     initiales: 'AN',
     couleur: '#8b5cf6',
     emoji: '🔐',
-    jour: 'Jour 4',
+    jour: 'Jour 3',
     photo: null,
   },
   {
     nom: 'Expert Cybersécurité',
     titre: 'Spécialiste',
     institution: 'Autorité Protection des Données',
-    role: 'Panel 9 : Cybersécurité · Jour 4',
+    role: 'Panel 9 : Cybersécurité · Jour 3',
     initiales: 'EC',
     couleur: '#ef4444',
     emoji: '🛡️',
-    jour: 'Jour 4',
+    jour: 'Jour 3',
     photo: null,
   },
 ]
@@ -159,7 +159,6 @@ const JOUR_COLORS: Record<string, string> = {
   'Jour 1': '#d4af37',
   'Jour 2': '#009A44',
   'Jour 3': '#3b82f6',
-  'Jour 4': '#8b5cf6',
 }
 
 export default function OrateursSection() {
@@ -213,7 +212,7 @@ export default function OrateursSection() {
             </span>
           </h2>
           <p className="text-gray-500 max-w-xl mx-auto text-base">
-            Dirigeants, experts, entrepreneurs et institutions — les voix qui façonneront les 4 jours du Forum BOOST Entrepreneurship.
+            Dirigeants, experts, entrepreneurs et institutions — les voix qui façonneront les 3 jours du Forum BOOST Entrepreneurship.
           </p>
         </div>
 

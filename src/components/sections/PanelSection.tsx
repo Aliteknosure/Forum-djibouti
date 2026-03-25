@@ -173,10 +173,10 @@ const PANELS = [
     soustitre: 'Signature électronique, horodatage, recommandé électronique — quelles opportunités pour les MSMEs ?',
     description: 'Les services de confiance numérique — signature électronique, horodatage, recommandé électronique — ouvrent de nouvelles opportunités pour les MSMEs dans l\'économie numérique. Ce panel explore le cadre légal et les usages concrets pour les entreprises djiboutiennes.',
     contexte: 'Dématérialisation des actes juridiques et commerciaux · Renforcement de la confiance dans les transactions numériques · Conformité avec le Code du Numérique',
-    date: 'Mercredi 1er Avril',
+    date: 'Mardi 31 Mars',
     horaire: '09h00 – 10h30',
     duree: '90 min — Table ronde ouverte',
-    jour: 'Jour 4',
+    jour: 'Jour 3',
     publics: ['Juristes d\'entreprise', 'Dirigeants PME & entrepreneurs', 'Notaires & professionnels du droit', 'Prestataires de solutions numériques'],
     themes: [
       'La valeur juridique de la signature électronique selon le Code du Numérique',
@@ -205,10 +205,10 @@ const PANELS = [
     soustitre: 'Comprendre, protéger, prévenir — Le nouveau cadre légal djiboutien et les bonnes pratiques',
     description: 'L\'adoption du Code du Numérique djiboutien (30 novembre 2025) et la création de l\'Autorité Nationale de Cybersécurité marquent un tournant historique. Les entreprises sont soumises à des obligations précises : notifier les violations en 72h, sécuriser les systèmes d\'information, désigner un DPD. La non-conformité expose les dirigeants à des poursuites pénales personnelles.',
     contexte: 'Cyberattaques contre les entreprises africaines +239% entre 2021 et 2023 · 14 infractions pénales liées aux données personnelles · Djibouti futur hub numérique régional',
-    date: 'Mercredi 1er Avril',
+    date: 'Mardi 31 Mars',
     horaire: '10h30 – 11h30',
     duree: '90 min — Table ronde + simulation flash',
-    jour: 'Jour 4',
+    jour: 'Jour 3',
     publics: ['Dirigeants & responsables IT (DSI, RSSI)', 'Juristes & responsables conformité', 'Entrepreneurs en phase de lancement', 'Prestataires IT & consultants sécurité'],
     themes: [
       'Code du Numérique — Livres I & VI : les 14 infractions pénales et obligation de notification en 72h',
@@ -270,7 +270,7 @@ export default function PanelSection() {
             </span>
           </h2>
           <p className="text-white/50 text-base max-w-2xl mx-auto">
-            7 panels thématiques sur 4 jours — experts, entrepreneurs et décideurs débattent des grands enjeux
+            7 panels thématiques sur 3 jours — experts, entrepreneurs et décideurs débattent des grands enjeux
             du numérique et de l'entrepreneuriat à Djibouti.
           </p>
         </motion.div>

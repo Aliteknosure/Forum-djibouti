@@ -107,7 +107,7 @@ export default function HeroSection() {
           <motion.div variants={fadeUp} className="hero-info-pill inline-flex items-center gap-3 px-4 py-2 rounded-full mb-8">
             <div className="flex items-center gap-1.5">
               <Calendar className="text-djibouti-gold" size={13} />
-              <span className="uppercase tracking-[0.12em] font-medium text-white/90 text-xs">29 Mars – 1 Avril 2026</span>
+              <span className="uppercase tracking-[0.12em] font-medium text-white/90 text-xs">29 – 31 Mars 2026</span>
             </div>
             <span className="w-px h-3 bg-white/15" />
             <div className="flex items-center gap-1.5">

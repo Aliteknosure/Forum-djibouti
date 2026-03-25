@@ -101,8 +101,8 @@ const PANEL_SESSIONS = [
   { value: 'p4', label: 'Panel 4 — Transformation Digitale des MSMEs', date: '31 Mars · 08h30 – 10h00' },
   { value: 'p5', label: 'Panel 5 — E-Commerce et Nouveaux Marchés', date: '31 Mars · 10h20 – 11h50' },
   { value: 'p6', label: 'Panel 6 — Cloud et Infrastructures Numériques', date: '31 Mars · 14h30 – 15h30' },
-  { value: 'p7', label: 'Panel 7 — Services de Confiance Numérique', date: '1er Avril · 09h00 – 10h30' },
-  { value: 'p9', label: 'Panel 9 — Protection des Données et Cybersécurité', date: '1er Avril · 10h30 – 11h30' },
+  { value: 'p7', label: 'Panel 7 — Services de Confiance Numérique', date: '31 Mars · 09h00 – 10h30' },
+  { value: 'p9', label: 'Panel 9 — Protection des Données et Cybersécurité', date: '31 Mars · 10h30 – 11h30' },
 ]
 
 function FieldError({ message }: { message?: string }) {

@@ -13,7 +13,7 @@ import RegistrationForm from '@/components/forms/RegistrationForm'
 export const metadata = {
   title: "Forum BOOST Entrepreneurship 2026 — Djibouti",
   description:
-    "Forum BOOST Entrepreneurship — Organisé par MDENI × CLE. Startups, MSMEs, investisseurs et écosystème entrepreneurial réunis à Djibouti. 29 mars – 1 avril 2026, Palais du Peuple, Djibouti-Ville.",
+    "Forum BOOST Entrepreneurship — Organisé par MDENI × CLE. Startups, MSMEs, investisseurs et écosystème entrepreneurial réunis à Djibouti. 29 – 31 mars 2026, Palais du Peuple, Djibouti-Ville.",
 }
 
 export default function HomePage() {

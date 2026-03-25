@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const name = `${data.first_name} ${data.last_name}`
   const ogImageUrl = `${APP_URL}/api/og?name=${encodeURIComponent(name)}&type=${data.participant_type}${data.organization ? `&org=${encodeURIComponent(data.organization)}` : ''}${data.photo_url ? `&photo=${encodeURIComponent(data.photo_url)}` : ''}`
   const title = `${name} — ${typeLabel} au Forum BOOST 2026`
-  const description = `${name} participe au Forum BOOST Entrepreneurship 2026 en tant que ${typeLabel}. Du 29 Mars au 1er Avril 2026 à Djibouti-Ville. #BoostEntrepreneurship`
+  const description = `${name} participe au Forum BOOST Entrepreneurship 2026 en tant que ${typeLabel}. Du 29 au 31 Mars 2026 à Djibouti-Ville. #BoostEntrepreneurship`
 
   return {
     title,
@@ -121,7 +121,7 @@ export default async function SharePage({ params }: Props) {
             className="mt-5 pt-5 flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-4 text-xs sm:text-sm text-white/40"
             style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}
           >
-            <span>📅 29 Mars – 1er Avril 2026</span>
+            <span>📅 29 – 31 Mars 2026</span>
             <span className="hidden sm:inline">·</span>
             <span>📍 Djibouti-Ville</span>
             <span className="hidden sm:inline">·</span>

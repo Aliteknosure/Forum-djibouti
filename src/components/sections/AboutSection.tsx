@@ -96,7 +96,7 @@ export default function AboutSection() {
 
             <div className="space-y-6 text-gray-600 text-lg leading-relaxed border-l-4 border-djibouti-green/20 pl-6">
               <p>
-                Le Forum BOOST Entrepreneurship du 29 mars au 1er avril n&apos;est pas une simple conférence. C&apos;est l&apos;acte de naissance officiel du programme{' '}
+                Le Forum BOOST Entrepreneurship du 29 au 31 mars n&apos;est pas une simple conférence. C&apos;est l&apos;acte de naissance officiel du programme{' '}
                 <strong className="text-djibouti-navy font-semibold">Entrepreneuriat de Quartier – Build by CLE (EDQ)</strong>, une initiative portée par le{' '}
                 <strong className="text-djibouti-gold font-semibold">MDENI</strong> et le Centre de Leadership et d&apos;Entrepreneuriat (CLE).
               </p>
@@ -153,7 +153,7 @@ export default function AboutSection() {
                 <p className="text-white/80 text-center font-heading font-semibold text-lg">
                   Forum BOOST Entrepreneurship
                 </p>
-                <p className="text-djibouti-gold text-sm font-medium">29 Mars – 1er Avril 2026 · Djibouti-Ville</p>
+                <p className="text-djibouti-gold text-sm font-medium">29 – 31 Mars 2026 · Djibouti-Ville</p>
               </div>
             </div>
 
