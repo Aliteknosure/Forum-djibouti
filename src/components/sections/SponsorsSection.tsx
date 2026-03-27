@@ -6,15 +6,21 @@ import Image from 'next/image'
 
 const INTERNATIONAL_PARTNERS = [
   {
-    name: 'Banque Mondiale',
-    logo: '/logos/logo_worldbank.jpg',
-    desc: 'Partenaire financier international',
+    name: 'Chambre de Commerce',
+    logo: '/logos/logo-ccd.png',
+    desc: 'Chambre de Commerce de Djibouti',
     bg: 'white',
   },
   {
-    name: 'Union Européenne',
-    logo: '/logos/logo-union-europeenne.jpg',
-    desc: 'Projet MSMEs · Financement européen',
+    name: 'SDSI',
+    logo: '/logos/logo-sdsi.JPG',
+    desc: '',
+    bg: 'white',
+  },
+  {
+    name: 'DPCS',
+    logo: '/logos/DPCS-logo.png',
+    desc: 'DPCS Djibouti',
     bg: 'white',
   },
 ]
@@ -63,10 +69,11 @@ const categories = [
   },
   {
     icon: Globe2,
-    title: 'Partenaires Financiers Internationaux',
+    title: 'Nos Sponsors',
     partners: [
-      'Banque Mondiale',
-      'Union Européenne (Projet MSMEs)',
+      'Chambre de Commerce de Djibouti',
+      'SDSI',
+      'DPCS',
     ],
   },
   {
@@ -196,7 +203,7 @@ export default function SponsorsSection() {
             <div className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-djibouti-green/30 bg-djibouti-green/5">
               <TrendingUp size={13} className="text-djibouti-green" />
               <span className="text-djibouti-green text-xs font-bold uppercase tracking-[0.22em] whitespace-nowrap">
-                Partenaires Financiers Internationaux
+                Nos Sponsors
               </span>
             </div>
             <div className="flex-1 h-px bg-gradient-to-r from-transparent via-djibouti-green/30 to-transparent" />
