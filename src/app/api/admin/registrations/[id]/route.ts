@@ -138,7 +138,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
       // Marquer badge_sent = true
       const { data: final, error: badgeError } = await supabaseAdmin
         .from('registrations')
-        .update({ badge_sent: true })
+        .update({ badge_sent: true, badge_sent_at: new Date().toISOString() })
         .eq('id', id)
         .select()
         .single()
@@ -206,7 +206,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
 
       const { data: updated, error: updateError } = await supabaseAdmin
         .from('registrations')
-        .update({ badge_sent: true })
+        .update({ badge_sent: true, badge_sent_at: new Date().toISOString() })
         .eq('id', id)
         .select()
         .single()

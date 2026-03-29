@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
-import { Send, Loader2, CheckCircle, Clock, RefreshCw } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { Send, Loader2, CheckCircle, Clock, RefreshCw, RotateCcw } from 'lucide-react'
 import { PARTICIPANT_TYPE_LABELS } from '@/types/registration'
 
 interface PartialReg {
@@ -14,6 +13,12 @@ interface PartialReg {
   email: string
   participant_type: string
   badge_sent: boolean
+}
+
+interface SendResult {
+  totalSent: number
+  totalFailed: number
+  errors: { id: string; email: string; error: string }[]
 }
 
 const typeColors: Record<string, string> = {
@@ -35,11 +40,11 @@ export default function BadgesBulkSender({
 }) {
   const [pending, setPending] = useState<PartialReg[]>(initialPending)
   const [sent, setSent] = useState<PartialReg[]>(initialSent)
-  const [loading, setLoading] = useState(false)
+  const [loadingType, setLoadingType] = useState<'normal' | 'resend' | null>(null)
   const [refreshing, setRefreshing] = useState(false)
-  const [result, setResult] = useState<{ sent: number; errors: string[]; total: number } | null>(null)
+  const [progress, setProgress] = useState<{ sent: number; total: number } | null>(null)
+  const [result, setResult] = useState<SendResult | null>(null)
   const { toast } = useToast()
-  const router = useRouter()
 
   // Sync quand le Server Component repasse de nouvelles props
   useEffect(() => {
@@ -56,13 +61,12 @@ export default function BadgesBulkSender({
   const handleRefresh = async () => {
     setRefreshing(true)
     try {
-      const res = await fetch('/api/admin/registrations?status=approved&limit=200', {
+      const res = await fetch('/api/admin/registrations?status=approved&limit=500', {
         cache: 'no-store',
         headers: { 'Cache-Control': 'no-cache' },
       })
       const json = await res.json()
       const approved: PartialReg[] = (json.data || [])
-      console.log('[BadgesBulkSender] refresh approved:', approved.length, approved)
       setPending(approved.filter((r) => !r.badge_sent))
       setSent(approved.filter((r) => r.badge_sent))
     } catch (e) {
@@ -72,25 +76,61 @@ export default function BadgesBulkSender({
     }
   }
 
-  const handleBulkSend = async () => {
-    setLoading(true)
+  const handleBulkSend = async (resendAll = false) => {
+    setLoadingType(resendAll ? 'resend' : 'normal')
     setResult(null)
+    setProgress(null)
+
+    let offset = 0
+    let hasMore = true
+    const accumulated: SendResult = { totalSent: 0, totalFailed: 0, errors: [] }
+
     try {
-      const res = await fetch('/api/admin/badges/send', { method: 'POST' })
-      const json = await res.json()
-      setResult(json)
+      while (hasMore) {
+        const url = `/api/admin/badges/send?offset=${offset}&resendAll=${resendAll}`
+        const res = await fetch(url, { method: 'POST' })
+        const json = await res.json()
+
+        if (!res.ok) {
+          toast({ title: 'Erreur API', description: json.error || 'Erreur inconnue', variant: 'destructive' })
+          break
+        }
+
+        accumulated.totalSent += json.sent ?? 0
+        accumulated.totalFailed += json.failed ?? 0
+        if (json.errors) accumulated.errors.push(...json.errors)
+
+        // Mise à jour progression
+        const totalDone = offset + (json.sent ?? 0) + (json.failed ?? 0)
+        setProgress({ sent: accumulated.totalSent, total: json.total ?? totalDone })
+
+        hasMore = json.hasMore ?? false
+        offset = json.nextOffset ?? offset
+      }
+
+      setResult(accumulated)
       toast({
-        title: `${json.sent} badge(s) envoyé(s)`,
-        description: json.errors?.length ? `${json.errors.length} erreur(s)` : 'Tous les badges ont été envoyés.',
+        title: `${accumulated.totalSent} badge(s) envoyé(s)`,
+        description: accumulated.totalFailed > 0
+          ? `${accumulated.totalFailed} échec(s)`
+          : resendAll
+          ? 'Renvoi terminé pour tous les participants.'
+          : 'Tous les badges ont été envoyés.',
       })
-      // Rafraîchir les listes locales
       await handleRefresh()
-    } catch {
+    } catch (e) {
+      console.error('[handleBulkSend] error:', e)
       toast({ title: 'Erreur', description: "Impossible d'envoyer les badges.", variant: 'destructive' })
     } finally {
-      setLoading(false)
+      setLoadingType(null)
+      setProgress(null)
     }
   }
+
+  const isLoading = loadingType !== null
+  const progressPercent = progress && progress.total > 0
+    ? Math.round((progress.sent / progress.total) * 100)
+    : 0
 
   return (
     <div className="space-y-6">
@@ -105,10 +145,10 @@ export default function BadgesBulkSender({
               {pending.length} participant{pending.length !== 1 ? 's' : ''} approuvé{pending.length !== 1 ? 's' : ''} sans badge
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <button
               onClick={handleRefresh}
-              disabled={refreshing}
+              disabled={refreshing || isLoading}
               title="Actualiser"
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all hover:opacity-80"
               style={{ background: 'rgba(212,175,55,0.1)', border: '1px solid rgba(212,175,55,0.3)', color: '#b8960c' }}
@@ -116,16 +156,37 @@ export default function BadgesBulkSender({
               <RefreshCw size={12} className={refreshing ? 'animate-spin' : ''} />
               Actualiser
             </button>
+            {/* Bouton orange : renvoyer à tous ceux avec badge_sent=true (rattrapage quota) */}
             <Button
-              onClick={handleBulkSend}
-              disabled={loading || pending.length === 0}
+              onClick={() => handleBulkSend(true)}
+              disabled={isLoading || sent.length === 0}
+              className="flex items-center gap-2 font-semibold"
+              style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)', color: '#fff' }}
+              title="Renvoyer les badges à tous les participants marqués badge_sent=true (rattrapage quota dépassé)"
+            >
+              {loadingType === 'resend' ? (
+                <>
+                  <Loader2 size={15} className="animate-spin" />
+                  Renvoi... {progress ? `${progress.sent}/${progress.total}` : ''}
+                </>
+              ) : (
+                <>
+                  <RotateCcw size={15} />
+                  Renvoyer à tous ({sent.length})
+                </>
+              )}
+            </Button>
+            {/* Bouton doré : envoyer aux nouveaux (badge_sent=false) */}
+            <Button
+              onClick={() => handleBulkSend(false)}
+              disabled={isLoading || pending.length === 0}
               className="flex items-center gap-2 font-semibold"
               style={{ background: 'linear-gradient(135deg, #d4af37, #b8960c)', color: '#060f1f' }}
             >
-              {loading ? (
+              {loadingType === 'normal' ? (
                 <>
                   <Loader2 size={15} className="animate-spin" />
-                  Envoi en cours...
+                  Envoi... {progress ? `${progress.sent}/${progress.total}` : ''}
                 </>
               ) : (
                 <>
@@ -137,20 +198,46 @@ export default function BadgesBulkSender({
           </div>
         </div>
 
-        {result && (
+        {/* Barre de progression */}
+        {isLoading && progress && (
+          <div className="mb-4">
+            <div className="flex justify-between text-xs text-gray-500 mb-1">
+              <span>
+                {loadingType === 'resend' ? 'Renvoi en cours...' : 'Envoi en cours...'}
+              </span>
+              <span>{progress.sent} / {progress.total} ({progressPercent}%)</span>
+            </div>
+            <div className="w-full rounded-full h-2.5" style={{ background: '#e2e8f0' }}>
+              <div
+                className="h-2.5 rounded-full transition-all duration-500"
+                style={{
+                  width: `${progressPercent}%`,
+                  background: loadingType === 'resend'
+                    ? 'linear-gradient(90deg, #f97316, #ea580c)'
+                    : 'linear-gradient(90deg, #d4af37, #b8960c)',
+                }}
+              />
+            </div>
+          </div>
+        )}
+
+        {result && !isLoading && (
           <div
             className="mb-4 p-4 rounded-xl text-sm"
             style={{
-              backgroundColor: result.errors?.length ? '#fef3c7' : '#dcfce7',
-              border: `1px solid ${result.errors?.length ? '#fde68a' : '#bbf7d0'}`,
-              color: result.errors?.length ? '#92400e' : '#166534',
+              backgroundColor: result.totalFailed > 0 ? '#fef3c7' : '#dcfce7',
+              border: `1px solid ${result.totalFailed > 0 ? '#fde68a' : '#bbf7d0'}`,
+              color: result.totalFailed > 0 ? '#92400e' : '#166534',
             }}
           >
-            ✓ {result.sent} badge(s) envoyé(s) sur {result.total}
-            {result.errors?.length > 0 && (
+            ✓ {result.totalSent} badge(s) envoyé(s)
+            {result.totalFailed > 0 && ` — ${result.totalFailed} échec(s)`}
+            {result.errors.length > 0 && (
               <div className="mt-2">
                 <p className="font-semibold">Erreurs :</p>
-                {result.errors.map((e, i) => <p key={i} className="text-xs">{e}</p>)}
+                {result.errors.map((e, i) => (
+                  <p key={i} className="text-xs">{e.email}: {e.error}</p>
+                ))}
               </div>
             )}
           </div>
