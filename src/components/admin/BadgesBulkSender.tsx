@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
-import { Send, Loader2, CheckCircle, Clock, RefreshCw, RotateCcw } from 'lucide-react'
+import { Send, Loader2, CheckCircle, Clock, RefreshCw } from 'lucide-react'
 import { PARTICIPANT_TYPE_LABELS } from '@/types/registration'
 
 interface PartialReg {
@@ -156,26 +156,6 @@ export default function BadgesBulkSender({
               <RefreshCw size={12} className={refreshing ? 'animate-spin' : ''} />
               Actualiser
             </button>
-            {/* Bouton orange : renvoyer à tous ceux avec badge_sent=true (rattrapage quota) */}
-            <Button
-              onClick={() => handleBulkSend(true)}
-              disabled={isLoading || sent.length === 0}
-              className="flex items-center gap-2 font-semibold"
-              style={{ background: 'linear-gradient(135deg, #f97316, #ea580c)', color: '#fff' }}
-              title="Renvoyer les badges à tous les participants marqués badge_sent=true (rattrapage quota dépassé)"
-            >
-              {loadingType === 'resend' ? (
-                <>
-                  <Loader2 size={15} className="animate-spin" />
-                  Renvoi... {progress ? `${progress.sent}/${progress.total}` : ''}
-                </>
-              ) : (
-                <>
-                  <RotateCcw size={15} />
-                  Renvoyer à tous ({sent.length})
-                </>
-              )}
-            </Button>
             {/* Bouton doré : envoyer aux nouveaux (badge_sent=false) */}
             <Button
               onClick={() => handleBulkSend(false)}
